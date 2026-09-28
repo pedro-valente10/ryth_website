@@ -1,22 +1,21 @@
-import { sanityClient } from "../../services/sanity";
+import { sanityClient } from "../../services/sanity"; // Ajuste o caminho se necessário
 
-export async function renderizarFAQ(): Promise<void> {
-  const faqList = document.querySelector('.faq__list');
-  if (!faqList) return;
+export async function renderizarFAQ() {
+  const faqContainer = document.querySelector('.faq__list');
+  if (!faqContainer) return;
 
-  const faqs = await sanityClient.fetch(`*[_type == "faq"]`);
+  try {
+    const faqs = await sanityClient.fetch(`*[_type == "faq"]`);
 
-  if (faqs.length > 0) {
-    faqList.innerHTML = faqs.map((item: any) => `
-      <li class="faq__item">
-        <button class="faq__question">
-          ${item.pergunta}
-          <span class="faq__icon">+</span>
-        </button>
-        <div class="faq__answer">
-          <p>${item.resposta}</p>
-        </div>
-      </li>
-    `).join('');
+    if (faqs.length > 0) {
+      faqContainer.innerHTML = faqs.map((item: any) => `
+        <li class="faq__item">
+          <h3 class="faq__question">${item.pergunta}</h3>
+          <p class="faq__answer">${item.resposta}</p>
+        </li>
+      `).join('');
+    }
+  } catch (error) {
+    console.error("Erro ao carregar o FAQ do Sanity:", error);
   }
 }
