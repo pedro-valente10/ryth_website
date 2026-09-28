@@ -7,6 +7,8 @@ import "./components/footer/footer.css";
 
 import { renderNavbar } from "./components/navbar/navbar";
 import { renderFooter } from "./components/footer/footer";
+import { renderizarFAQ } from "./components/faq/faq";
+
 
 function markActiveLink(): void {
   const normalize = (path: string): string =>
@@ -30,3 +32,4 @@ function markActiveLink(): void {
 renderNavbar();
 markActiveLink();
 renderFooter();
+renderizarFAQ();
