@@ -49,48 +49,108 @@ section {
     color: var(--main-black);
   }
   
-  /* ==========================================
-     1. HERO
-     ========================================== */
+ /* ==========================================
+   1. HERO (TELA INICIAL COM MOLDURA ROXA)
+   ========================================== */
+.hero {
+  min-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2.5rem;
+  padding: 3rem 1.5rem;
+  background-color: var(--main-white);
+}
+
+/* Moldura retangular com borda roxa e fundo chumbo */
+.hero__frame {
+  width: 100%;
+  max-width: 950px;
+  background-color: #828288; /* Fundo cinza/chumbo do mock */
+  border: 12px solid var(--main-purple);
+  padding: 4rem 2.5rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+}
+
+/* Título em Monument Extended */
+.hero__title {
+  font-family: var(--font-monument, sans-serif);
+  font-size: clamp(2.2rem, 5vw, 3.8rem);
+  font-weight: 900;
+  color: var(--white);
+  line-height: 1.1;
+  letter-spacing: -0.5px;
+  text-transform: uppercase;
+  margin: 0;
+}
+
+/* Destaque "COMPETIR" em roxo vibrante */
+.hero__title-highlight {
+  color: #8D32FF;
+}
+
+/* Subtítulo em texto branco centralizado */
+.hero__subtitle {
+  font-family: var(--font-family);
+  font-size: clamp(1rem, 2vw, 1.25rem);
+  color: var(--white);
+  text-align: center;
+  max-width: 750px;
+  line-height: 1.4;
+  margin: 0;
+}
+
+/* Botão "inscrições" em formato de pílula verde */
+.hero__cta {
+  background-color: var(--main-green);
+  color: var(--main-black);
+  font-family: var(--font-family);
+  font-size: 1.3rem;
+  font-weight: 700;
+  padding: 0.9rem 3.5rem;
+  border-radius: 50px;
+  border: none;
+  cursor: pointer;
+  text-transform: lowercase;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.hero__cta:hover {
+  transform: translateY(-2px);
+  opacity: 0.9;
+}
+
+/* Responsividade para celular */
+@media (max-width: 768px) {
   .hero {
-    min-height: 85vh;
-    background: linear-gradient(135deg, #ffffff 0%, var(--main-white) 100%);
-    gap: 2rem;
+    padding: 2rem 1rem;
+    gap: 1.5rem;
   }
-  
+
+  .hero__frame {
+    border-width: 8px;
+    padding: 2.5rem 1.2rem;
+  }
+
   .hero__title {
-    font-family: var(--font-monument);
-    font-size: 3.5rem;
-    font-weight: 900;
-    letter-spacing: -1px;
-    color: var(--main-black);
+    font-size: clamp(1.6rem, 7vw, 2.4rem);
   }
-  
-  .hero__title-highlight {
-    color: var(--main-purple);
-  }
-  
+
   .hero__subtitle {
-    font-family: var(--font-family);
-    text-align: left;
-    max-width: 600px;
-    color: #4a4a5a;
-    font-size: 1.5rem;
+    font-size: 0.95rem;
   }
-  
-  .competitions__title,
-  .how-it-works__title,
-  .partnerships__title,
-  .music__title,
-  .team__title,
-  .faq__title {
-    font-family: var(--font-monument);
-    font-size: 2.2rem;
-    font-weight: 800;
-    margin-bottom: 1rem;
-    text-transform: uppercase;
-    color: var(--main-black);
+
+  .hero__cta {
+    font-size: 1.1rem;
+    padding: 0.8rem 2.5rem;
   }
+}
 
   /* ==========================================
      2. COMPETIÇÕES (CARROSSEL)
