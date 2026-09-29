@@ -1,5 +1,10 @@
 /// <reference types="vite/client" />
 
+interface ImportMetaEnv {
+  readonly VITE_SANITY_PROJECT_ID: string;
+  readonly VITE_SANITY_DATASET?: string;
+}
+
 declare module '*.html?raw' {
   const content: string;
   export default content;
