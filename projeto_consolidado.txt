@@ -56,23 +56,49 @@ ARQUIVO: ./package.json
     "scripts": {
         "dev": "vite",
         "build": "tsc && vite build",
-        "preview": "vite preview"
+        "preview": "vite preview",
+        "dev:all": "concurrently \"npm run dev\" \"npm --prefix ./ryth-studio run dev\""
     },
     "devDependencies": {
         "@types/node": "^26.6.2",
+        "concurrently": "^10.0.5",
         "typescript": "^5.9.2",
         "vite": "^7.1.5"
+    },
+    "dependencies": {
+        "@sanity/client": "^8.8.0",
+        "@sanity/image-url": "^2.1.1"
     }
 }
 
 
 ========================================
+ARQUIVO: ./.env
+========================================
+
+VITE_SANITY_PROJECT_ID=8q2pttmv
+VITE_SANITY_DATASET=production
+
+========================================
 ARQUIVO: ./vite.config.ts
 ========================================
 
-import { defineConfig } from "vite";
+// ryth_website/vite.config.ts
+import { defineConfig } from 'vite';
 
-export default defineConfig({});
+export default defineConfig({
+  // ... outras configurações do Vite que você já tiver ...
+  server: {
+    proxy: {
+      '/studio': {
+        target: 'http://localhost:3333', // Redireciona para o servidor do Sanity
+        changeOrigin: true,
+        ws: true,
+      },
+    },
+  },
+});
+
 
 ========================================
 ARQUIVO: ./index.html
@@ -83,166 +109,197 @@ ARQUIVO: ./index.html
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-
-  <link rel="stylesheet" type="text/css" href="src/pages/home/index.css"/>
-
-  <title>RYTH</title>
-  
+  <title>RYTH - Conectando Dança, Música e Oportunidades</title>
+  <link rel="stylesheet" href="/src/pages/home/index.css" />
 </head>
-<body>
+  <body>
+    <!-- Navbar (Injetada dinamicamente pelo main.ts) -->
+    <header id="navbar-root"></header>
 
-  <!-- ===================== NAVBAR (componente global) ===================== -->
-  <div id="navbar-root"></div>
-
-  <main class="main">
-
-    <!-- ===================== HERO ===================== -->
-    <section class="hero">
-      <div class="hero__frame">
-        <h1 class="hero__title">
-          UMA NOVA FORMA DE <span class="hero__title-highlight">COMPETIR</span>
-        </h1>
-        <p class="hero__subtitle">
-          O ecossistema que conecta dança, música e mercado, impulsionando talentos por meio de visibilidade e novas oportunidades.
-        </p>
-      </div>
-
-      <button class="btn btn--secondary hero__cta">inscrições</button>
-    </section>
-
-    <!-- ===================== COMPETIÇÕES (carrossel) ===================== -->
-    <section id="competicoes" class="competitions">
-      <h2 class="competitions__title">COMPETIÇÕES</h2>
-
-      <div class="competitions__carousel">
-        <div class="competitions__track">
-          <article class="competitions__card"></article>
-          <article class="competitions__card"></article>
-          <article class="competitions__card"></article>
-        </div>
-
-        <div class="competitions__dots">
-          <span class="competitions__dot competitions__dot--active"></span>
-          <span class="competitions__dot"></span>
-          <span class="competitions__dot"></span>
-          <span class="competitions__dot"></span>
-          <span class="competitions__dot"></span>
-        </div>
-      </div>
-
-      <button class="btn btn--secondary competitions__cta">contratar</button>
-    </section>
-
-    <!-- ===================== O QUE É A RYTH ===================== -->
-    <section id="sobre" class="about">
-      <div class="about__content">
-        <h2 class="about__title">O que é a RYTH?</h2>
-        <p class="about__text">
-          <!-- texto explicativo sobre a RYTH -->
-        </p>
-      </div>
-
-      <div class="about__media">
-        <div class="about__video-placeholder">
-          <span>VÍDEO</span>
-        </div>
-      </div>
-    </section>
-
-    <!-- ===================== COMO FUNCIONA UMA COMPETIÇÃO ===================== -->
-    <section id="como-funciona" class="how-it-works">
-      <h2 class="how-it-works__title">Como funciona uma competição?</h2>
-      <p class="how-it-works__text">
-        <!-- texto explicativo do funcionamento -->
-      </p>
-    </section>
-
-    <!-- ===================== PARCERIAS ===================== -->
-    <section id="parcerias" class="partnerships">
-      <h2 class="partnerships__title">Parcerias</h2>
-      <p class="partnerships__text">
-        <!-- texto sobre parcerias -->
-      </p>
-      <button class="btn btn--primary partnerships__cta">SEJA UM PARCEIRO</button>
-    </section>
-
-    <!-- ===================== MÚSICAS ===================== -->
-    <section id="musicas" class="music">
-      <h2 class="music__title">Músicas</h2>
-      <p class="music__text">
-        <!-- texto sobre envio de músicas -->
-      </p>
-      <button class="btn btn--secondary music__cta">ENVIAR MÚSICA</button>
-    </section>
-
-    <!-- ===================== QUEM ESTÁ POR TRÁS ===================== -->
-    <section id="time" class="team">
-      <h2 class="team__title">Quem está por trás</h2>
-
-      <div class="team__member">
-        <div class="team__photo"></div>
-        <div class="team__info">
-          <h3 class="team__name">Wallace Costa</h3>
-          <p class="team__bio">
-            <!-- bio do fundador -->
+    <main>
+      <!-- ===================== 1. HERO (TELA INICIAL) ===================== -->
+      <section id="hero" class="hero">
+        <div class="hero__frame">
+          <h1 class="hero__title">
+            UMA NOVA FORMA DE<br />
+            <span class="hero__title-highlight">COMPETIR</span>
+          </h1>
+          <p class="hero__subtitle">
+            A plataforma que conecta dança, música e oportunidades em um só lugar. Descubra talentos, fortaleça sua trajetória e faça parte de um ecossistema criado para transformar paixão em reconhecimento.
           </p>
         </div>
-      </div>
-    </section>
+        <button class="btn hero__cta">inscrições</button>
+      </section>
 
-    <!-- ===================== PERGUNTAS FREQUENTES ===================== -->
-    <section id="faq" class="faq">
-      <h2 class="faq__title">perguntas frequentes</h2>
+      <!-- ===================== 2. COMPETIÇÕES (CARROSSEL) ===================== -->
+      <section id="competicoes" class="competitions">
+        <h2 class="competitions__title">COMPETIÇÕES</h2>
 
-      <ul class="faq__list">
-        <li class="faq__item">
-          <button class="faq__question">
-            <!-- pergunta 1 -->
-            <span class="faq__icon">+</span>
-          </button>
-          <div class="faq__answer">
-            <!-- resposta 1 -->
+        <div class="competitions__carousel">
+          <div class="competitions__track">
+            <article class="competitions__card"></article>
+            <article class="competitions__card competitions__card--active"></article>
+            <article class="competitions__card"></article>
           </div>
-        </li>
-        <li class="faq__item">
-          <button class="faq__question">
-            <!-- pergunta 2 -->
-            <span class="faq__icon">+</span>
-          </button>
-          <div class="faq__answer">
-            <!-- resposta 2 -->
-          </div>
-        </li>
-        <li class="faq__item">
-          <button class="faq__question">
-            <!-- pergunta 3 -->
-            <span class="faq__icon">+</span>
-          </button>
-          <div class="faq__answer">
-            <!-- resposta 3 -->
-          </div>
-        </li>
-        <li class="faq__item">
-          <button class="faq__question">
-            <!-- pergunta 4 -->
-            <span class="faq__icon">+</span>
-          </button>
-          <div class="faq__answer">
-            <!-- resposta 4 -->
-          </div>
-        </li>
-      </ul>
-    </section>
 
-  </main>
+          <div class="competitions__pagination">
+            <button class="competitions__arrow competitions__arrow--prev" aria-label="Anterior">&lt;</button>
+            <div class="competitions__dots">
+              <span class="competitions__dot"></span>
+              <span class="competitions__dot"></span>
+              <span class="competitions__dot competitions__dot--active"></span>
+              <span class="competitions__dot"></span>
+              <span class="competitions__dot"></span>
+            </div>
+            <button class="competitions__arrow competitions__arrow--next" aria-label="Próximo">&gt;</button>
+          </div>
+        </div>
 
-  <!-- ===================== FOOTER (componente global) ===================== -->
-  <div id="footer-root"></div>
+        <button class="btn competitions__cta">concursos</button>
+      </section>
 
-  <script type="module" src="/src/main.ts"></script>
-</body>
+      <!-- ===================== 3. O QUE É A RYTH (SOBRE) ===================== -->
+      <section id="sobre" class="about">
+        <!-- Bloco Superior: Título + Divisor Verde + Descrição -->
+        <div class="about__header">
+          <div class="about__title-wrapper">
+            <h2 class="about__title">O que<br />é a<br />RYTH?</h2>
+          </div>
+
+          <div class="about__divider"></div>
+
+          <div class="about__description">
+            <p>
+              A plataforma que conecta dança, música e oportunidades em um só lugar. Descubra talentos, fortaleça sua trajetória e faça parte de um ecossistema criado para transformar paixão em reconhecimento e talento em oportunidades reais.
+            </p>
+          </div>
+        </div>
+
+        <!-- Bloco Inferior: Citação + Placeholder do Vídeo -->
+        <div class="about__body">
+          <div class="about__quote-container">
+            <span class="about__quote-mark">“</span>
+            <p class="about__quote">
+              Entre palco, música, dança e os bastidores da profissão, nasceu a RYTH. O projeto já foi finalista do Negócios do Futuro 2025, primeiro programa do Sebrae voltado à tokenização e Web3, e hoje integra o programa de aceleração Startup Win.
+            </p>
+            <span class="about__quote-mark about__quote-mark--close">”</span>
+          </div>
+
+          <div class="about__media">
+            <div class="about__video-placeholder">
+              <span>VÍDEO</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+            <!-- ===================== 4. COMO FUNCIONA ===================== -->
+      <section id="como-funciona" class="how-it-works">
+        <h2 class="how-it-works__title">Como funciona uma<br />competição?</h2>
+
+        <div class="how-it-works__grid">
+          <!-- Card 1 -->
+          <article class="how-it-works__card">
+            <svg class="how-it-works__icon" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z" />
+            </svg>
+            <h3 class="how-it-works__card-title">Abertura da competição</h3>
+            <p class="how-it-works__card-text">
+              Cada competição começa com um novo desafio. Confira o tema, as regras, os critérios de participação, os prêmios e o prazo para enviar seu conteúdo.
+            </p>
+          </article>
+
+          <!-- Card 2 -->
+          <article class="how-it-works__card">
+            <svg class="how-it-works__icon" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z" />
+            </svg>
+            <h3 class="how-it-works__card-title">Envie seu vídeo</h3>
+            <p class="how-it-works__card-text">
+              Crie um vídeo seguindo a proposta da competição e envie diretamente pela RYTH. Antes de publicar, confira se ele atende às regras do desafio.
+            </p>
+          </article>
+
+          <!-- Card 3 -->
+          <article class="how-it-works__card">
+            <svg class="how-it-works__icon" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z" />
+            </svg>
+            <h3 class="how-it-works__card-title">Votação do público</h3>
+            <p class="how-it-works__card-text">
+              Os vídeos participantes ficam disponíveis para votação. A comunidade assiste aos conteúdos e vota nos seus favoritos. Tenha ainda mais chances de ganhar divulgando e engajando também pelas suas redes sociais.
+            </p>
+          </article>
+
+          <!-- Card 4 -->
+          <article class="how-it-works__card">
+            <svg class="how-it-works__icon" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z" />
+            </svg>
+            <h3 class="how-it-works__card-title">Resultado e premiação</h3>
+            <p class="how-it-works__card-text">
+              Ao fim da votação, o resultado é divulgado nas redes sociais e na plataforma da RYTH. Os vencedores são anunciados e recebem a premiação prevista para aquela competição.
+            </p>
+          </article>
+        </div>
+      </section>
+
+  <!-- ===================== 5. PARCERIAS & MÚSICAS ===================== -->
+      <section id="parcerias-musicas" class="partnerships-music">
+        <!-- Card 1: Parcerias (Fundo Verde) -->
+        <div id="parcerias" class="partnerships-music__card partnerships-music__card--green">
+          <h2 class="partnerships-music__title partnerships-music__title--purple">Parcerias</h2>
+          <p class="partnerships-music__text partnerships-music__text--dark">
+            Conectamos artistas, produtores, marcas e iniciativas que acreditam no poder da dança e da música para criar novas oportunidades. Juntos, fortalecemos todo o ecossistema criativo.
+          </p>
+          <button class="btn partnerships-music__cta partnerships-music__cta--purple">seja um parceiro</button>
+        </div>
+
+        <!-- Card 2: Músicas (Fundo Roxo) -->
+        <div id="musicas" class="partnerships-music__card partnerships-music__card--purple">
+          <h2 class="partnerships-music__title partnerships-music__title--green">Músicas</h2>
+          <p class="partnerships-music__text partnerships-music__text--light">
+            Descubra as músicas que movimentam a comunidade e inspiram novos desafios. Aqui, cada lançamento pode se transformar em criatividade, conexão e novas oportunidades para artistas e dançarinos.
+          </p>
+          <button class="btn partnerships-music__cta partnerships-music__cta--green">envie sua música</button>
+        </div>
+      </section>
+        <!-- ===================== 6. QUEM ESTÁ POR TRÁS ===================== -->
+      <section id="time" class="team">
+        <div class="team__container">
+          <!-- Coluna da Esquerda: Card da Foto com moldura verde deslocada -->
+          <div class="team__photo-wrapper">
+            <div class="team__photo-bg"></div>
+            <div class="team__photo">
+              <!-- Placeholder para a foto de Wallace Costa -->
+            </div>
+          </div>
+
+          <!-- Coluna da Direita: Título em Verde, Nome em Roxo e Bio -->
+          <div class="team__content">
+            <h2 class="team__title">Quem está<br />por trás</h2>
+            <h3 class="team__name">Wallace Costa</h3>
+            <p class="team__bio">
+              Wallace começou a dançar aos 11 anos e, aos 18, já levava sua arte para palcos e festivais ao redor do mundo. Sua trajetória soma passagens por mais de 15 países e apresentações ao lado de grandes nomes da música brasileira, como Anitta e IZA. Nos últimos quatro anos, integrou o show de Pedro Sampaio, acompanhando o artista também em sua turnê mundial e consolidando sua carreira na dança profissional.
+            </p>
+          </div>
+        </div>
+      </section>
+      <!-- ===================== 7. FAQ (PERGUNTAS FREQUENTES) ===================== -->
+      <section id="faq" class="faq">
+        <h2 class="faq__title">perguntas<br />frequentes</h2>
+        <ul class="faq__list">
+          <!-- Conteúdo gerado dinamicamente via Sanity pelo TypeScript -->
+        </ul>
+      </section>
+    </main>
+
+    <!-- Footer (Injetado dinamicamente pelo main.ts) -->
+    <footer id="footer-root"></footer>
+
+    <!-- Script principal do Vite -->
+    <script type="module" src="/src/main.ts"></script>
+  </body>
 </html>
 
 ========================================
@@ -402,9 +459,11 @@ import "./styles/variables.css";
 
 import "./components/navbar/navbar.css";
 import "./components/footer/footer.css";
+import "./pages/home/index.css"; // <--- Todo o CSS da Home (incluindo FAQ) está aqui
 
 import { renderNavbar } from "./components/navbar/navbar";
 import { renderFooter } from "./components/footer/footer";
+import { renderizarFAQ } from "./components/faq/faq";
 
 function markActiveLink(): void {
   const normalize = (path: string): string =>
@@ -425,15 +484,22 @@ function markActiveLink(): void {
     });
 }
 
+// Injeção dos componentes
 renderNavbar();
 markActiveLink();
 renderFooter();
+renderizarFAQ();
 
 ========================================
 ARQUIVO: ./src/vite-env.d.ts
 ========================================
 
 /// <reference types="vite/client" />
+
+interface ImportMetaEnv {
+  readonly VITE_SANITY_PROJECT_ID: string;
+  readonly VITE_SANITY_DATASET?: string;
+}
 
 declare module '*.html?raw' {
   const content: string;
@@ -695,6 +761,45 @@ export function renderFooter(rootSelector: string = "#footer-root"): void {
 }
 
 ========================================
+ARQUIVO: ./src/components/faq/faq.ts
+========================================
+
+import { cmsFetch } from "../../services/cms";
+
+type FaqItem = { pergunta: string; resposta: string };
+
+export async function renderizarFAQ(): Promise<void> {
+  const faqContainer = document.querySelector<HTMLElement>('.faq__list');
+  if (!faqContainer) return;
+
+  // Só busca os campos necessários e define a ordem
+  const faqs = await cmsFetch<FaqItem[]>(
+    `*[_type == "faq"] | order(_createdAt asc){ pergunta, resposta }`
+  );
+
+  // Se o Sanity falhar ou vier vazio, o HTML padrão da página permanece
+  if (!faqs) return;
+
+  faqContainer.replaceChildren(
+    ...faqs.map((item) => {
+      const li = document.createElement('li');
+      li.className = 'faq__item';
+
+      const h3 = document.createElement('h3');
+      h3.className = 'faq__question';
+      h3.textContent = item.pergunta;
+
+      const p = document.createElement('p');
+      p.className = 'faq__answer';
+      p.textContent = item.resposta;
+
+      li.append(h3, p);
+      return li;
+    })
+  );
+}
+
+========================================
 ARQUIVO: ./src/components/navbar/navbar.ts
 ========================================
 
@@ -852,6 +957,94 @@ ARQUIVO: ./src/components/navbar/navbar.html
       <img src="/src/assets/icons/search-icon.svg" alt="" width="30" height="30">
     </button>
   </nav>
+
+========================================
+ARQUIVO: ./src/services/cms.ts
+========================================
+
+// src/services/cms.ts
+import { sanityClient, urlFor } from './sanity'
+
+// Retorna null em qualquer falha ou resultado vazio → o HTML padrão permanece
+export async function cmsFetch<T = Record<string, any>>(
+  query: string,
+  params: Record<string, unknown> = {}
+): Promise<T | null> {
+  if (!sanityClient) return null
+  try {
+    const data = await sanityClient.fetch<T>(query, params)
+    if (data == null || (Array.isArray(data) && data.length === 0)) return null
+    return data
+  } catch (err) {
+    console.error('[CMS]', err)
+    return null
+  }
+}
+
+// Preenche o HTML com os dados:
+//   data-cms="campo"                → textContent
+//   data-cms="campo" data-cms-attr="href" → atributo
+//   data-cms-img="campo"            → <img src> a partir de uma imagem do Sanity
+//   data-cms-list="campo" + <template> → lista repetida
+export function applyCms(root: ParentNode, data: Record<string, any>): void {
+  root.querySelectorAll<HTMLElement>('[data-cms]').forEach((el) => {
+    const value = data[el.dataset.cms!]
+    if (typeof value !== 'string') return
+    const attr = el.dataset.cmsAttr
+    if (attr) el.setAttribute(attr, value)
+    else el.textContent = value // textContent evita injeção de HTML
+  })
+
+  root.querySelectorAll<HTMLImageElement>('[data-cms-img]').forEach((img) => {
+    const src = urlFor(data[img.dataset.cmsImg!])
+    if (src) img.src = src
+  })
+
+  root.querySelectorAll<HTMLElement>('[data-cms-list]').forEach((container) => {
+    const items = data[container.dataset.cmsList!]
+    const tpl = container.querySelector('template')
+    if (!Array.isArray(items) || items.length === 0 || !tpl) return
+
+    Array.from(container.children).forEach((c) => c !== tpl && c.remove())
+    items.forEach((item) => {
+      const node = tpl.content.cloneNode(true) as DocumentFragment
+      applyCms(node, item)
+      container.appendChild(node)
+    })
+  })
+}
+
+========================================
+ARQUIVO: ./src/services/sanity.ts
+========================================
+
+// src/services/sanity.ts
+import { createClient } from '@sanity/client'
+import imageUrlBuilder from '@sanity/image-url'
+
+const projectId = import.meta.env.VITE_SANITY_PROJECT_ID
+const dataset = import.meta.env.VITE_SANITY_DATASET || 'production'
+
+if (!projectId) {
+  console.warn('[Sanity] VITE_SANITY_PROJECT_ID ausente: o site usará o conteúdo padrão do HTML.')
+}
+
+// null se não houver projectId, em vez de quebrar a importação
+export const sanityClient = projectId
+  ? createClient({
+      projectId,
+      dataset,
+      useCdn: true, // requisições rápidas via CDN
+      apiVersion: '2024-01-01',
+    })
+  : null
+
+const builder = sanityClient ? imageUrlBuilder(sanityClient) : null
+
+// Gera URLs das imagens cadastradas no Sanity (retorna '' se o Sanity não estiver configurado)
+export function urlFor(source: any): string {
+  return builder && source ? builder.image(source).auto('format').url() : ''
+}
 
 ========================================
 ARQUIVO: ./src/assets/fonts/monumentextended-ultrabold.otf
@@ -1103,356 +1296,1472 @@ ARQUIVO: ./src/pages/login/login.html
 ARQUIVO: ./src/pages/home/index.css
 ========================================
 
-.main {
+/* ==========================================================================
+   PÁGINA PRINCIPAL (HOME) - STYLES CONSOLIDADOS
+   ========================================================================== */
+
+/* ==========================================
+   1. HERO (TELA INICIAL COM MOLDURA ROXA)
+   ========================================== */
+.hero {
+  min-height: 80vh;
   display: flex;
   flex-direction: column;
-  width: 100%;
-  min-width: 0;
+  align-items: center;
+  justify-content: center;
+  gap: 2.5rem;
+  padding: 3rem 1.5rem;
+  background-color: var(--main-white);
 }
 
-section {
-  padding: 6rem 2rem;
+/* Moldura retangular com borda roxa e fundo chumbo */
+.hero__frame {
+  width: 100%;
+  max-width: 950px;
+  background-color: #828288;
+  border: 12px solid var(--main-purple);
+  padding: 4rem 2.5rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+}
+
+/* Título em Monument Extended */
+.hero__title {
+  font-family: var(--font-monument, sans-serif);
+  font-size: clamp(2.2rem, 5vw, 3.8rem);
+  font-weight: 900;
+  color: var(--white);
+  line-height: 1.1;
+  letter-spacing: -0.5px;
+  text-transform: uppercase;
+  margin: 0;
+}
+
+/* Destaque "COMPETIR" em roxo vibrante */
+.hero__title-highlight {
+  color: #8D32FF;
+}
+
+/* Subtítulo em texto branco centralizado */
+.hero__subtitle {
+  font-family: var(--font-family);
+  font-size: clamp(1rem, 2vw, 1.25rem);
+  color: var(--white);
+  text-align: center;
+  max-width: 750px;
+  line-height: 1.4;
+  margin: 0;
+}
+
+/* Botão "inscrições" em formato de pílula verde */
+.hero__cta {
+  background-color: var(--main-green);
+  color: var(--main-black);
+  font-family: var(--font-family);
+  font-size: 1.3rem;
+  font-weight: 700;
+  padding: 0.9rem 3.5rem;
+  border-radius: 50px;
+  border: none;
+  cursor: pointer;
+  text-transform: lowercase;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.hero__cta:hover {
+  transform: translateY(-2px);
+  opacity: 0.9;
+}
+
+
+/* ==========================================
+   2. COMPETIÇÕES (CARROSSEL DE CARDS)
+   ========================================== */
+.competitions {
+  padding: 5rem 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2.5rem;
+  background-color: var(--main-white);
+}
+
+/* Título em Monument Extended */
+.competitions__title {
+  font-family: var(--font-monument, sans-serif);
+  font-size: 3rem;
+  font-weight: 900;
+  color: var(--main-black);
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: -0.5px;
+  margin: 0;
+}
+
+/* Container principal do carrossel */
+.competitions__carousel {
+  width: 100%;
+  max-width: 950px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+}
+
+/* Trilho dos cards */
+.competitions__track {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+  width: 100%;
+}
+
+/* Cards cinzas arredondados */
+.competitions__card {
+  flex: 1;
+  max-width: 280px;
+  height: 420px;
+  background-color: #828288;
+  border-radius: 32px;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+/* Escala e opacidade para destaque do card central */
+.competitions__card:nth-child(1),
+.competitions__card:nth-child(3) {
+  transform: scale(0.92);
+  opacity: 0.85;
+}
+
+.competitions__card:nth-child(2),
+.competitions__card--active {
+  transform: scale(1);
+  opacity: 1;
+}
+
+/* Paginação (Setas + Dots) */
+.competitions__pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.2rem;
+}
+
+.competitions__arrow {
+  background: none;
+  border: none;
+  color: var(--main-black);
+  font-family: var(--font-family);
+  font-size: 1.5rem;
+  font-weight: 800;
+  cursor: pointer;
+  padding: 0 0.4rem;
+  transition: transform 0.2s ease;
+}
+
+.competitions__arrow:hover {
+  transform: scale(1.2);
+}
+
+.competitions__dots {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.competitions__dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: var(--main-black);
+  transition: background-color 0.2s ease;
+}
+
+/* Ponto ativo em roxo */
+.competitions__dot--active {
+  background-color: #8D32FF;
+}
+
+/* Botão pílula roxo "concursos" */
+.competitions__cta {
+  background-color: #8D32FF;
+  color: var(--white);
+  font-family: var(--font-family);
+  font-size: 1.25rem;
+  font-weight: 700;
+  padding: 0.9rem 3.5rem;
+  border-radius: 50px;
+  border: none;
+  cursor: pointer;
+  text-transform: lowercase;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.competitions__cta:hover {
+  transform: translateY(-2px);
+  opacity: 0.9;
+}
+
+
+/* ==========================================
+   3. O QUE É A RYTH (SOBRE)
+   ========================================== */
+.about {
+  padding: 5rem 2rem;
+  max-width: 1050px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 3.5rem;
+  background-color: var(--main-white);
+}
+
+/* Bloco Superior */
+.about__header {
+  display: flex;
+  align-items: center;
+  gap: 2.5rem;
+  width: 100%;
+}
+
+.about__title {
+  font-family: var(--font-monument, sans-serif);
+  font-size: clamp(2.2rem, 4vw, 3.2rem);
+  font-weight: 900;
+  color: var(--main-purple);
+  line-height: 1.1;
+  text-transform: none;
+  margin: 0;
+  text-align: left;
+}
+
+/* Divisória vertical verde */
+.about__divider {
+  width: 5px;
+  height: 140px;
+  background-color: var(--main-green);
+  flex-shrink: 0;
+  border-radius: 4px;
+}
+
+.about__description {
+  flex: 1;
+  text-align: left;
+}
+
+.about__description p {
+  font-family: var(--font-family);
+  font-size: clamp(1rem, 1.8vw, 1.2rem);
+  font-weight: 500;
+  color: var(--main-black);
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* Bloco Inferior */
+.about__body {
+  display: grid;
+  grid-template-columns: 1fr 280px;
+  gap: 3rem;
+  align-items: center;
+  width: 100%;
+}
+
+/* Citação em itálico com aspas roxas */
+.about__quote-container {
+  position: relative;
+  text-align: left;
+}
+
+.about__quote-mark {
+  font-family: Georgia, serif;
+  font-size: 2.5rem;
+  color: var(--main-purple);
+  line-height: 1;
+  display: inline-block;
+}
+
+.about__quote-mark--close {
+  display: block;
+  text-align: right;
+  margin-top: -0.5rem;
+}
+
+.about__quote {
+  font-family: var(--font-family);
+  font-size: clamp(0.95rem, 1.4vw, 1.1rem);
+  font-style: italic;
+  color: var(--main-black);
+  line-height: 1.5;
+  margin: 0.3rem 0;
+}
+
+/* Card do Vídeo */
+.about__media {
+  display: flex;
+  justify-content: center;
+}
+
+.about__video-placeholder {
+  width: 100%;
+  max-width: 260px;
+  height: 320px;
+  background-color: #D3D3DC;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.about__video-placeholder span {
+  font-family: var(--font-monument, sans-serif);
+  font-size: 1.5rem;
+  font-weight: 900;
+  color: var(--main-black);
+}
+
+/* ==========================================
+   4. COMO FUNCIONA (ETAPAS DA COMPETIÇÃO)
+   ========================================== */
+.how-it-works {
+  padding: 5rem 2rem;
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+  background-color: var(--main-white);
+}
+
+.how-it-works__title {
+  font-family: var(--font-monument, sans-serif);
+  font-size: clamp(2rem, 3.8vw, 3.2rem);
+  font-weight: 900;
+  color: var(--main-purple);
+  line-height: 1.1;
+  text-align: left;
+  margin: 0;
+}
+
+/* Grid de 4 colunas */
+.how-it-works__grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.25rem;
+  width: 100%;
+}
+
+/* Card individual com borda verde-limão */
+.how-it-works__card {
+  background-color: var(--white);
+  border: 3px solid var(--main-green);
+  border-radius: 24px;
+  padding: 1.8rem 1.4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  position: relative;
+  text-align: left;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+}
+
+/* Ícone de brilho roxo no canto superior direito */
+.how-it-works__icon {
+  position: absolute;
+  top: 1.2rem;
+  right: 1.2rem;
+  width: 22px;
+  height: 22px;
+  color: var(--main-purple);
+}
+
+.how-it-works__card-title {
+  font-family: var(--font-family);
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: var(--main-black);
+  line-height: 1.25;
+  margin: 0;
+  padding-right: 1.5rem;
+}
+
+.how-it-works__card-text {
+  font-family: var(--font-family);
+  font-size: 0.92rem;
+  line-height: 1.45;
+  color: var(--main-black);
+  margin: 0;
+}
+
+/* Responsividade */
+@media (max-width: 992px) {
+  .how-it-works__grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .how-it-works {
+    padding: 3rem 1.25rem;
+    gap: 2rem;
+  }
+
+  .how-it-works__title {
+    font-size: 2rem;
+  }
+
+  .how-it-works__grid {
+    grid-template-columns: 1fr;
+    gap: 1.2rem;
+  }
+
+  .how-it-works__card {
+    padding: 1.5rem 1.2rem;
+    border-radius: 20px;
+  }
+}
+
+
+/* ==========================================
+   5. PARCERIAS E MÚSICAS (CARDS GRANDES)
+   ========================================== */
+.partnerships-music {
+  padding: 4rem 2rem;
+  max-width: 1000px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+  background-color: var(--main-white);
+}
+
+.partnerships-music__card {
+  width: 100%;
+  border-radius: 36px;
+  padding: 3.5rem 3rem;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   text-align: center;
-  min-height: 70vh;
-  min-width: 0;
-  max-width: 100%;
+  gap: 1.5rem;
 }
 
-  /* ==========================================
-     BOTÕES PADRÃO
-     ========================================== */
-  .btn {
-    padding: 0.9rem 2.2rem;
-    border-radius: 6px;
-    font-weight: 700;
-    cursor: pointer;
-    border: none;
-    transition: opacity 0.2s ease, transform 0.2s ease;
-    font-family: var(--font-family);
-  }
-  
-  .btn:hover {
-    opacity: 0.85;
-    transform: translateY(-2px);
-  }
-  
-  /* Botão Primário usa o roxo da marca */
-  .btn--primary {
-    background-color: var(--main-purple);
-    border-radius: 16px 16px 16px 16px;
-    color: var(--white);
-  }
-  
-  /* Botão Secundário com contorno escuro ou verde */
-  .btn--secondary {
-    background-color: var(--main-green);
-    border-radius: 16px 16px 16px 16px;
-    color: var(--main-black);
-  }
-  
-  /* ==========================================
-     1. HERO
-     ========================================== */
-  .hero {
-    min-height: 85vh;
-    background: linear-gradient(135deg, #ffffff 0%, var(--main-white) 100%);
-    gap: 2rem;
-  }
-  
-  .hero__title {
-    font-family: var(--font-monument);
-    font-size: 3.5rem;
-    font-weight: 900;
-    letter-spacing: -1px;
-    color: var(--main-black);
-  }
-  
-  .hero__title-highlight {
-    color: var(--main-purple);
-  }
-  
-  .hero__subtitle {
-    font-family: var(--font-family);
-    text-align: left;
-    max-width: 600px;
-    color: #4a4a5a;
-    font-size: 1.5rem;
-  }
-  
-  .competitions__title,
-  .how-it-works__title,
-  .partnerships__title,
-  .music__title,
-  .team__title,
-  .faq__title {
-    font-family: var(--font-monument);
-    font-size: 2.2rem;
-    font-weight: 800;
-    margin-bottom: 1rem;
-    text-transform: uppercase;
-    color: var(--main-black);
-  }
+/* Card Parcerias */
+.partnerships-music__card--green {
+  background-color: var(--main-green);
+}
 
-  /* ==========================================
-     2. COMPETIÇÕES (CARROSSEL)
-     ========================================== */
-  .competitions {
-    background-color: #efeff4; /* Um tom ligeiramente mais escuro que o main-white para contraste */
-    gap: 2rem;
-  }
-  
-  .competitions__carousel {
-    width: 100%;
-    max-width: 1000px;
-    min-width: 0;
-    display: flex;
-    flex-direction: column;
+/* Card Músicas */
+.partnerships-music__card--purple {
+  background-color: #8D32FF;
+}
+
+/* Títulos em Monument Extended */
+.partnerships-music__title {
+  font-family: var(--font-monument, sans-serif);
+  font-size: clamp(2.2rem, 4vw, 3.2rem);
+  font-weight: 900;
+  margin: 0;
+  line-height: 1.1;
+}
+
+.partnerships-music__title--purple {
+  color: #8D32FF;
+}
+
+.partnerships-music__title--green {
+  color: var(--main-green);
+}
+
+/* Textos descritivos */
+.partnerships-music__text {
+  font-family: var(--font-family);
+  font-size: clamp(1rem, 1.8vw, 1.15rem);
+  line-height: 1.45;
+  max-width: 750px;
+  margin: 0;
+}
+
+.partnerships-music__text--dark {
+  color: var(--main-black);
+}
+
+.partnerships-music__text--light {
+  color: var(--white);
+}
+
+/* Botões formato pílula */
+.partnerships-music__cta {
+  font-family: var(--font-family);
+  font-size: 1.2rem;
+  font-weight: 700;
+  padding: 0.9rem 3.5rem;
+  border-radius: 50px;
+  border: none;
+  cursor: pointer;
+  text-transform: lowercase;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+  margin-top: 0.5rem;
+}
+
+.partnerships-music__cta--purple {
+  background-color: #8D32FF;
+  color: var(--white);
+}
+
+.partnerships-music__cta--green {
+  background-color: var(--main-green);
+  color: var(--main-black);
+}
+
+.partnerships-music__cta:hover {
+  transform: translateY(-2px);
+  opacity: 0.9;
+}
+
+/* Responsividade para celulares */
+@media (max-width: 768px) {
+  .partnerships-music {
+    padding: 2.5rem 1.25rem;
     gap: 1.5rem;
   }
-    
-  .competitions__track {
-    display: flex;
+
+  .partnerships-music__card {
+    padding: 2.5rem 1.5rem;
+    border-radius: 24px;
     gap: 1.2rem;
-    max-width: 100%;
-    overflow-x: auto;
-    padding-bottom: 1rem;
-    scroll-snap-type: x mandatory;
-    -webkit-overflow-scrolling: touch;
-  }
-  .competitions__card {
-    min-width: 280px;
-    height: 380px;
-    background-color: var(--white);
-    border-radius: 12px;
-    box-shadow: 0 4px 20px rgba(6, 10, 39, 0.05);
-    scroll-snap-align: center;
-    flex-shrink: 0;
-  }
-  
-  .competitions__dots {
-    display: flex;
-    justify-content: center;
-    gap: 0.5rem;
-  }
-  
-  .competitions__dot {
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    background-color: #d1d1d8;
-    cursor: pointer;
-  }
-  
-  .competitions__dot--active {
-    background-color: var(--main-green); /* Usando o verde de destaque nos dots */
-  }
-  
-  /* ==========================================
-     3. O QUE É A RYTH (SOBRE)
-     ========================================== */
-  .about {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 4rem;
-    text-align: left;
-    padding: 6rem 10%;
   }
 
-  .about__title {
-    font-family: var(--font-monument);
-    font-size: 2.2rem;
-    font-weight: 800;
-    margin-bottom: 1rem;
-    text-transform: uppercase;
-    color: var(--main-black);
-}
-  
-  .about__text {
-    color: #4a4a5a;
+  .partnerships-music__title {
+    font-size: 2rem;
   }
-  
-  .about__video-placeholder {
-    width: 100%;
-    height: 320px;
-    background-color: var(--white);
-    border: 2px dashed #d1d1d8;
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #888;
-    font-weight: 700;
-  }
-  
-  /* ==========================================
-     4. TIME (QUEM ESTÁ POR TRÁS)
-     ========================================== */
-  .team {
-    background-color: #efeff4;
-  }
-  
-  .team__member {
-    display: flex;
-    align-items: center;
-    gap: 2rem;
-    background: var(--white);
-    padding: 2rem;
-    border-radius: 12px;
-    max-width: 600px;
-    text-align: left;
-    box-shadow: 0 4px 20px rgba(6, 10, 39, 0.05);
-  }
-  
-  .team__photo {
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
-    background-color: #e0e0e0;
-    flex-shrink: 0;
-  }
-  
-  .team__bio {
-    color: #4a4a5a;
+
+  .partnerships-music__text {
     font-size: 0.95rem;
-    margin-top: 0.5rem;
   }
-  
-  /* ==========================================
-     5. FAQ (PERGUNTAS FREQUENTES)
-     ========================================== */
-  .faq__list {
-    list-style: none;
+
+  .partnerships-music__cta {
+    font-size: 1.05rem;
+    padding: 0.8rem 2.5rem;
     width: 100%;
-    max-width: 800px;
-    display: flex;
+    max-width: 300px;
+  }
+}
+
+/* ==========================================
+   6. QUEM ESTÁ POR TRÁS (TIMING / FUNDADOR)
+   ========================================== */
+.team {
+  padding: 5rem 2rem;
+  max-width: 1050px;
+  margin: 0 auto;
+  background-color: var(--main-white);
+}
+
+.team__container {
+  display: grid;
+  grid-template-columns: 340px 1fr;
+  gap: 4rem;
+  align-items: center;
+  width: 100%;
+}
+
+/* Moldura da foto com camada offset verde atrás */
+.team__photo-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 320px;
+  height: 400px;
+  margin: 0 auto;
+}
+
+/* Camada verde no fundo levemente deslocada */
+.team__photo-bg {
+  position: absolute;
+  top: -15px;
+  left: -15px;
+  width: 100%;
+  height: 100%;
+  background-color: var(--main-green);
+  border-radius: 36px;
+  z-index: 1;
+}
+
+/* Card cinza da foto na frente */
+.team__photo {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background-color: #D3D3DC;
+  border-radius: 36px;
+  z-index: 2;
+  overflow: hidden;
+}
+
+/* Conteúdo em texto */
+.team__content {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  text-align: left;
+}
+
+/* Título em Verde com Monument Extended */
+.team__title {
+  font-family: var(--font-monument, sans-serif);
+  font-size: clamp(2.2rem, 4vw, 3.2rem);
+  font-weight: 900;
+  color: var(--main-green);
+  line-height: 1.1;
+  text-transform: none;
+  margin: 0;
+}
+
+/* Nome em Roxo */
+.team__name {
+  font-family: var(--font-family);
+  font-size: clamp(1.8rem, 3vw, 2.2rem);
+  font-weight: 800;
+  color: var(--main-purple);
+  margin: 0;
+  line-height: 1.2;
+}
+
+/* Bio */
+.team__bio {
+  font-family: var(--font-family);
+  font-size: clamp(1rem, 1.6vw, 1.1rem);
+  line-height: 1.5;
+  color: var(--main-black);
+  margin: 0;
+}
+
+/* Responsividade para telas menores */
+@media (max-width: 868px) {
+  .team {
+    padding: 3rem 1.25rem;
+  }
+
+  .team__container {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+
+  .team__photo-wrapper {
+    height: 320px;
+    max-width: 280px;
+  }
+
+  .team__title {
+    font-size: 2.2rem;
+  }
+
+  .team__name {
+    font-size: 1.6rem;
+  }
+
+  .team__bio {
+    font-size: 0.98rem;
+  }
+}
+/* ==========================================
+   7. FAQ (PERGUNTAS FREQUENTES - GRID DE CARDS)
+   ========================================== */
+.faq {
+  padding: 5rem 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Título "perguntas frequentes" */
+.faq__title {
+  font-family: var(--font-monument, sans-serif);
+  font-size: 3rem;
+  font-weight: 900;
+  color: var(--main-black);
+  text-align: center;
+  line-height: 1.05;
+  text-transform: lowercase;
+  margin-bottom: 3rem;
+}
+
+/* Grid de 2 colunas para a lista de cards */
+.faq__list {
+  list-style: none;
+  width: 100%;
+  max-width: 1000px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+  padding: 0;
+  margin: 0 auto;
+}
+
+/* Card cinza arredondado */
+.faq__item {
+  background-color: #D3D3DC;
+  border-radius: 28px;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  box-shadow: none;
+  text-align: left;
+}
+
+/* Título da pergunta em roxo com Monument Extended */
+.faq__question {
+  font-family: var(--font-monument, sans-serif);
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: var(--main-purple);
+  line-height: 1.25;
+  margin: 0;
+  padding: 0;
+  background: none;
+  border: none;
+  text-align: left;
+}
+
+/* Texto da resposta alinhado à esquerda */
+.faq__answer {
+  font-family: var(--font-family);
+  font-size: 1rem;
+  line-height: 1.45;
+  color: var(--main-black);
+  text-align: left;
+  margin: 0;
+}
+
+
+/* ==========================================
+   6. RESPONSIVIDADE (DISPOSITIVOS MÓVEIS)
+   ========================================== */
+@media (max-width: 768px) {
+  /* Hero */
+  .hero {
+    padding: 2rem 1rem;
+    gap: 1.5rem;
+  }
+
+  .hero__frame {
+    border-width: 8px;
+    padding: 2.5rem 1.2rem;
+  }
+
+  .hero__title {
+    font-size: clamp(1.6rem, 7vw, 2.4rem);
+  }
+
+  .hero__subtitle {
+    font-size: 0.95rem;
+  }
+
+  .hero__cta {
+    font-size: 1.1rem;
+    padding: 0.8rem 2.5rem;
+  }
+
+  /* Competições */
+  .competitions {
+    padding: 3rem 1rem;
+    gap: 1.5rem;
+  }
+
+  .competitions__title {
+    font-size: 2.2rem;
+  }
+
+  .competitions__track {
+    gap: 0.8rem;
+  }
+
+  .competitions__card {
+    height: 320px;
+    border-radius: 20px;
+  }
+
+  .competitions__cta {
+    font-size: 1.1rem;
+    padding: 0.8rem 2.5rem;
+  }
+
+  /* Sobre */
+  .about {
+    padding: 3rem 1.25rem;
+    gap: 2.5rem;
+  }
+
+  .about__header {
     flex-direction: column;
+    align-items: flex-start;
+    gap: 1.5rem;
+  }
+
+  .about__divider {
+    width: 100%;
+    height: 4px;
+  }
+
+  .about__body {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .about__video-placeholder {
+    max-width: 100%;
+    height: 220px;
+  }
+
+  /* FAQ */
+  .faq {
+    padding: 3rem 1rem;
+  }
+
+  .faq__title {
+    font-size: 2.2rem;
+    margin-bottom: 2rem;
+  }
+
+  .faq__list {
+    grid-template-columns: 1fr;
     gap: 1rem;
   }
-  
+
   .faq__item {
-    background-color: var(--white);
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0 2px 10px rgba(6, 10, 39, 0.03);
+    border-radius: 20px;
+    padding: 1.5rem;
   }
-  
+
   .faq__question {
-    width: 100%;
-    padding: 1.2rem 1.5rem;
-    background: none;
-    border: none;
-    color: var(--main-black);
+    font-size: 1.1rem;
+  }
+
+  .faq__answer {
+    font-size: 0.95rem;
+  }
+}
+
+========================================
+ARQUIVO: ./ryth-studio/.gitignore
+========================================
+
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# Dependencies
+/node_modules
+/.pnp
+.pnp.js
+
+# Compiled Sanity Studio
+/dist
+
+# Temporary Sanity runtime, generated by the CLI on every dev server start
+/.sanity
+
+# Logs
+/logs
+*.log
+
+# Coverage directory used by testing tools
+/coverage
+
+# Misc
+.DS_Store
+*.pem
+
+# Typescript
+*.tsbuildinfo
+
+# Dotenv and similar local-only files
+*.local
+
+
+========================================
+ARQUIVO: ./ryth-studio/package.json
+========================================
+
+{
+  "name": "rythwebsite",
+  "private": true,
+  "version": "1.0.0",
+  "main": "package.json",
+  "license": "UNLICENSED",
+  "scripts": {
+    "build": "sanity build",
+    "deploy": "sanity deploy",
+    "deploy-graphql": "sanity graphql deploy",
+    "dev": "sanity dev",
+    "start": "sanity start"
+  },
+  "keywords": [
+    "sanity"
+  ],
+  "dependencies": {
+    "@sanity/vision": "^6.16.0",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4",
+    "sanity": "^6.16.0",
+    "styled-components": "^6.1.18"
+  },
+  "devDependencies": {
+    "@sanity/eslint-config-studio": "^7",
+    "@types/react": "^19.2.14",
+    "eslint": "^10.8.1",
+    "prettier": "^3.5",
+    "typescript": "^5.8"
+  },
+  "prettier": {
+    "bracketSpacing": false,
+    "printWidth": 100,
+    "semi": false,
+    "singleQuote": true
+  }
+}
+
+
+========================================
+ARQUIVO: ./ryth-studio/sanity.cli.ts
+========================================
+
+import {defineCliConfig} from 'sanity/cli'
+
+export default defineCliConfig({
+  api: {
+    projectId: '8q2pttmv',
+    dataset: 'production'
+  },
+  deployment: {
+    /**
+     * Enable auto-updates for studios.
+     * Learn more at https://www.sanity.io/docs/studio/latest-version-of-sanity#k47faf43faf56
+     */
+    autoUpdates: true,
+  },
+})
+
+
+========================================
+ARQUIVO: ./ryth-studio/sanity.config.ts
+========================================
+
+import {defineConfig} from 'sanity'
+import {structureTool} from 'sanity/structure'
+import {visionTool} from '@sanity/vision'
+import {schemaTypes} from './schemaTypes'
+
+export default defineConfig({
+  name: 'default',
+  title: 'rythwebsite',
+
+  projectId: '8q2pttmv',
+  dataset: 'production',
+
+  basePath: '/studio',
+
+  plugins: [structureTool(), visionTool()],
+
+  schema: {
+    types: schemaTypes,
+  },
+})
+
+
+========================================
+ARQUIVO: ./ryth-studio/README.md
+========================================
+
+# Sanity Clean Content Studio
+
+Congratulations, you have now installed the Sanity Content Studio, an open-source real-time content editing environment connected to the Sanity backend.
+
+Now you can do the following things:
+
+- [Read “getting started” in the docs](https://www.sanity.io/docs/introduction/getting-started?utm_source=readme)
+- [Join the Sanity community](https://www.sanity.io/community/join?utm_source=readme)
+- [Extend and build plugins](https://www.sanity.io/docs/content-studio/extending?utm_source=readme)
+
+
+========================================
+ARQUIVO: ./ryth-studio/eslint.config.mjs
+========================================
+
+import studio from '@sanity/eslint-config-studio'
+
+export default [...studio]
+
+
+========================================
+ARQUIVO: ./ryth-studio/tsconfig.json
+========================================
+
+{
+  "compilerOptions": {
+    "target": "ES2017",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "module": "Preserve",
+    "moduleDetection": "force",
+    "isolatedModules": true,
+    "jsx": "preserve",
+    "incremental": true
+  },
+  "include": ["**/*.ts", "**/*.tsx"],
+  "exclude": ["node_modules"]
+}
+
+
+========================================
+ARQUIVO: ./ryth-studio/schemaTypes/index.ts
+========================================
+
+import { faqType } from './faq'
+import { competicaoType } from './competicao'
+
+export const schemaTypes = [
+  faqType,
+  competicaoType, // Registra o novo schema aqui
+]
+
+========================================
+ARQUIVO: ./ryth-studio/schemaTypes/faq.ts
+========================================
+
+import { defineType, defineField } from 'sanity'
+
+export const faqType = defineType({
+  name: 'faq',
+  title: 'Perguntas Frequentes (FAQ)',
+  type: 'document',
+  fields: [
+    defineField({
+      name: 'pergunta',
+      title: 'Pergunta',
+      type: 'string',
+    }),
+    defineField({
+      name: 'resposta',
+      title: 'Resposta',
+      type: 'text',
+    }),
+  ],
+})
+
+========================================
+ARQUIVO: ./ryth-studio/schemaTypes/competicao.ts
+========================================
+
+import { defineType, defineField } from 'sanity'
+
+export const competicaoType = defineType({
+  name: 'competicao',
+  title: 'Competições',
+  type: 'document',
+  fields: [
+    defineField({
+      name: 'titulo',
+      title: 'Título da Competição',
+      type: 'string',
+      validation: (Rule) => Rule.required(),
+    }),
+    defineField({
+      name: 'slug',
+      title: 'Identificador URL (Slug)',
+      type: 'slug',
+      options: {
+        source: 'titulo',
+        maxLength: 96,
+      },
+    }),
+    defineField({
+      name: 'imagem',
+      title: 'Imagem / Banner da Competição',
+      type: 'image',
+      options: {
+        hotspot: true, // Permite ajustar o corte da imagem no painel
+      },
+      validation: (Rule) => Rule.required(),
+    }),
+    defineField({
+      name: 'data',
+      title: 'Data do Evento',
+      type: 'date',
+      options: {
+        dateFormat: 'DD/MM/YYYY',
+      },
+    }),
+    defineField({
+      name: 'local',
+      title: 'Local / Cidade',
+      type: 'string',
+    }),
+    defineField({
+      name: 'status',
+      title: 'Status das Inscrições',
+      type: 'string',
+      options: {
+        list: [
+          { title: 'Inscrições Abertas', value: 'abertas' },
+          { title: 'Em Breve', value: 'breve' },
+          { title: 'Encerrado', value: 'encerrado' },
+        ],
+        layout: 'radio',
+      },
+      initialValue: 'abertas',
+    }),
+    defineField({
+      name: 'descricao',
+      title: 'Descrição Resumida',
+      type: 'text',
+      rows: 3,
+    }),
+    defineField({
+      name: 'linkInscricao',
+      title: 'Link para Inscrição / Edital',
+      type: 'url',
+    }),
+  ],
+  preview: {
+    select: {
+      title: 'titulo',
+      subtitle: 'local',
+      media: 'imagem',
+    },
+  },
+})
+
+========================================
+ARQUIVO: ./ryth-studio/.sanity/runtime/app.js
+========================================
+
+
+// This file is auto-generated on 'sanity dev'
+// Modifications to this file is automatically discarded
+import {renderStudio} from "sanity"
+import studioConfig from "../../sanity.config.ts"
+
+renderStudio(
+  document.getElementById("sanity"),
+  studioConfig,
+  {reactStrictMode: undefined, basePath: "/"}
+)
+
+
+========================================
+ARQUIVO: ./ryth-studio/.sanity/runtime/index.html
+========================================
+
+<!DOCTYPE html><html lang="en">
+<!--
+This file is auto-generated from "sanity dev".
+Modifications to this file are automatically discarded.
+-->
+<head><meta charSet="utf-8"/><meta content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover" name="viewport"/><meta content="noindex" name="robots"/><meta content="same-origin" name="referrer"/><link href="/static/favicon.ico" rel="icon" sizes="any"/><link href="/static/favicon.svg" rel="icon" type="image/svg+xml"/><link href="/static/apple-touch-icon.png" rel="apple-touch-icon"/><link href="/static/manifest.webmanifest" rel="manifest"/><title>Sanity Studio</title><script>
+;(function () {
+  var _caughtErrors = []
+
+  var errorChannel = (function () {
+    var subscribers = []
+
+    function publish(msg) {
+      for (var i = 0; i < subscribers.length; i += 1) {
+        subscribers[i](msg)
+      }
+    }
+
+    function subscribe(subscriber) {
+      subscribers.push(subscriber)
+
+      return function () {
+        var idx = subscribers.indexOf(subscriber)
+
+        if (idx > -1) {
+          subscribers.splice(idx, 1)
+        }
+      }
+    }
+
+    return {publish, subscribe, subscribers}
+  })()
+
+  // NOTE: Store the error channel instance in the global scope so that the application can
+  // access it and subscribe to errors.
+  window.__sanityErrorChannel = {
+    subscribe: errorChannel.subscribe,
+  }
+
+  function _nextTick(callback) {
+    setTimeout(callback, 0)
+  }
+
+  function _handleError(error, params) {
+    _nextTick(function () {
+      // - If there are error channel subscribers, then we notify them (no console error).
+      // - If there are no subscribers, then we log the error to the console and render the error overlay.
+      if (errorChannel.subscribers.length) {
+        errorChannel.publish({error, params})
+      } else {
+        console.error(error)
+
+        _renderErrorOverlay(error, params)
+      }
+    })
+  }
+
+  var ERROR_BOX_STYLE = [
+    'background: #fff',
+    'border-radius: 6px',
+    'box-sizing: border-box',
+    'color: #121923',
+    'flex: 1',
+    "font-family: -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue','Liberation Sans',Helvetica,Arial,system-ui,sans-serif",
+    'font-size: 16px',
+    'line-height: 21px',
+    'margin: 0 auto',
+    'max-width: 960px',
+    'max-height: 90dvh',
+    'overflow: auto',
+    'padding: 20px',
+    'width: 100%',
+  ].join(';')
+
+  var ERROR_CODE_STYLE = [
+    'color: #972E2A',
+    "font-family: -apple-system-ui-monospace, 'SF Mono', Menlo, Monaco, Consolas, monospace",
+    'font-size: 13px',
+    'line-height: 17px',
+    'margin: 0',
+  ].join(';')
+
+  function _renderErrorOverlay(error, params) {
+    var errorElement = document.querySelector('#__sanityError') || document.createElement('div')
+    var colno = params.event.colno
+    var lineno = params.event.lineno
+    var filename = params.event.filename
+
+    errorElement.id = '__sanityError'
+    errorElement.innerHTML = [
+      '<div style="' + ERROR_BOX_STYLE + '">',
+      '<div style="font-weight: 700;">Uncaught error: ' + error.message + '</div>',
+      '<div style="color: #515E72; font-size: 13px; line-height: 17px; margin: 10px 0;">' +
+        filename +
+        ':' +
+        lineno +
+        ':' +
+        colno +
+        '</div>',
+      '<pre style="' + ERROR_CODE_STYLE + '">' + error.stack + '</pre>',
+      '</div>',
+    ].join('')
+
+    errorElement.style.position = 'fixed'
+    errorElement.style.zIndex = 1000000
+    errorElement.style.top = 0
+    errorElement.style.left = 0
+    errorElement.style.right = 0
+    errorElement.style.bottom = 0
+    errorElement.style.padding = '20px'
+    errorElement.style.background = 'rgba(16,17,18,0.66)'
+    errorElement.style.display = 'flex'
+    errorElement.style.alignItems = 'center'
+    errorElement.style.justifyContent = 'center'
+
+    document.body.appendChild(errorElement)
+  }
+
+  // NOTE:
+  // Yes – we're attaching 2 error listeners below 👀
+  // This is because React makes the same error throw twice (in development mode).
+  // See: https://github.com/facebook/react/issues/10384
+
+  // Error listener #1
+  window.onerror = function (event, source, lineno, colno, error) {
+    _nextTick(function () {
+      if (_caughtErrors.indexOf(error) !== -1) return
+
+      _caughtErrors.push(error)
+
+      _handleError(error, {
+        event,
+        lineno,
+        colno,
+        source,
+      })
+
+      _nextTick(function () {
+        var idx = _caughtErrors.indexOf(error)
+
+        if (idx > -1) _caughtErrors.splice(idx, 1)
+      })
+    })
+
+    // IMPORTANT: this callback must return `true` to prevent the error from being rendered in
+    // the browser’s console.
+    return true
+  }
+
+  // Error listener #2
+  window.addEventListener('error', function (event) {
+    if (_caughtErrors.indexOf(event.error) !== -1) return true
+
+    _caughtErrors.push(event.error)
+
+    _handleError(event.error, {
+      event,
+      lineno: event.lineno,
+      colno: event.colno,
+    })
+
+    _nextTick(function () {
+      _nextTick(function () {
+        var idx = _caughtErrors.indexOf(event.error)
+
+        if (idx > -1) _caughtErrors.splice(idx, 1)
+      })
+    })
+
+    return true
+  })
+})()
+</script><style>
+  @font-face {
+    font-family: Inter;
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url("https://studio-static.sanity.io/Inter-Regular.woff2") format("woff2");
+  }
+  @font-face {
+    font-family: Inter;
+    font-style: italic;
+    font-weight: 400;
+    font-display: swap;
+    src: url("https://studio-static.sanity.io/Inter-Italic.woff2") format("woff2");
+  }
+  @font-face {
+    font-family: Inter;
+    font-style: normal;
+    font-weight: 500;
+    font-display: swap;
+    src: url("https://studio-static.sanity.io/Inter-Medium.woff2") format("woff2");
+  }
+  @font-face {
+    font-family: Inter;
+    font-style: italic;
+    font-weight: 500;
+    font-display: swap;
+    src: url("https://studio-static.sanity.io/Inter-MediumItalic.woff2") format("woff2");
+  }
+  @font-face {
+    font-family: Inter;
+    font-style: normal;
     font-weight: 600;
-    font-size: 1.05rem;
-    text-align: left;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    cursor: pointer;
-    font-family: var(--font-family);
+    font-display: swap;
+    src: url("https://studio-static.sanity.io/Inter-SemiBold.woff2") format("woff2");
   }
-  
-  .faq__icon {
-    font-size: 1.2rem;
-    color: var(--main-purple);
+  @font-face {
+    font-family: Inter;
+    font-style: italic;
+    font-weight: 600;
+    font-display: swap;
+    src: url("https://studio-static.sanity.io/Inter-SemiBoldItalic.woff2") format("woff2");
   }
-  
-  /* ==========================================
-   RESPONSIVIDADE
-   ========================================== */
-  @media (max-width: 768px) {
-    section {
-      padding: 3.5rem 1.25rem;
-      min-height: auto;
+  @font-face {
+    font-family: Inter;
+    font-style: normal;
+    font-weight: 700;
+    font-display: swap;
+    src: url("https://studio-static.sanity.io/Inter-Bold.woff2") format("woff2");
+  }
+  @font-face {
+    font-family: Inter;
+    font-style: italic;
+    font-weight: 700;
+    font-display: swap;
+    src: url("https://studio-static.sanity.io/Inter-BoldItalic.woff2") format("woff2");
+  }
+  @font-face {
+    font-family: Inter;
+    font-style: normal;
+    font-weight: 800;
+    font-display: swap;
+    src: url("https://studio-static.sanity.io/Inter-ExtraBold.woff2") format("woff2");
+  }
+  @font-face {
+    font-family: Inter;
+    font-style: italic;
+    font-weight: 800;
+    font-display: swap;
+    src: url("https://studio-static.sanity.io/Inter-ExtraBoldItalic.woff2") format("woff2");
+  }
+  @font-face {
+    font-family: Inter;
+    font-style: normal;
+    font-weight: 900;
+    font-display: swap;
+    src: url("https://studio-static.sanity.io/Inter-Black.woff2") format("woff2");
+  }
+  @font-face {
+    font-family: Inter;
+    font-style: italic;
+    font-weight: 900;
+    font-display: swap;
+    src: url("https://studio-static.sanity.io/Inter-BlackItalic.woff2") format("woff2");
+  }
+  html {
+    @media (prefers-color-scheme: dark) {
+      background-color: #13141b;
     }
-
-    /* Hero */
-    .hero {
-      min-height: 70vh;
-      gap: 1.5rem;
-    }
-
-    .hero__title {
-      font-size: clamp(2rem, 9vw, 2.75rem);
-      letter-spacing: -0.5px;
-      line-height: 1.1;
-    }
-
-    .hero__subtitle {
-      font-size: 1rem;
-    }
-
-    /* Títulos de seção */
-    .competitions__title,
-    .about__title,
-    .how-it-works__title,
-    .partnerships__title,
-    .music__title,
-    .team__title,
-    .faq__title {
-      font-size: 1.6rem;
-      overflow-wrap: break-word;
-    }
-
-    /* Botões: largura total e mais confortáveis para toque */
-    .btn {
-      width: 100%;
-      max-width: 360px;
-      padding: 0.9rem 1.5rem;
-    }
-
-    /* Competições */
-    .competitions {
-      gap: 1.5rem;
-    }
-
-    .competitions__card {
-      min-width: 0;
-      flex: 0 0 82%;
-      height: 340px;
-    }
-
-    /* Sobre */
-    .about {
-      grid-template-columns: minmax(0, 1fr);
-      gap: 2rem;
-      text-align: center;
-      padding: 3.5rem 1.25rem;
-    }
-
-    .about__video-placeholder {
-      height: 220px;
-    }
-
-    /* Time */
-    .team__member {
-      flex-direction: column;
-      gap: 1.25rem;
-      padding: 1.5rem;
-      width: 100%;
-      text-align: center;
-    }
-
-    /* FAQ */
-    .faq__question {
-      padding: 1rem 1.1rem;
-      font-size: 1rem;
-      gap: 1rem;
+    @media (prefers-color-scheme: light) {
+      background-color: #ffffff;
     }
   }
-
-  /* Telas bem pequenas */
-  @media (max-width: 400px) {
-    section {
-      padding-inline: 1rem;
-    }
-
-    .about {
-      padding-inline: 1rem;
-    }
+  html,
+  body,
+  #sanity {
+    height: 100%;
   }
+  body {
+    margin: 0;
+    -webkit-font-smoothing: antialiased;
+  }
+</style><script src="https://core.sanity-cdn.com/bridge.js" async type="module" data-sanity-core></script>
+</head><body><div id="sanity"></div><script src="/.sanity/runtime/app.js" type="module"></script><noscript><div class="sanity-app-no-js__root"><div class="sanity-app-no-js__content"><style type="text/css">
+.sanity-app-no-js__root {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  background: #fff;
+}
+
+.sanity-app-no-js__content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  font-family: helvetica, arial, sans-serif;
+}
+</style><h1>JavaScript disabled</h1><p>Please <a href="https://www.enable-javascript.com/">enable JavaScript</a> in your browser and reload the page to proceed.</p></div></div></noscript></body></html>
+
+========================================
+ARQUIVO: ./ryth-studio/static/.gitkeep
+========================================
+
+Files placed here will be served by the Sanity server under the `/static`-prefix
+
 

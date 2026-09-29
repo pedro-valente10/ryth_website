@@ -3,164 +3,195 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-
-  <link rel="stylesheet" type="text/css" href="src/pages/home/index.css"/>
-
-  <title>RYTH</title>
-  
+  <title>RYTH - Conectando Dança, Música e Oportunidades</title>
+  <link rel="stylesheet" href="/src/pages/home/index.css" />
 </head>
-<body>
+  <body>
+    <!-- Navbar (Injetada dinamicamente pelo main.ts) -->
+    <header id="navbar-root"></header>
 
-  <!-- ===================== NAVBAR (componente global) ===================== -->
-  <div id="navbar-root"></div>
-
-  <main class="main">
-
-    <!-- ===================== HERO ===================== -->
-    <section class="hero">
-      <div class="hero__frame">
-        <h1 class="hero__title">
-          UMA NOVA FORMA DE <span class="hero__title-highlight">COMPETIR</span>
-        </h1>
-        <p class="hero__subtitle">
-          O ecossistema que conecta dança, música e mercado, impulsionando talentos por meio de visibilidade e novas oportunidades.
-        </p>
-      </div>
-
-      <button class="btn btn--secondary hero__cta">inscrições</button>
-    </section>
-
-    <!-- ===================== COMPETIÇÕES (carrossel) ===================== -->
-    <section id="competicoes" class="competitions">
-      <h2 class="competitions__title">COMPETIÇÕES</h2>
-
-      <div class="competitions__carousel">
-        <div class="competitions__track">
-          <article class="competitions__card"></article>
-          <article class="competitions__card"></article>
-          <article class="competitions__card"></article>
-        </div>
-
-        <div class="competitions__dots">
-          <span class="competitions__dot competitions__dot--active"></span>
-          <span class="competitions__dot"></span>
-          <span class="competitions__dot"></span>
-          <span class="competitions__dot"></span>
-          <span class="competitions__dot"></span>
-        </div>
-      </div>
-
-      <button class="btn btn--secondary competitions__cta">contratar</button>
-    </section>
-
-    <!-- ===================== O QUE É A RYTH ===================== -->
-    <section id="sobre" class="about">
-      <div class="about__content">
-        <h2 class="about__title">O que é a RYTH?</h2>
-        <p class="about__text">
-          <!-- texto explicativo sobre a RYTH -->
-        </p>
-      </div>
-
-      <div class="about__media">
-        <div class="about__video-placeholder">
-          <span>VÍDEO</span>
-        </div>
-      </div>
-    </section>
-
-    <!-- ===================== COMO FUNCIONA UMA COMPETIÇÃO ===================== -->
-    <section id="como-funciona" class="how-it-works">
-      <h2 class="how-it-works__title">Como funciona uma competição?</h2>
-      <p class="how-it-works__text">
-        <!-- texto explicativo do funcionamento -->
-      </p>
-    </section>
-
-    <!-- ===================== PARCERIAS ===================== -->
-    <section id="parcerias" class="partnerships">
-      <h2 class="partnerships__title">Parcerias</h2>
-      <p class="partnerships__text">
-        <!-- texto sobre parcerias -->
-      </p>
-      <button class="btn btn--primary partnerships__cta">SEJA UM PARCEIRO</button>
-    </section>
-
-    <!-- ===================== MÚSICAS ===================== -->
-    <section id="musicas" class="music">
-      <h2 class="music__title">Músicas</h2>
-      <p class="music__text">
-        <!-- texto sobre envio de músicas -->
-      </p>
-      <button class="btn btn--secondary music__cta">ENVIAR MÚSICA</button>
-    </section>
-
-    <!-- ===================== QUEM ESTÁ POR TRÁS ===================== -->
-    <section id="time" class="team">
-      <h2 class="team__title">Quem está por trás</h2>
-
-      <div class="team__member">
-        <div class="team__photo"></div>
-        <div class="team__info">
-          <h3 class="team__name">Wallace Costa</h3>
-          <p class="team__bio">
-            <!-- bio do fundador -->
+    <main>
+      <!-- ===================== 1. HERO (TELA INICIAL) ===================== -->
+      <section id="hero" class="hero">
+        <div class="hero__frame">
+          <h1 class="hero__title">
+            UMA NOVA FORMA DE<br />
+            <span class="hero__title-highlight">COMPETIR</span>
+          </h1>
+          <p class="hero__subtitle">
+            A plataforma que conecta dança, música e oportunidades em um só lugar. Descubra talentos, fortaleça sua trajetória e faça parte de um ecossistema criado para transformar paixão em reconhecimento.
           </p>
         </div>
-      </div>
-    </section>
+        <button class="btn hero__cta">inscrições</button>
+      </section>
 
-    <!-- ===================== PERGUNTAS FREQUENTES ===================== -->
-    <section id="faq" class="faq">
-      <h2 class="faq__title">perguntas<br>frequentes</h2>
+      <!-- ===================== 2. COMPETIÇÕES (CARROSSEL) ===================== -->
+      <section id="competicoes" class="competitions">
+        <h2 class="competitions__title">COMPETIÇÕES</h2>
 
-      <ul class="faq__list">
-        <li class="faq__item">
-          <button class="faq__question">
-            <!-- pergunta 1 -->
-            <span class="faq__icon">+</span>
-          </button>
-          <div class="faq__answer">
-            <!-- resposta 1 -->
+        <div class="competitions__carousel">
+          <div class="competitions__track">
+            <article class="competitions__card"></article>
+            <article class="competitions__card competitions__card--active"></article>
+            <article class="competitions__card"></article>
           </div>
-        </li>
-        <li class="faq__item">
-          <button class="faq__question">
-            <!-- pergunta 2 -->
-            <span class="faq__icon">+</span>
-          </button>
-          <div class="faq__answer">
-            <!-- resposta 2 -->
-          </div>
-        </li>
-        <li class="faq__item">
-          <button class="faq__question">
-            <!-- pergunta 3 -->
-            <span class="faq__icon">+</span>
-          </button>
-          <div class="faq__answer">
-            <!-- resposta 3 -->
-          </div>
-        </li>
-        <li class="faq__item">
-          <button class="faq__question">
-            <!-- pergunta 4 -->
-            <span class="faq__icon">+</span>
-          </button>
-          <div class="faq__answer">
-            <!-- resposta 4 -->
-          </div>
-        </li>
-      </ul>
-    </section>
 
-  </main>
+          <div class="competitions__pagination">
+            <button class="competitions__arrow competitions__arrow--prev" aria-label="Anterior">&lt;</button>
+            <div class="competitions__dots">
+              <span class="competitions__dot"></span>
+              <span class="competitions__dot"></span>
+              <span class="competitions__dot competitions__dot--active"></span>
+              <span class="competitions__dot"></span>
+              <span class="competitions__dot"></span>
+            </div>
+            <button class="competitions__arrow competitions__arrow--next" aria-label="Próximo">&gt;</button>
+          </div>
+        </div>
 
-  <!-- ===================== FOOTER (componente global) ===================== -->
-  <div id="footer-root"></div>
+        <button class="btn competitions__cta">concursos</button>
+      </section>
 
-  <script type="module" src="/src/main.ts"></script>
-</body>
+      <!-- ===================== 3. O QUE É A RYTH (SOBRE) ===================== -->
+      <section id="sobre" class="about">
+        <!-- Bloco Superior: Título + Divisor Verde + Descrição -->
+        <div class="about__header">
+          <div class="about__title-wrapper">
+            <h2 class="about__title">O que<br />é a<br />RYTH?</h2>
+          </div>
+
+          <div class="about__divider"></div>
+
+          <div class="about__description">
+            <p>
+              A plataforma que conecta dança, música e oportunidades em um só lugar. Descubra talentos, fortaleça sua trajetória e faça parte de um ecossistema criado para transformar paixão em reconhecimento e talento em oportunidades reais.
+            </p>
+          </div>
+        </div>
+
+        <!-- Bloco Inferior: Citação + Placeholder do Vídeo -->
+        <div class="about__body">
+          <div class="about__quote-container">
+            <span class="about__quote-mark">“</span>
+            <p class="about__quote">
+              Entre palco, música, dança e os bastidores da profissão, nasceu a RYTH. O projeto já foi finalista do Negócios do Futuro 2025, primeiro programa do Sebrae voltado à tokenização e Web3, e hoje integra o programa de aceleração Startup Win.
+            </p>
+            <span class="about__quote-mark about__quote-mark--close">”</span>
+          </div>
+
+          <div class="about__media">
+            <div class="about__video-placeholder">
+              <span>VÍDEO</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+            <!-- ===================== 4. COMO FUNCIONA ===================== -->
+      <section id="como-funciona" class="how-it-works">
+        <h2 class="how-it-works__title">Como funciona uma<br />competição?</h2>
+
+        <div class="how-it-works__grid">
+          <!-- Card 1 -->
+          <article class="how-it-works__card">
+            <svg class="how-it-works__icon" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z" />
+            </svg>
+            <h3 class="how-it-works__card-title">Abertura da competição</h3>
+            <p class="how-it-works__card-text">
+              Cada competição começa com um novo desafio. Confira o tema, as regras, os critérios de participação, os prêmios e o prazo para enviar seu conteúdo.
+            </p>
+          </article>
+
+          <!-- Card 2 -->
+          <article class="how-it-works__card">
+            <svg class="how-it-works__icon" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z" />
+            </svg>
+            <h3 class="how-it-works__card-title">Envie seu vídeo</h3>
+            <p class="how-it-works__card-text">
+              Crie um vídeo seguindo a proposta da competição e envie diretamente pela RYTH. Antes de publicar, confira se ele atende às regras do desafio.
+            </p>
+          </article>
+
+          <!-- Card 3 -->
+          <article class="how-it-works__card">
+            <svg class="how-it-works__icon" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z" />
+            </svg>
+            <h3 class="how-it-works__card-title">Votação do público</h3>
+            <p class="how-it-works__card-text">
+              Os vídeos participantes ficam disponíveis para votação. A comunidade assiste aos conteúdos e vota nos seus favoritos. Tenha ainda mais chances de ganhar divulgando e engajando também pelas suas redes sociais.
+            </p>
+          </article>
+
+          <!-- Card 4 -->
+          <article class="how-it-works__card">
+            <svg class="how-it-works__icon" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z" />
+            </svg>
+            <h3 class="how-it-works__card-title">Resultado e premiação</h3>
+            <p class="how-it-works__card-text">
+              Ao fim da votação, o resultado é divulgado nas redes sociais e na plataforma da RYTH. Os vencedores são anunciados e recebem a premiação prevista para aquela competição.
+            </p>
+          </article>
+        </div>
+      </section>
+
+  <!-- ===================== 5. PARCERIAS & MÚSICAS ===================== -->
+      <section id="parcerias-musicas" class="partnerships-music">
+        <!-- Card 1: Parcerias (Fundo Verde) -->
+        <div id="parcerias" class="partnerships-music__card partnerships-music__card--green">
+          <h2 class="partnerships-music__title partnerships-music__title--purple">Parcerias</h2>
+          <p class="partnerships-music__text partnerships-music__text--dark">
+            Conectamos artistas, produtores, marcas e iniciativas que acreditam no poder da dança e da música para criar novas oportunidades. Juntos, fortalecemos todo o ecossistema criativo.
+          </p>
+          <button class="btn partnerships-music__cta partnerships-music__cta--purple">seja um parceiro</button>
+        </div>
+
+        <!-- Card 2: Músicas (Fundo Roxo) -->
+        <div id="musicas" class="partnerships-music__card partnerships-music__card--purple">
+          <h2 class="partnerships-music__title partnerships-music__title--green">Músicas</h2>
+          <p class="partnerships-music__text partnerships-music__text--light">
+            Descubra as músicas que movimentam a comunidade e inspiram novos desafios. Aqui, cada lançamento pode se transformar em criatividade, conexão e novas oportunidades para artistas e dançarinos.
+          </p>
+          <button class="btn partnerships-music__cta partnerships-music__cta--green">envie sua música</button>
+        </div>
+      </section>
+        <!-- ===================== 6. QUEM ESTÁ POR TRÁS ===================== -->
+      <section id="time" class="team">
+        <div class="team__container">
+          <!-- Coluna da Esquerda: Card da Foto com moldura verde deslocada -->
+          <div class="team__photo-wrapper">
+            <div class="team__photo-bg"></div>
+            <div class="team__photo">
+              <!-- Placeholder para a foto de Wallace Costa -->
+            </div>
+          </div>
+
+          <!-- Coluna da Direita: Título em Verde, Nome em Roxo e Bio -->
+          <div class="team__content">
+            <h2 class="team__title">Quem está<br />por trás</h2>
+            <h3 class="team__name">Wallace Costa</h3>
+            <p class="team__bio">
+              Wallace começou a dançar aos 11 anos e, aos 18, já levava sua arte para palcos e festivais ao redor do mundo. Sua trajetória soma passagens por mais de 15 países e apresentações ao lado de grandes nomes da música brasileira, como Anitta e IZA. Nos últimos quatro anos, integrou o show de Pedro Sampaio, acompanhando o artista também em sua turnê mundial e consolidando sua carreira na dança profissional.
+            </p>
+          </div>
+        </div>
+      </section>
+      <!-- ===================== 7. FAQ (PERGUNTAS FREQUENTES) ===================== -->
+      <section id="faq" class="faq">
+        <h2 class="faq__title">perguntas<br />frequentes</h2>
+        <ul class="faq__list">
+          <!-- Conteúdo gerado dinamicamente via Sanity pelo TypeScript -->
+        </ul>
+      </section>
+    </main>
+
+    <!-- Footer (Injetado dinamicamente pelo main.ts) -->
+    <footer id="footer-root"></footer>
+
+    <!-- Script principal do Vite -->
+    <script type="module" src="/src/main.ts"></script>
+  </body>
 </html>
