@@ -34,3 +34,21 @@ declare module '*.jpeg' {
     const content: string;
     export default content;
 }
+
+import { defineConfig } from 'vite'
+import { resolve } from 'path'
+
+export default defineConfig({
+  base: './',
+  build: {
+    rollupOptions: {
+      input: {
+        main: resolve(__dirname, 'index.html'),
+        competicoes: resolve(__dirname, 'src/pages/competicoes/competicoes.html'),
+        contratacao: resolve(__dirname, 'src/pages/contratacao/contratacao.html'),
+        login: resolve(__dirname, 'src/pages/login/login.html'),
+        perfil: resolve(__dirname, 'src/pages/perfil/perfil.html'),
+      },
+    },
+  },
+})
