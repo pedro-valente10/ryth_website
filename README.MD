@@ -16,5 +16,28 @@ Site institucional da RYTH, construído com **Vite + TypeScript**, sem framework
 ## Estrutura de pastas
 
 ```
-ryth\_website/ ├── .editorconfig ├── .gitignore ├── README.MD ├── index.html ├── package.json ├── package-lock.json ├── pegacodigo.py ├── projeto\_consolidado.txt ├── tsconfig.json ├── vite.config.ts ├── public/ │ └── favicon.svg ├── ryth-studio/ └── src/ ├── main.ts ├── vite-env.d.ts ├── assets/ │ └── icons/ │ └── ryth-logo.svg ├── components/ │ ├── footer/ │ │ ├── footer.css │ │ └── footer.ts │ └── navbar/ │ ├── navbar.css │ └── navbar.ts ├── pages/ │ ├── competicoes/ │ ├── contratacao/ │ ├── home/ │ ├── login/ │ └── perfil/ ├── services/ │ ├── cms.ts │ └── sanity.ts └── styles/ ├── global.css ├── reset.css └── variables.css
+ryth_website/
+├── index.html                  # Página inicial (home) — entry point do Vite
+├── public/                     # Arquivos estáticos servidos sem processamento
+│   └── favicon.svg
+├── src/
+│   ├── main.ts                 # Entry point TypeScript, importa estilos e inicializa componentes globais
+│   ├── vite-env.d.ts           # Referência de tipos do Vite (necessário p/ imports de .svg, .css, etc.)
+│   ├── styles/
+│   │   ├── reset.css
+│   │   ├── global.css
+│   │   └── variables.css       # Cores, fontes e outras variáveis CSS globais
+│   ├── assets/
+│   │   └── icons/
+│   │       └── ryth-logo.svg   # Logo usada nos componentes (navbar, footer)
+│   ├── components/
+│   │   ├── navbar/
+│   │   │   ├── navbar.ts       # Template + função renderNavbar()
+│   │   │   └── navbar.css
+│   │   └── footer/
+│   │       ├── footer.ts       # Template + função renderFooter()
+│   │       └── footer.css
+│   └── pages/                  # Páginas internas do site (cada uma com seu próprio index.html)
+├── tsconfig.json
+└── vite.config.ts
 ```
