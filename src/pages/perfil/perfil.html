@@ -1,32 +1,76 @@
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RYTH - Perfil</title>
 
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-
-  <link rel="stylesheet" type="text/css" href="src/pages/competicoes/competicoes.css"/>
-  
+  <link rel="stylesheet" type="text/css" href="/src/pages/perfil/perfil.css" />
 </head>
 <body>
 
-  <!-- ===================== NAVBAR (componente global) ===================== -->
+  <!-- Navbar (Injetada dinamicamente pelo main.ts) -->
   <div id="navbar-root"></div>
 
-  <main class="main">
+  <main class="profile-page">
+    <section class="profile">
+      <div class="profile__container">
 
+        <!-- Header: Foto de Perfil + Capa + Redes Sociais -->
+        <div class="profile__header">
+          <div class="profile__user">
+            <div class="profile__avatar">
+              <span>foto de perfil</span>
+            </div>
+            <h1 class="profile__name" id="user-name">Lorem ipsum</h1>
+          </div>
 
+          <div class="profile__cover-container">
+            <div class="profile__cover"></div>
+            <div class="profile__socials">
+              <a href="#" class="profile__social-link" aria-label="Instagram">
+                <img src="/src/assets/icons/white-instagram.svg" alt="Instagram" class="profile__social-icon" />
+              </a>
+              <a href="#" class="profile__social-link" aria-label="TikTok">
+                <img src="/src/assets/icons/white-tiktok.svg" alt="TikTok" class="profile__social-icon" />
+              </a>
+            </div>
+          </div>
+        </div>
 
+        <!-- Estatística de Competições + Descrição -->
+        <div class="profile__stats-section">
+          <div class="profile__badge">
+            <span class="profile__badge-sub">participou de</span>
+            <strong class="profile__badge-count" id="competitions-count">X</strong>
+            <span class="profile__badge-title">competições</span>
+          </div>
 
+          <p class="profile__description">
+            Seu perfil, sua identidade. Destaque seu talento, compartilhe sua trajetória e conecte-se a novas oportunidades.
+          </p>
+        </div>
 
+        <!-- Barra de Abas (Navegação em Pílula Roxa) -->
+        <nav class="profile__tabs">
+          <button class="profile__tab profile__tab--active">Lorem ipsum</button>
+          <button class="profile__tab">Lorem ipsum</button>
+          <button class="profile__tab">Lorem ipsum</button>
+          <button class="profile__tab">Lorem ipsum</button>
+        </nav>
 
+        <!-- Botão Editar -->
+        <button class="profile__btn-edit" id="btn-editar">editar</button>
 
-    
- </main>
+      </div>
+    </section>
+  </main>
 
-  <!-- ===================== FOOTER (componente global) ===================== -->
+  <!-- Footer (Injetado dinamicamente pelo main.ts) -->
   <div id="footer-root"></div>
 
+  <script type="module" src="/src/pages/perfil/perfil.ts"></script>
   <script type="module" src="/src/main.ts"></script>
 </body>
 </html>
