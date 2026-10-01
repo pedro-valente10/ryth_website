@@ -7,16 +7,27 @@ export async function renderNavbar(rootSelector: string = "#navbar-root"): Promi
   const root = document.querySelector(rootSelector);
   if (!root) return;
 
-  // Injeta o HTML na página
+  // Injeta o template HTML na página
   root.innerHTML = navbarHtml;
 
-  // Insere dinamicamente o caminho do logo processado pelo bundler
+  // Injeta a logo
   const logoImage = root.querySelector<HTMLImageElement>("#navbar-logo");
   if (logoImage) {
     logoImage.src = logoUrl;
   }
 
-  // Botão de conta: Login ou Perfil, conforme a sessão
+  // Vincula a marca/logo à Home
+  const brandLink = root.querySelector<HTMLAnchorElement>(".navbar__brand");
+  if (brandLink) brandLink.href = ROTAS.home;
+
+  // Vincula os links de navegação estáticos
+  const contratacaoLink = root.querySelector<HTMLAnchorElement>('a[href*="contratacao"]');
+  if (contratacaoLink) contratacaoLink.href = ROTAS.contratacao;
+
+  const competicoesLink = root.querySelector<HTMLAnchorElement>('a[href*="competicoes"]');
+  if (competicoesLink) competicoesLink.href = ROTAS.competicoes;
+
+  // Vincula o botão de conta (Login ou Perfil de acordo com a sessão)
   const contaLink = root.querySelector<HTMLAnchorElement>("#navbar-account");
   if (contaLink) {
     try {
