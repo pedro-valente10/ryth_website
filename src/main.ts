@@ -4,11 +4,9 @@ import "./styles/variables.css";
 
 import "./components/navbar/navbar.css";
 import "./components/footer/footer.css";
-import "./pages/home/index.css"; // <--- Todo o CSS da Home (incluindo FAQ) está aqui
 
 import { renderNavbar } from "./components/navbar/navbar";
 import { renderFooter } from "./components/footer/footer";
-import { renderizarFAQ } from "./components/faq/faq";
 
 function markActiveLink(): void {
   const normalize = (path: string): string =>
@@ -29,8 +27,10 @@ function markActiveLink(): void {
     });
 }
 
-// Injeção dos componentes
-renderNavbar();
-markActiveLink();
-renderFooter();
-renderizarFAQ();
+async function init(): Promise<void> {
+  renderFooter();
+  await renderNavbar();   // espera a sessão do usuário
+  markActiveLink();       // só depois, com os links já na tela
+}
+
+init();
