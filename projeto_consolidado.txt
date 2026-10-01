@@ -1,41 +1,11 @@
 ========================================
-ARQUIVO: ./.editorconfig
+ARQUIVO: .\.editorconfig
 ========================================
 
 
 
 ========================================
-ARQUIVO: ./pegacodigo.py
-========================================
-
-import os
-
-output_file = 'projeto_consolidado.txt'
-ignore_dirs = {'node_modules', '.git', 'dist', 'build', '.vscode'}
-ignore_exts = {'.png', '.jpg', '.jpeg', '.svg', '.ico', '.woff', '.woff2', '.ttf', '.lock'}
-
-with open(output_file, 'w', encoding='utf-8') as outfile:
-    for root, dirs, files in os.walk('.'):
-        dirs[:] = [d for d in dirs if d not in ignore_dirs]
-        for file in files:
-            if file == output_file or file == 'package-lock.json' or any(file.endswith(ext) for ext in ignore_exts):
-                continue
-            path = os.path.join(root, file)
-            outfile.write(f'========================================\n')
-            outfile.write(f'ARQUIVO: {path}\n')
-            outfile.write(f'========================================\n\n')
-            try:
-                with open(path, 'r', encoding='utf-8') as f:
-                    outfile.write(f.read())
-            except Exception:
-                outfile.write('[Arquivo não lido ou binário]\n')
-            outfile.write('\n\n')
-
-print('Concluído! Arquivo gerado: projeto_consolidado.txt')
-
-
-========================================
-ARQUIVO: ./.gitignore
+ARQUIVO: .\.gitignore
 ========================================
 
 node_modules/
@@ -45,63 +15,7 @@ dist/
 
 
 ========================================
-ARQUIVO: ./package.json
-========================================
-
-{
-    "name": "ryth",
-    "private": true,
-    "version": "0.1.0",
-    "type": "module",
-    "scripts": {
-        "dev": "vite",
-        "build": "tsc && vite build",
-        "preview": "vite preview",
-        "dev:all": "concurrently \"npm run dev\" \"npm --prefix ./ryth-studio run dev\""
-    },
-    "devDependencies": {
-        "@types/node": "^26.6.2",
-        "concurrently": "^10.0.5",
-        "typescript": "^5.9.2",
-        "vite": "^7.1.5"
-    },
-    "dependencies": {
-        "@sanity/client": "^8.8.0",
-        "@sanity/image-url": "^2.1.1"
-    }
-}
-
-
-========================================
-ARQUIVO: ./.env
-========================================
-
-VITE_SANITY_PROJECT_ID=8q2pttmv
-VITE_SANITY_DATASET=production
-
-========================================
-ARQUIVO: ./vite.config.ts
-========================================
-
-// ryth_website/vite.config.ts
-import { defineConfig } from 'vite';
-
-export default defineConfig({
-  // ... outras configurações do Vite que você já tiver ...
-  server: {
-    proxy: {
-      '/studio': {
-        target: 'http://localhost:3333', // Redireciona para o servidor do Sanity
-        changeOrigin: true,
-        ws: true,
-      },
-    },
-  },
-});
-
-
-========================================
-ARQUIVO: ./index.html
+ARQUIVO: .\index.html
 ========================================
 
 <!DOCTYPE html>
@@ -110,7 +24,10 @@ ARQUIVO: ./index.html
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>RYTH - Conectando Dança, Música e Oportunidades</title>
-  <link rel="stylesheet" href="/src/pages/home/index.css" />
+
+  <script type="module" src="/src/pages/home/index.ts"></script>
+  <script type="module" src="/src/main.ts"></script>
+
 </head>
   <body>
     <!-- Navbar (Injetada dinamicamente pelo main.ts) -->
@@ -296,14 +213,70 @@ ARQUIVO: ./index.html
 
     <!-- Footer (Injetado dinamicamente pelo main.ts) -->
     <footer id="footer-root"></footer>
-
-    <!-- Script principal do Vite -->
-    <script type="module" src="/src/main.ts"></script>
   </body>
 </html>
 
 ========================================
-ARQUIVO: ./README.MD
+ARQUIVO: .\package.json
+========================================
+
+{
+    "name": "ryth",
+    "private": true,
+    "version": "0.1.0",
+    "type": "module",
+    "scripts": {
+        "dev": "vite",
+        "build": "tsc && vite build",
+        "preview": "vite preview",
+        "dev:all": "concurrently \"npm run dev\" \"npm --prefix ./ryth-studio run dev\""
+    },
+    "devDependencies": {
+        "@types/node": "^26.6.2",
+        "concurrently": "^10.0.5",
+        "typescript": "^5.9.2",
+        "vite": "^7.1.5"
+    },
+    "dependencies": {
+        "@sanity/client": "^8.8.0",
+        "@sanity/image-url": "^2.1.1",
+        "@supabase/supabase-js": "^2.117.2"
+    }
+}
+
+
+========================================
+ARQUIVO: .\pegacodigo.py
+========================================
+
+import os
+
+output_file = 'projeto_consolidado.txt'
+ignore_dirs = {'node_modules', '.git', 'dist', 'build', '.vscode'}
+ignore_exts = {'.png', '.jpg', '.jpeg', '.svg', '.ico', '.woff', '.woff2', '.ttf', '.lock'}
+
+with open(output_file, 'w', encoding='utf-8') as outfile:
+    for root, dirs, files in os.walk('.'):
+        dirs[:] = [d for d in dirs if d not in ignore_dirs]
+        for file in files:
+            if file == output_file or file == 'package-lock.json' or any(file.endswith(ext) for ext in ignore_exts):
+                continue
+            path = os.path.join(root, file)
+            outfile.write(f'========================================\n')
+            outfile.write(f'ARQUIVO: {path}\n')
+            outfile.write(f'========================================\n\n')
+            try:
+                with open(path, 'r', encoding='utf-8') as f:
+                    outfile.write(f.read())
+            except Exception:
+                outfile.write('[Arquivo não lido ou binário]\n')
+            outfile.write('\n\n')
+
+print('Concluído! Arquivo gerado: projeto_consolidado.txt')
+
+
+========================================
+ARQUIVO: .\README.MD
 ========================================
 
 # RYTH Website
@@ -320,32 +293,6 @@ Site institucional da RYTH, construído com **Vite + TypeScript**, sem framework
 
 - Node.js (LTS mais recente recomendado)
 - npm
-
-## Configuração do ambiente
-
-Clone o repositório e instale as dependências:
-
-```bash
-git clone <url-do-repositorio>
-cd ryth_website
-npm install
-```
-
-Rode o servidor de desenvolvimento:
-
-```bash
-npm run dev
-```
-
-A aplicação abre em `http://localhost:5173/`.
-
-Build de produção:
-
-```bash
-npm run build
-```
-
-Os arquivos finais são gerados em `dist/`.
 
 ## Estrutura de pastas
 
@@ -376,55 +323,9 @@ ryth_website/
 └── vite.config.ts
 ```
 
-## Convenções do projeto
-
-### Componentes globais (Navbar / Footer)
-
-Navbar e footer são **iguais em todas as páginas do site**. Em vez de duplicar HTML, cada um é uma função TypeScript que injeta seu template num container:
-
-```html
-<!-- em qualquer página -->
-<div id="navbar-root"></div>
-<!-- ...conteúdo da página... -->
-<div id="footer-root"></div>
-```
-
-```ts
-// no main.ts (ou entry point da página)
-import { renderNavbar } from "./components/navbar/navbar";
-import { renderFooter } from "./components/footer/footer";
-
-renderNavbar();
-renderFooter();
-```
-
-Essa abordagem foi escolhida por performance: o HTML já vem como string estática no `.ts`, sem `fetch` nem parsing assíncrono extra.
-
-### CSS
-
-Nomenclatura de classes em **BEM** (`bloco__elemento--modificador`), ex: `navbar__link--login`.
-
-Variáveis globais (cores, fontes) ficam centralizadas em `src/styles/variables.css` e são consumidas via `var(--nome-da-variavel)` nos demais arquivos CSS.
-
-### Assets: `src/assets/` vs `public/`
-
-- **`src/assets/`** — para tudo que é referenciado dentro do código (importado em `.ts`/`.css`). O Vite processa, otimiza e faz cache-busting desses arquivos no build. Ex: a logo usada no navbar/footer.
-- **`public/`** — para arquivos que precisam de uma URL fixa, sem processamento (ex: `favicon.svg`). Tudo aqui é copiado como está para a raiz do `dist` no build, e pode ser referenciado por caminho absoluto (`/favicon.svg`) de qualquer página.
-
-### Múltiplas páginas
-
-O projeto é multi-página: a home fica na raiz (`index.html`), e páginas internas devem ser criadas em `src/pages/<nome>/index.html`.
-
-Ao criar uma **segunda** página, é necessário declarar todas as entradas no `vite.config.ts` (incluindo a da raiz) em `build.rollupOptions.input`, já que o Vite por padrão só builda o `index.html` da raiz automaticamente. Há um exemplo comentado no próprio `vite.config.ts`.
-
-## Troubleshooting comum
-
-- **`Cannot find module` em algum import**: confira se o caminho relativo bate com a localização real do arquivo (ex: `main.ts` está em `src/`, então imports dele para `src/components/...` devem ser `./components/...`, sem repetir `src/`).
-- **Erro 404 de algum `.ts`/`.css` no navegador**: caminhos absolutos (`/algo`) no HTML são resolvidos a partir da raiz do projeto (onde fica o `vite.config.ts`), não da pasta onde está o HTML.
-- **`Cannot find module '...svg'` no TypeScript**: confirme que existe `src/vite-env.d.ts` com `/// <reference types="vite/client" />`, e que o `tsconfig.json` tem `"include": ["src"]` (não só um arquivo específico).
 
 ========================================
-ARQUIVO: ./tsconfig.json
+ARQUIVO: .\tsconfig.json
 ========================================
 
 {
@@ -450,7 +351,323 @@ ARQUIVO: ./tsconfig.json
   }
 
 ========================================
-ARQUIVO: ./src/main.ts
+ARQUIVO: .\vite.config.ts
+========================================
+
+// ryth_website/vite.config.ts
+import { defineConfig } from 'vite';
+
+export default defineConfig({
+  // ... outras configurações do Vite que você já tiver ...
+  server: {
+    proxy: {
+      '/studio': {
+        target: 'http://localhost:3333', // Redireciona para o servidor do Sanity
+        changeOrigin: true,
+        ws: true,
+      },
+    },
+  },
+});
+
+
+========================================
+ARQUIVO: .\ryth-studio\.gitignore
+========================================
+
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# Dependencies
+/node_modules
+/.pnp
+.pnp.js
+
+# Compiled Sanity Studio
+/dist
+
+# Temporary Sanity runtime, generated by the CLI on every dev server start
+/.sanity
+
+# Logs
+/logs
+*.log
+
+# Coverage directory used by testing tools
+/coverage
+
+# Misc
+.DS_Store
+*.pem
+
+# Typescript
+*.tsbuildinfo
+
+# Dotenv and similar local-only files
+*.local
+
+
+========================================
+ARQUIVO: .\ryth-studio\eslint.config.mjs
+========================================
+
+import studio from '@sanity/eslint-config-studio'
+
+export default [...studio]
+
+
+========================================
+ARQUIVO: .\ryth-studio\package.json
+========================================
+
+{
+  "name": "rythwebsite",
+  "private": true,
+  "version": "1.0.0",
+  "main": "package.json",
+  "license": "UNLICENSED",
+  "scripts": {
+    "build": "sanity build",
+    "deploy": "sanity deploy",
+    "deploy-graphql": "sanity graphql deploy",
+    "dev": "sanity dev",
+    "start": "sanity start"
+  },
+  "keywords": [
+    "sanity"
+  ],
+  "dependencies": {
+    "@sanity/vision": "^6.17.0",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4",
+    "sanity": "^6.17.0",
+    "styled-components": "^6.1.18"
+  },
+  "devDependencies": {
+    "@sanity/eslint-config-studio": "^7",
+    "@types/react": "^19.2.14",
+    "eslint": "^10.8.1",
+    "prettier": "^3.5",
+    "typescript": "^5.8"
+  },
+  "prettier": {
+    "bracketSpacing": false,
+    "printWidth": 100,
+    "semi": false,
+    "singleQuote": true
+  }
+}
+
+
+========================================
+ARQUIVO: .\ryth-studio\README.md
+========================================
+
+# Ryth Studio
+
+Painel de edição de conteúdo (Sanity Studio) do site Ryth.
+
+- Rodar localmente: `npm run dev`
+- Publicar: `npm run deploy`
+- Schemas em `schemaTypes/`: `competicao`, `faq`
+
+========================================
+ARQUIVO: .\ryth-studio\sanity.cli.ts
+========================================
+
+import {defineCliConfig} from 'sanity/cli'
+
+export default defineCliConfig({
+  api: {
+    projectId: '8q2pttmv',
+    dataset: 'production'
+  },
+  deployment: {
+    /**
+     * Enable auto-updates for studios.
+     * Learn more at https://www.sanity.io/docs/studio/latest-version-of-sanity#k47faf43faf56
+     */
+    autoUpdates: true,
+  },
+})
+
+
+========================================
+ARQUIVO: .\ryth-studio\sanity.config.ts
+========================================
+
+import {defineConfig} from 'sanity'
+import {structureTool} from 'sanity/structure'
+import {visionTool} from '@sanity/vision'
+import {schemaTypes} from './schemaTypes'
+
+export default defineConfig({
+  name: 'default',
+  title: 'rythwebsite',
+
+  projectId: '8q2pttmv',
+  dataset: 'production',
+
+  basePath: '/studio',
+
+  plugins: [structureTool(), visionTool()],
+
+  schema: {
+    types: schemaTypes,
+  },
+})
+
+
+========================================
+ARQUIVO: .\ryth-studio\tsconfig.json
+========================================
+
+{
+  "compilerOptions": {
+    "target": "ES2017",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "module": "Preserve",
+    "moduleDetection": "force",
+    "isolatedModules": true,
+    "jsx": "preserve",
+    "incremental": true
+  },
+  "include": ["**/*.ts", "**/*.tsx"],
+  "exclude": ["node_modules"]
+}
+
+
+========================================
+ARQUIVO: .\ryth-studio\schemaTypes\competicao.ts
+========================================
+
+import { defineType, defineField } from 'sanity'
+
+export const competicaoType = defineType({
+  name: 'competicao',
+  title: 'Competições',
+  type: 'document',
+  fields: [
+    defineField({
+      name: 'titulo',
+      title: 'Título da Competição',
+      type: 'string',
+      validation: (Rule) => Rule.required(),
+    }),
+    defineField({
+      name: 'slug',
+      title: 'Identificador URL (Slug)',
+      type: 'slug',
+      options: {
+        source: 'titulo',
+        maxLength: 96,
+      },
+    }),
+    defineField({
+      name: 'imagem',
+      title: 'Imagem / Banner da Competição',
+      type: 'image',
+      options: {
+        hotspot: true, // Permite ajustar o corte da imagem no painel
+      },
+      validation: (Rule) => Rule.required(),
+    }),
+    defineField({
+      name: 'data',
+      title: 'Data do Evento',
+      type: 'date',
+      options: {
+        dateFormat: 'DD/MM/YYYY',
+      },
+    }),
+    defineField({
+      name: 'local',
+      title: 'Local / Cidade',
+      type: 'string',
+    }),
+    defineField({
+      name: 'status',
+      title: 'Status das Inscrições',
+      type: 'string',
+      options: {
+        list: [
+          { title: 'Inscrições Abertas', value: 'abertas' },
+          { title: 'Em Breve', value: 'breve' },
+          { title: 'Encerrado', value: 'encerrado' },
+        ],
+        layout: 'radio',
+      },
+      initialValue: 'abertas',
+    }),
+    defineField({
+      name: 'descricao',
+      title: 'Descrição Resumida',
+      type: 'text',
+      rows: 3,
+    }),
+    defineField({
+      name: 'linkInscricao',
+      title: 'Link para Inscrição / Edital',
+      type: 'url',
+    }),
+  ],
+  preview: {
+    select: {
+      title: 'titulo',
+      subtitle: 'local',
+      media: 'imagem',
+    },
+  },
+})
+
+========================================
+ARQUIVO: .\ryth-studio\schemaTypes\faq.ts
+========================================
+
+import { defineType, defineField } from 'sanity'
+
+export const faqType = defineType({
+  name: 'faq',
+  title: 'Perguntas Frequentes (FAQ)',
+  type: 'document',
+  fields: [
+    defineField({
+      name: 'pergunta',
+      title: 'Pergunta',
+      type: 'string',
+    }),
+    defineField({
+      name: 'resposta',
+      title: 'Resposta',
+      type: 'text',
+    }),
+  ],
+})
+
+========================================
+ARQUIVO: .\ryth-studio\schemaTypes\index.ts
+========================================
+
+import { faqType } from './faq'
+import { competicaoType } from './competicao'
+
+export const schemaTypes = [
+  faqType,
+  competicaoType, // Registra o novo schema aqui
+]
+
+========================================
+ARQUIVO: .\ryth-studio\static\.gitkeep
+========================================
+
+Files placed here will be served by the Sanity server under the `/static`-prefix
+
+
+========================================
+ARQUIVO: .\src\main.ts
 ========================================
 
 import "./styles/reset.css";
@@ -459,11 +676,9 @@ import "./styles/variables.css";
 
 import "./components/navbar/navbar.css";
 import "./components/footer/footer.css";
-import "./pages/home/index.css"; // <--- Todo o CSS da Home (incluindo FAQ) está aqui
 
 import { renderNavbar } from "./components/navbar/navbar";
 import { renderFooter } from "./components/footer/footer";
-import { renderizarFAQ } from "./components/faq/faq";
 
 function markActiveLink(): void {
   const normalize = (path: string): string =>
@@ -484,14 +699,17 @@ function markActiveLink(): void {
     });
 }
 
-// Injeção dos componentes
-renderNavbar();
-markActiveLink();
-renderFooter();
-renderizarFAQ();
+async function init(): Promise<void> {
+  renderFooter();
+  await renderNavbar();   // espera a sessão do usuário
+  markActiveLink();       // só depois, com os links já na tela
+}
+
+init();
+
 
 ========================================
-ARQUIVO: ./src/vite-env.d.ts
+ARQUIVO: .\src\vite-env.d.ts
 ========================================
 
 /// <reference types="vite/client" />
@@ -531,74 +749,79 @@ declare module '*.jpeg' {
     export default content;
 }
 
-========================================
-ARQUIVO: ./src/components/header/header.html
-========================================
+import { defineConfig } from 'vite'
+import { resolve } from 'path'
 
-
-
-========================================
-ARQUIVO: ./src/components/header/header.ts
-========================================
-
-
-
-========================================
-ARQUIVO: ./src/components/header/header.css
-========================================
-
-
-
-========================================
-ARQUIVO: ./src/components/modal/modal.css
-========================================
-
-
+export default defineConfig({
+  base: './',
+  build: {
+    rollupOptions: {
+      input: {
+        main: resolve(__dirname, 'index.html'),
+        competicoes: resolve(__dirname, 'src/pages/competicoes/competicoes.html'),
+        contratacao: resolve(__dirname, 'src/pages/contratacao/contratacao.html'),
+        login: resolve(__dirname, 'src/pages/login/login.html'),
+        perfil: resolve(__dirname, 'src/pages/perfil/perfil.html'),
+      },
+    },
+  },
+})
 
 ========================================
-ARQUIVO: ./src/components/modal/modal.ts
+ARQUIVO: .\src\assets\fonts\monumentextended-regular.otf
 ========================================
 
+[Arquivo não lido ou binário]
 
 
 ========================================
-ARQUIVO: ./src/components/modal/modal.html
+ARQUIVO: .\src\assets\fonts\monumentextended-ultrabold.otf
 ========================================
 
+[Arquivo não lido ou binário]
 
 
 ========================================
-ARQUIVO: ./src/components/footer/footer.html
+ARQUIVO: .\src\components\faq\faq.ts
 ========================================
 
-<footer class="footer">
-    <div class="footer__brand">
-      <img src="" alt="RYTH" class="footer__logo" id="footer-logo" />
-      <span class="footer__wordmark">RYTH</span>
-      
-  </div>
-  
-    <p class="footer__text">
-      A RYTH conecta dança, música e mercado para transformar talento em
-      oportunidade real. Acompanhe nossas redes sociais e faça parte de uma
-      comunidade que valoriza a criatividade, a autoria e o desenvolvimento
-      de novos talentos.
-    </p>
-  
-    <div class="footer__social">
-      <a href="#" class="footer__social-icon" aria-label="Instagram">
-        <img src="/src/assets/icons/instagram-icon.svg" alt="" width="24" height="24">
-      </a>
-      <a href="#" class="footer__social-icon" aria-label="TikTok">
-        <img src="/src/assets/icons/tiktok-icon.svg" alt="" width="24" height="24">
-      </a>
-    </div>
-      </a>
-  </div>
-  </footer>
+import { cmsFetch } from "../../services/cms";
+
+type FaqItem = { pergunta: string; resposta: string };
+
+export async function renderizarFAQ(): Promise<void> {
+  const faqContainer = document.querySelector<HTMLElement>('.faq__list');
+  if (!faqContainer) return;
+
+  // Só busca os campos necessários e define a ordem
+  const faqs = await cmsFetch<FaqItem[]>(
+    `*[_type == "faq"] | order(_createdAt asc){ pergunta, resposta }`
+  );
+
+  // Se o Sanity falhar ou vier vazio, o HTML padrão da página permanece
+  if (!faqs) return;
+
+  faqContainer.replaceChildren(
+    ...faqs.map((item) => {
+      const li = document.createElement('li');
+      li.className = 'faq__item';
+
+      const h3 = document.createElement('h3');
+      h3.className = 'faq__question';
+      h3.textContent = item.pergunta;
+
+      const p = document.createElement('p');
+      p.className = 'faq__answer';
+      p.textContent = item.resposta;
+
+      li.append(h3, p);
+      return li;
+    })
+  );
+}
 
 ========================================
-ARQUIVO: ./src/components/footer/footer.css
+ARQUIVO: .\src\components\footer\footer.css
 ========================================
 
 body {
@@ -740,7 +963,37 @@ main {
 
 
 ========================================
-ARQUIVO: ./src/components/footer/footer.ts
+ARQUIVO: .\src\components\footer\footer.html
+========================================
+
+<footer class="footer">
+    <div class="footer__brand">
+      <img src="" alt="RYTH" class="footer__logo" id="footer-logo" />
+      <span class="footer__wordmark">RYTH</span>
+      
+  </div>
+  
+    <p class="footer__text">
+      A RYTH conecta dança, música e mercado para transformar talento em
+      oportunidade real. Acompanhe nossas redes sociais e faça parte de uma
+      comunidade que valoriza a criatividade, a autoria e o desenvolvimento
+      de novos talentos.
+    </p>
+  
+    <div class="footer__social">
+      <a href="#" class="footer__social-icon" aria-label="Instagram">
+        <img src="/src/assets/icons/instagram-icon.svg" alt="" width="24" height="24">
+      </a>
+      <a href="#" class="footer__social-icon" aria-label="TikTok">
+        <img src="/src/assets/icons/tiktok-icon.svg" alt="" width="24" height="24">
+      </a>
+    </div>
+      </a>
+  </div>
+  </footer>
+
+========================================
+ARQUIVO: .\src\components\footer\footer.ts
 ========================================
 
 import logoUrl from "../../assets/icons/ryth-logo.svg";
@@ -761,67 +1014,43 @@ export function renderFooter(rootSelector: string = "#footer-root"): void {
 }
 
 ========================================
-ARQUIVO: ./src/components/faq/faq.ts
+ARQUIVO: .\src\components\header\header.css
 ========================================
 
-import { cmsFetch } from "../../services/cms";
 
-type FaqItem = { pergunta: string; resposta: string };
-
-export async function renderizarFAQ(): Promise<void> {
-  const faqContainer = document.querySelector<HTMLElement>('.faq__list');
-  if (!faqContainer) return;
-
-  // Só busca os campos necessários e define a ordem
-  const faqs = await cmsFetch<FaqItem[]>(
-    `*[_type == "faq"] | order(_createdAt asc){ pergunta, resposta }`
-  );
-
-  // Se o Sanity falhar ou vier vazio, o HTML padrão da página permanece
-  if (!faqs) return;
-
-  faqContainer.replaceChildren(
-    ...faqs.map((item) => {
-      const li = document.createElement('li');
-      li.className = 'faq__item';
-
-      const h3 = document.createElement('h3');
-      h3.className = 'faq__question';
-      h3.textContent = item.pergunta;
-
-      const p = document.createElement('p');
-      p.className = 'faq__answer';
-      p.textContent = item.resposta;
-
-      li.append(h3, p);
-      return li;
-    })
-  );
-}
 
 ========================================
-ARQUIVO: ./src/components/navbar/navbar.ts
+ARQUIVO: .\src\components\header\header.html
 ========================================
 
-import logoUrl from "../../assets/icons/ryth-logo.svg";
-import navbarHtml from "./navbar.html?raw";
 
-export function renderNavbar(rootSelector: string = "#navbar-root"): void {
-  const root = document.querySelector(rootSelector);
-  if (!root) return;
-
-  // Injeta o HTML na página
-  root.innerHTML = navbarHtml;
-
-  // Insere dinamicamente o caminho do logo processado pelo bundler
-  const logoImage = root.querySelector("#navbar-logo") as HTMLImageElement;
-  if (logoImage) {
-    logoImage.src = logoUrl;
-  }
-}
 
 ========================================
-ARQUIVO: ./src/components/navbar/navbar.css
+ARQUIVO: .\src\components\header\header.ts
+========================================
+
+
+
+========================================
+ARQUIVO: .\src\components\modal\modal.css
+========================================
+
+
+
+========================================
+ARQUIVO: .\src\components\modal\modal.html
+========================================
+
+
+
+========================================
+ARQUIVO: .\src\components\modal\modal.ts
+========================================
+
+
+
+========================================
+ARQUIVO: .\src\components\navbar\navbar.css
 ========================================
 
 .navbar {
@@ -932,7 +1161,7 @@ ARQUIVO: ./src/components/navbar/navbar.css
 }
 
 ========================================
-ARQUIVO: ./src/components/navbar/navbar.html
+ARQUIVO: .\src\components\navbar\navbar.html
 ========================================
 
 <nav class="navbar">
@@ -949,7 +1178,7 @@ ARQUIVO: ./src/components/navbar/navbar.html
         <a href="/src/pages/competicoes/competicoes.html">Competições</a>
       </li>
       <li class="navbar__link navbar__link--login">
-        <a href="/src/pages/login/login.html">Login</a>
+        <a id="navbar-account" href="/src/pages/login/index.html">Login</a>
       </li>
     </ul>
   
@@ -959,169 +1188,59 @@ ARQUIVO: ./src/components/navbar/navbar.html
   </nav>
 
 ========================================
-ARQUIVO: ./src/services/cms.ts
+ARQUIVO: .\src\components\navbar\navbar.ts
 ========================================
 
-// src/services/cms.ts
-import { sanityClient, urlFor } from './sanity'
+import logoUrl from "../../assets/icons/ryth-logo.svg";
+import navbarHtml from "./navbar.html?raw";
+import { usuarioAtual } from "../../services/auth";
+import { ROTAS } from "../../config/routes";
 
-// Retorna null em qualquer falha ou resultado vazio → o HTML padrão permanece
-export async function cmsFetch<T = Record<string, any>>(
-  query: string,
-  params: Record<string, unknown> = {}
-): Promise<T | null> {
-  if (!sanityClient) return null
-  try {
-    const data = await sanityClient.fetch<T>(query, params)
-    if (data == null || (Array.isArray(data) && data.length === 0)) return null
-    return data
-  } catch (err) {
-    console.error('[CMS]', err)
-    return null
+export async function renderNavbar(rootSelector: string = "#navbar-root"): Promise<void> {
+  const root = document.querySelector(rootSelector);
+  if (!root) return;
+
+  // Injeta o HTML na página
+  root.innerHTML = navbarHtml;
+
+  // Insere dinamicamente o caminho do logo processado pelo bundler
+  const logoImage = root.querySelector<HTMLImageElement>("#navbar-logo");
+  if (logoImage) {
+    logoImage.src = logoUrl;
+  }
+
+  // Botão de conta: Login ou Perfil, conforme a sessão
+  const contaLink = root.querySelector<HTMLAnchorElement>("#navbar-account");
+  if (contaLink) {
+    try {
+      const usuario = await usuarioAtual();
+      contaLink.textContent = usuario ? "Perfil" : "Login";
+      contaLink.href = usuario ? ROTAS.perfil : ROTAS.login;
+    } catch {
+      contaLink.textContent = "Login";
+      contaLink.href = ROTAS.login;
+    }
   }
 }
 
-// Preenche o HTML com os dados:
-//   data-cms="campo"                → textContent
-//   data-cms="campo" data-cms-attr="href" → atributo
-//   data-cms-img="campo"            → <img src> a partir de uma imagem do Sanity
-//   data-cms-list="campo" + <template> → lista repetida
-export function applyCms(root: ParentNode, data: Record<string, any>): void {
-  root.querySelectorAll<HTMLElement>('[data-cms]').forEach((el) => {
-    const value = data[el.dataset.cms!]
-    if (typeof value !== 'string') return
-    const attr = el.dataset.cmsAttr
-    if (attr) el.setAttribute(attr, value)
-    else el.textContent = value // textContent evita injeção de HTML
-  })
+========================================
+ARQUIVO: .\src\config\routes.ts
+========================================
 
-  root.querySelectorAll<HTMLImageElement>('[data-cms-img]').forEach((img) => {
-    const src = urlFor(data[img.dataset.cmsImg!])
-    if (src) img.src = src
-  })
-
-  root.querySelectorAll<HTMLElement>('[data-cms-list]').forEach((container) => {
-    const items = data[container.dataset.cmsList!]
-    const tpl = container.querySelector('template')
-    if (!Array.isArray(items) || items.length === 0 || !tpl) return
-
-    Array.from(container.children).forEach((c) => c !== tpl && c.remove())
-    items.forEach((item) => {
-      const node = tpl.content.cloneNode(true) as DocumentFragment
-      applyCms(node, item)
-      container.appendChild(node)
-    })
-  })
+export const ROTAS = {
+  home: '/index.html',
+  login: '/src/pages/login/index.html',
+  perfil: '/src/pages/perfil/index.html',
 }
 
 ========================================
-ARQUIVO: ./src/services/sanity.ts
+ARQUIVO: .\src\pages\competicoes\competicoes.css
 ========================================
 
-// src/services/sanity.ts
-import { createClient } from '@sanity/client'
-import imageUrlBuilder from '@sanity/image-url'
-
-const projectId = import.meta.env.VITE_SANITY_PROJECT_ID
-const dataset = import.meta.env.VITE_SANITY_DATASET || 'production'
-
-if (!projectId) {
-  console.warn('[Sanity] VITE_SANITY_PROJECT_ID ausente: o site usará o conteúdo padrão do HTML.')
-}
-
-// null se não houver projectId, em vez de quebrar a importação
-export const sanityClient = projectId
-  ? createClient({
-      projectId,
-      dataset,
-      useCdn: true, // requisições rápidas via CDN
-      apiVersion: '2024-01-01',
-    })
-  : null
-
-const builder = sanityClient ? imageUrlBuilder(sanityClient) : null
-
-// Gera URLs das imagens cadastradas no Sanity (retorna '' se o Sanity não estiver configurado)
-export function urlFor(source: any): string {
-  return builder && source ? builder.image(source).auto('format').url() : ''
-}
-
-========================================
-ARQUIVO: ./src/assets/fonts/monumentextended-ultrabold.otf
-========================================
-
-[Arquivo não lido ou binário]
 
 
 ========================================
-ARQUIVO: ./src/assets/fonts/monumentextended-regular.otf
-========================================
-
-[Arquivo não lido ou binário]
-
-
-========================================
-ARQUIVO: ./src/styles/global.css
-========================================
-
-body {
-    font-family: var(--font-family);
-    background-color: var(--main-white);
-    color: var(--main-black);
-  }
-
-  html, body {
-  margin: 0;
-  width: 100%;
-  overflow-x: hidden;
-}
-
-*, *::before, *::after {
-  box-sizing: border-box;
-}
-  
-
-========================================
-ARQUIVO: ./src/styles/variables.css
-========================================
-
-@import url('https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@300;400;500;600;700;800;900&display=swap');
-
-@font-face {
-    font-family: 'Monument Extended';
-    src: url('../assets/fonts/monumentextended-regular.otf') format('opentype');
-    font-weight: normal;
-    font-style: normal;
-    font-display: swap;
-}
-
-:root {
-    --black: #000000;
-    --white: #ffffff;
-
-    --main-white: #F8F8FB;
-    --main-black: #060A27;
-    --main-purple: #7728D9;
-    --main-green: #C5F339;
-  
-    --font-family: 'Red Hat Display', sans-serif;
-    --font-monument: 'Monument Extended', sans-serif;
-  }
-  
-
-========================================
-ARQUIVO: ./src/styles/reset.css
-========================================
-
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
-  
-
-========================================
-ARQUIVO: ./src/pages/contratacao/contratacao.html
+ARQUIVO: .\src\pages\competicoes\competicoes.html
 ========================================
 
 <html lang="pt-BR">
@@ -1158,19 +1277,13 @@ ARQUIVO: ./src/pages/contratacao/contratacao.html
 </html>
 
 ========================================
-ARQUIVO: ./src/pages/contratacao/contratacao.css
+ARQUIVO: .\src\pages\contratacao\contratacao.css
 ========================================
 
 
 
 ========================================
-ARQUIVO: ./src/pages/perfil/perfil.css
-========================================
-
-
-
-========================================
-ARQUIVO: ./src/pages/perfil/perfil.html
+ARQUIVO: .\src\pages\contratacao\contratacao.html
 ========================================
 
 <html lang="pt-BR">
@@ -1207,93 +1320,7 @@ ARQUIVO: ./src/pages/perfil/perfil.html
 </html>
 
 ========================================
-ARQUIVO: ./src/pages/competicoes/competicoes.html
-========================================
-
-<html lang="pt-BR">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-
-  <link rel="stylesheet" type="text/css" href="src/pages/competicoes/competicoes.css"/>
-  
-</head>
-<body>
-
-  <!-- ===================== NAVBAR (componente global) ===================== -->
-  <div id="navbar-root"></div>
-
-  <main class="main">
-
-
-
-
-
-
-
-    
- </main>
-
-  <!-- ===================== FOOTER (componente global) ===================== -->
-  <div id="footer-root"></div>
-
-  <script type="module" src="/src/main.ts"></script>
-</body>
-</html>
-
-========================================
-ARQUIVO: ./src/pages/competicoes/competicoes.css
-========================================
-
-
-
-========================================
-ARQUIVO: ./src/pages/login/login.css
-========================================
-
-
-
-========================================
-ARQUIVO: ./src/pages/login/login.html
-========================================
-
-<html lang="pt-BR">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-
-  <link rel="stylesheet" type="text/css" href="src/pages/competicoes/competicoes.css"/>
-  
-</head>
-<body>
-
-  <!-- ===================== NAVBAR (componente global) ===================== -->
-  <div id="navbar-root"></div>
-
-  <main class="main">
-
-
-
-
-
-
-
-    
- </main>
-
-  <!-- ===================== FOOTER (componente global) ===================== -->
-  <div id="footer-root"></div>
-
-  <script type="module" src="/src/main.ts"></script>
-</body>
-</html>
-
-========================================
-ARQUIVO: ./src/pages/home/index.css
+ARQUIVO: .\src\pages\home\index.css
 ========================================
 
 /* ==========================================================================
@@ -2152,616 +2179,270 @@ ARQUIVO: ./src/pages/home/index.css
 }
 
 ========================================
-ARQUIVO: ./ryth-studio/.gitignore
+ARQUIVO: .\src\pages\home\index.ts
 ========================================
 
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+import "./index.css";
+import { renderizarFAQ } from "../../components/faq/faq";
 
-# Dependencies
-/node_modules
-/.pnp
-.pnp.js
+renderizarFAQ();
 
-# Compiled Sanity Studio
-/dist
+========================================
+ARQUIVO: .\src\pages\login\login.css
+========================================
 
-# Temporary Sanity runtime, generated by the CLI on every dev server start
-/.sanity
-
-# Logs
-/logs
-*.log
-
-# Coverage directory used by testing tools
-/coverage
-
-# Misc
-.DS_Store
-*.pem
-
-# Typescript
-*.tsbuildinfo
-
-# Dotenv and similar local-only files
-*.local
 
 
 ========================================
-ARQUIVO: ./ryth-studio/package.json
+ARQUIVO: .\src\pages\login\login.html
 ========================================
 
-{
-  "name": "rythwebsite",
-  "private": true,
-  "version": "1.0.0",
-  "main": "package.json",
-  "license": "UNLICENSED",
-  "scripts": {
-    "build": "sanity build",
-    "deploy": "sanity deploy",
-    "deploy-graphql": "sanity graphql deploy",
-    "dev": "sanity dev",
-    "start": "sanity start"
-  },
-  "keywords": [
-    "sanity"
-  ],
-  "dependencies": {
-    "@sanity/vision": "^6.16.0",
-    "react": "^19.2.4",
-    "react-dom": "^19.2.4",
-    "sanity": "^6.16.0",
-    "styled-components": "^6.1.18"
-  },
-  "devDependencies": {
-    "@sanity/eslint-config-studio": "^7",
-    "@types/react": "^19.2.14",
-    "eslint": "^10.8.1",
-    "prettier": "^3.5",
-    "typescript": "^5.8"
-  },
-  "prettier": {
-    "bracketSpacing": false,
-    "printWidth": 100,
-    "semi": false,
-    "singleQuote": true
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+  <link rel="stylesheet" type="text/css" href="src/pages/competicoes/competicoes.css"/>
+  
+</head>
+<body>
+
+  <!-- ===================== NAVBAR (componente global) ===================== -->
+  <div id="navbar-root"></div>
+
+  <main class="main">
+
+
+
+
+
+
+
+    
+ </main>
+
+  <!-- ===================== FOOTER (componente global) ===================== -->
+  <div id="footer-root"></div>
+
+  <script type="module" src="/src/main.ts"></script>
+</body>
+</html>
+
+========================================
+ARQUIVO: .\src\pages\perfil\perfil.css
+========================================
+
+
+
+========================================
+ARQUIVO: .\src\pages\perfil\perfil.html
+========================================
+
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+  <link rel="stylesheet" type="text/css" href="src/pages/competicoes/competicoes.css"/>
+  
+</head>
+<body>
+
+  <!-- ===================== NAVBAR (componente global) ===================== -->
+  <div id="navbar-root"></div>
+
+  <main class="main">
+
+
+
+
+
+
+
+    
+ </main>
+
+  <!-- ===================== FOOTER (componente global) ===================== -->
+  <div id="footer-root"></div>
+
+  <script type="module" src="/src/main.ts"></script>
+</body>
+</html>
+
+========================================
+ARQUIVO: .\src\pages\perfil\perfil.ts
+========================================
+
+
+
+========================================
+ARQUIVO: .\src\services\auth.ts
+========================================
+
+export async function usuarioAtual() {
+  return localStorage.getItem('usuario-teste') ? { email: 'teste@teste.com' } : null
+}
+
+========================================
+ARQUIVO: .\src\services\cms.ts
+========================================
+
+// src/services/cms.ts
+import { sanityClient, urlFor } from './sanity'
+
+// Retorna null em qualquer falha ou resultado vazio → o HTML padrão permanece
+export async function cmsFetch<T = Record<string, any>>(
+  query: string,
+  params: Record<string, unknown> = {}
+): Promise<T | null> {
+  if (!sanityClient) return null
+  try {
+    const data = await sanityClient.fetch<T>(query, params)
+    if (data == null || (Array.isArray(data) && data.length === 0)) return null
+    return data
+  } catch (err) {
+    console.error('[CMS]', err)
+    return null
   }
 }
 
-
-========================================
-ARQUIVO: ./ryth-studio/sanity.cli.ts
-========================================
-
-import {defineCliConfig} from 'sanity/cli'
-
-export default defineCliConfig({
-  api: {
-    projectId: '8q2pttmv',
-    dataset: 'production'
-  },
-  deployment: {
-    /**
-     * Enable auto-updates for studios.
-     * Learn more at https://www.sanity.io/docs/studio/latest-version-of-sanity#k47faf43faf56
-     */
-    autoUpdates: true,
-  },
-})
-
-
-========================================
-ARQUIVO: ./ryth-studio/sanity.config.ts
-========================================
-
-import {defineConfig} from 'sanity'
-import {structureTool} from 'sanity/structure'
-import {visionTool} from '@sanity/vision'
-import {schemaTypes} from './schemaTypes'
-
-export default defineConfig({
-  name: 'default',
-  title: 'rythwebsite',
-
-  projectId: '8q2pttmv',
-  dataset: 'production',
-
-  basePath: '/studio',
-
-  plugins: [structureTool(), visionTool()],
-
-  schema: {
-    types: schemaTypes,
-  },
-})
-
-
-========================================
-ARQUIVO: ./ryth-studio/README.md
-========================================
-
-# Sanity Clean Content Studio
-
-Congratulations, you have now installed the Sanity Content Studio, an open-source real-time content editing environment connected to the Sanity backend.
-
-Now you can do the following things:
-
-- [Read “getting started” in the docs](https://www.sanity.io/docs/introduction/getting-started?utm_source=readme)
-- [Join the Sanity community](https://www.sanity.io/community/join?utm_source=readme)
-- [Extend and build plugins](https://www.sanity.io/docs/content-studio/extending?utm_source=readme)
-
-
-========================================
-ARQUIVO: ./ryth-studio/eslint.config.mjs
-========================================
-
-import studio from '@sanity/eslint-config-studio'
-
-export default [...studio]
-
-
-========================================
-ARQUIVO: ./ryth-studio/tsconfig.json
-========================================
-
-{
-  "compilerOptions": {
-    "target": "ES2017",
-    "lib": ["dom", "dom.iterable", "esnext"],
-    "allowJs": true,
-    "skipLibCheck": true,
-    "strict": true,
-    "forceConsistentCasingInFileNames": true,
-    "module": "Preserve",
-    "moduleDetection": "force",
-    "isolatedModules": true,
-    "jsx": "preserve",
-    "incremental": true
-  },
-  "include": ["**/*.ts", "**/*.tsx"],
-  "exclude": ["node_modules"]
-}
-
-
-========================================
-ARQUIVO: ./ryth-studio/schemaTypes/index.ts
-========================================
-
-import { faqType } from './faq'
-import { competicaoType } from './competicao'
-
-export const schemaTypes = [
-  faqType,
-  competicaoType, // Registra o novo schema aqui
-]
-
-========================================
-ARQUIVO: ./ryth-studio/schemaTypes/faq.ts
-========================================
-
-import { defineType, defineField } from 'sanity'
-
-export const faqType = defineType({
-  name: 'faq',
-  title: 'Perguntas Frequentes (FAQ)',
-  type: 'document',
-  fields: [
-    defineField({
-      name: 'pergunta',
-      title: 'Pergunta',
-      type: 'string',
-    }),
-    defineField({
-      name: 'resposta',
-      title: 'Resposta',
-      type: 'text',
-    }),
-  ],
-})
-
-========================================
-ARQUIVO: ./ryth-studio/schemaTypes/competicao.ts
-========================================
-
-import { defineType, defineField } from 'sanity'
-
-export const competicaoType = defineType({
-  name: 'competicao',
-  title: 'Competições',
-  type: 'document',
-  fields: [
-    defineField({
-      name: 'titulo',
-      title: 'Título da Competição',
-      type: 'string',
-      validation: (Rule) => Rule.required(),
-    }),
-    defineField({
-      name: 'slug',
-      title: 'Identificador URL (Slug)',
-      type: 'slug',
-      options: {
-        source: 'titulo',
-        maxLength: 96,
-      },
-    }),
-    defineField({
-      name: 'imagem',
-      title: 'Imagem / Banner da Competição',
-      type: 'image',
-      options: {
-        hotspot: true, // Permite ajustar o corte da imagem no painel
-      },
-      validation: (Rule) => Rule.required(),
-    }),
-    defineField({
-      name: 'data',
-      title: 'Data do Evento',
-      type: 'date',
-      options: {
-        dateFormat: 'DD/MM/YYYY',
-      },
-    }),
-    defineField({
-      name: 'local',
-      title: 'Local / Cidade',
-      type: 'string',
-    }),
-    defineField({
-      name: 'status',
-      title: 'Status das Inscrições',
-      type: 'string',
-      options: {
-        list: [
-          { title: 'Inscrições Abertas', value: 'abertas' },
-          { title: 'Em Breve', value: 'breve' },
-          { title: 'Encerrado', value: 'encerrado' },
-        ],
-        layout: 'radio',
-      },
-      initialValue: 'abertas',
-    }),
-    defineField({
-      name: 'descricao',
-      title: 'Descrição Resumida',
-      type: 'text',
-      rows: 3,
-    }),
-    defineField({
-      name: 'linkInscricao',
-      title: 'Link para Inscrição / Edital',
-      type: 'url',
-    }),
-  ],
-  preview: {
-    select: {
-      title: 'titulo',
-      subtitle: 'local',
-      media: 'imagem',
-    },
-  },
-})
-
-========================================
-ARQUIVO: ./ryth-studio/.sanity/runtime/app.js
-========================================
-
-
-// This file is auto-generated on 'sanity dev'
-// Modifications to this file is automatically discarded
-import {renderStudio} from "sanity"
-import studioConfig from "../../sanity.config.ts"
-
-renderStudio(
-  document.getElementById("sanity"),
-  studioConfig,
-  {reactStrictMode: undefined, basePath: "/"}
-)
-
-
-========================================
-ARQUIVO: ./ryth-studio/.sanity/runtime/index.html
-========================================
-
-<!DOCTYPE html><html lang="en">
-<!--
-This file is auto-generated from "sanity dev".
-Modifications to this file are automatically discarded.
--->
-<head><meta charSet="utf-8"/><meta content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover" name="viewport"/><meta content="noindex" name="robots"/><meta content="same-origin" name="referrer"/><link href="/static/favicon.ico" rel="icon" sizes="any"/><link href="/static/favicon.svg" rel="icon" type="image/svg+xml"/><link href="/static/apple-touch-icon.png" rel="apple-touch-icon"/><link href="/static/manifest.webmanifest" rel="manifest"/><title>Sanity Studio</title><script>
-;(function () {
-  var _caughtErrors = []
-
-  var errorChannel = (function () {
-    var subscribers = []
-
-    function publish(msg) {
-      for (var i = 0; i < subscribers.length; i += 1) {
-        subscribers[i](msg)
-      }
-    }
-
-    function subscribe(subscriber) {
-      subscribers.push(subscriber)
-
-      return function () {
-        var idx = subscribers.indexOf(subscriber)
-
-        if (idx > -1) {
-          subscribers.splice(idx, 1)
-        }
-      }
-    }
-
-    return {publish, subscribe, subscribers}
-  })()
-
-  // NOTE: Store the error channel instance in the global scope so that the application can
-  // access it and subscribe to errors.
-  window.__sanityErrorChannel = {
-    subscribe: errorChannel.subscribe,
-  }
-
-  function _nextTick(callback) {
-    setTimeout(callback, 0)
-  }
-
-  function _handleError(error, params) {
-    _nextTick(function () {
-      // - If there are error channel subscribers, then we notify them (no console error).
-      // - If there are no subscribers, then we log the error to the console and render the error overlay.
-      if (errorChannel.subscribers.length) {
-        errorChannel.publish({error, params})
-      } else {
-        console.error(error)
-
-        _renderErrorOverlay(error, params)
-      }
-    })
-  }
-
-  var ERROR_BOX_STYLE = [
-    'background: #fff',
-    'border-radius: 6px',
-    'box-sizing: border-box',
-    'color: #121923',
-    'flex: 1',
-    "font-family: -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue','Liberation Sans',Helvetica,Arial,system-ui,sans-serif",
-    'font-size: 16px',
-    'line-height: 21px',
-    'margin: 0 auto',
-    'max-width: 960px',
-    'max-height: 90dvh',
-    'overflow: auto',
-    'padding: 20px',
-    'width: 100%',
-  ].join(';')
-
-  var ERROR_CODE_STYLE = [
-    'color: #972E2A',
-    "font-family: -apple-system-ui-monospace, 'SF Mono', Menlo, Monaco, Consolas, monospace",
-    'font-size: 13px',
-    'line-height: 17px',
-    'margin: 0',
-  ].join(';')
-
-  function _renderErrorOverlay(error, params) {
-    var errorElement = document.querySelector('#__sanityError') || document.createElement('div')
-    var colno = params.event.colno
-    var lineno = params.event.lineno
-    var filename = params.event.filename
-
-    errorElement.id = '__sanityError'
-    errorElement.innerHTML = [
-      '<div style="' + ERROR_BOX_STYLE + '">',
-      '<div style="font-weight: 700;">Uncaught error: ' + error.message + '</div>',
-      '<div style="color: #515E72; font-size: 13px; line-height: 17px; margin: 10px 0;">' +
-        filename +
-        ':' +
-        lineno +
-        ':' +
-        colno +
-        '</div>',
-      '<pre style="' + ERROR_CODE_STYLE + '">' + error.stack + '</pre>',
-      '</div>',
-    ].join('')
-
-    errorElement.style.position = 'fixed'
-    errorElement.style.zIndex = 1000000
-    errorElement.style.top = 0
-    errorElement.style.left = 0
-    errorElement.style.right = 0
-    errorElement.style.bottom = 0
-    errorElement.style.padding = '20px'
-    errorElement.style.background = 'rgba(16,17,18,0.66)'
-    errorElement.style.display = 'flex'
-    errorElement.style.alignItems = 'center'
-    errorElement.style.justifyContent = 'center'
-
-    document.body.appendChild(errorElement)
-  }
-
-  // NOTE:
-  // Yes – we're attaching 2 error listeners below 👀
-  // This is because React makes the same error throw twice (in development mode).
-  // See: https://github.com/facebook/react/issues/10384
-
-  // Error listener #1
-  window.onerror = function (event, source, lineno, colno, error) {
-    _nextTick(function () {
-      if (_caughtErrors.indexOf(error) !== -1) return
-
-      _caughtErrors.push(error)
-
-      _handleError(error, {
-        event,
-        lineno,
-        colno,
-        source,
-      })
-
-      _nextTick(function () {
-        var idx = _caughtErrors.indexOf(error)
-
-        if (idx > -1) _caughtErrors.splice(idx, 1)
-      })
-    })
-
-    // IMPORTANT: this callback must return `true` to prevent the error from being rendered in
-    // the browser’s console.
-    return true
-  }
-
-  // Error listener #2
-  window.addEventListener('error', function (event) {
-    if (_caughtErrors.indexOf(event.error) !== -1) return true
-
-    _caughtErrors.push(event.error)
-
-    _handleError(event.error, {
-      event,
-      lineno: event.lineno,
-      colno: event.colno,
-    })
-
-    _nextTick(function () {
-      _nextTick(function () {
-        var idx = _caughtErrors.indexOf(event.error)
-
-        if (idx > -1) _caughtErrors.splice(idx, 1)
-      })
-    })
-
-    return true
+// Preenche o HTML com os dados:
+//   data-cms="campo"                → textContent
+//   data-cms="campo" data-cms-attr="href" → atributo
+//   data-cms-img="campo"            → <img src> a partir de uma imagem do Sanity
+//   data-cms-list="campo" + <template> → lista repetida
+export function applyCms(root: ParentNode, data: Record<string, any>): void {
+  root.querySelectorAll<HTMLElement>('[data-cms]').forEach((el) => {
+    const value = data[el.dataset.cms!]
+    if (typeof value !== 'string') return
+    const attr = el.dataset.cmsAttr
+    if (attr) el.setAttribute(attr, value)
+    else el.textContent = value // textContent evita injeção de HTML
   })
-})()
-</script><style>
-  @font-face {
-    font-family: Inter;
-    font-style: normal;
-    font-weight: 400;
-    font-display: swap;
-    src: url("https://studio-static.sanity.io/Inter-Regular.woff2") format("woff2");
+
+  root.querySelectorAll<HTMLImageElement>('[data-cms-img]').forEach((img) => {
+    const src = urlFor(data[img.dataset.cmsImg!])
+    if (src) img.src = src
+  })
+
+  root.querySelectorAll<HTMLElement>('[data-cms-list]').forEach((container) => {
+    const items = data[container.dataset.cmsList!]
+    const tpl = container.querySelector('template')
+    if (!Array.isArray(items) || items.length === 0 || !tpl) return
+
+    Array.from(container.children).forEach((c) => c !== tpl && c.remove())
+    items.forEach((item) => {
+      const node = tpl.content.cloneNode(true) as DocumentFragment
+      applyCms(node, item)
+      container.appendChild(node)
+    })
+  })
+}
+
+========================================
+ARQUIVO: .\src\services\sanity.ts
+========================================
+
+// src/services/sanity.ts
+import { createClient } from '@sanity/client'
+import imageUrlBuilder from '@sanity/image-url'
+
+const projectId = import.meta.env.VITE_SANITY_PROJECT_ID
+const dataset = import.meta.env.VITE_SANITY_DATASET || 'production'
+
+if (!projectId) {
+  console.warn('[Sanity] VITE_SANITY_PROJECT_ID ausente: o site usará o conteúdo padrão do HTML.')
+}
+
+// null se não houver projectId, em vez de quebrar a importação
+export const sanityClient = projectId
+  ? createClient({
+      projectId,
+      dataset,
+      useCdn: true, // requisições rápidas via CDN
+      apiVersion: '2024-01-01',
+    })
+  : null
+
+const builder = sanityClient ? imageUrlBuilder(sanityClient) : null
+
+// Gera URLs das imagens cadastradas no Sanity (retorna '' se o Sanity não estiver configurado)
+export function urlFor(source: any): string {
+  return builder && source ? builder.image(source).auto('format').url() : ''
+}
+
+========================================
+ARQUIVO: .\src\services\supabase.ts
+========================================
+
+   import { createClient } from '@supabase/supabase-js'
+
+   export const supabase = createClient(
+     import.meta.env.VITE_SUPABASE_URL,
+     import.meta.env.VITE_SUPABASE_ANON_KEY
+   )
+
+========================================
+ARQUIVO: .\src\styles\global.css
+========================================
+
+body {
+    font-family: var(--font-family);
+    background-color: var(--main-white);
+    color: var(--main-black);
   }
-  @font-face {
-    font-family: Inter;
-    font-style: italic;
-    font-weight: 400;
-    font-display: swap;
-    src: url("https://studio-static.sanity.io/Inter-Italic.woff2") format("woff2");
-  }
-  @font-face {
-    font-family: Inter;
-    font-style: normal;
-    font-weight: 500;
-    font-display: swap;
-    src: url("https://studio-static.sanity.io/Inter-Medium.woff2") format("woff2");
-  }
-  @font-face {
-    font-family: Inter;
-    font-style: italic;
-    font-weight: 500;
-    font-display: swap;
-    src: url("https://studio-static.sanity.io/Inter-MediumItalic.woff2") format("woff2");
-  }
-  @font-face {
-    font-family: Inter;
-    font-style: normal;
-    font-weight: 600;
-    font-display: swap;
-    src: url("https://studio-static.sanity.io/Inter-SemiBold.woff2") format("woff2");
-  }
-  @font-face {
-    font-family: Inter;
-    font-style: italic;
-    font-weight: 600;
-    font-display: swap;
-    src: url("https://studio-static.sanity.io/Inter-SemiBoldItalic.woff2") format("woff2");
-  }
-  @font-face {
-    font-family: Inter;
-    font-style: normal;
-    font-weight: 700;
-    font-display: swap;
-    src: url("https://studio-static.sanity.io/Inter-Bold.woff2") format("woff2");
-  }
-  @font-face {
-    font-family: Inter;
-    font-style: italic;
-    font-weight: 700;
-    font-display: swap;
-    src: url("https://studio-static.sanity.io/Inter-BoldItalic.woff2") format("woff2");
-  }
-  @font-face {
-    font-family: Inter;
-    font-style: normal;
-    font-weight: 800;
-    font-display: swap;
-    src: url("https://studio-static.sanity.io/Inter-ExtraBold.woff2") format("woff2");
-  }
-  @font-face {
-    font-family: Inter;
-    font-style: italic;
-    font-weight: 800;
-    font-display: swap;
-    src: url("https://studio-static.sanity.io/Inter-ExtraBoldItalic.woff2") format("woff2");
-  }
-  @font-face {
-    font-family: Inter;
-    font-style: normal;
-    font-weight: 900;
-    font-display: swap;
-    src: url("https://studio-static.sanity.io/Inter-Black.woff2") format("woff2");
-  }
-  @font-face {
-    font-family: Inter;
-    font-style: italic;
-    font-weight: 900;
-    font-display: swap;
-    src: url("https://studio-static.sanity.io/Inter-BlackItalic.woff2") format("woff2");
-  }
-  html {
-    @media (prefers-color-scheme: dark) {
-      background-color: #13141b;
-    }
-    @media (prefers-color-scheme: light) {
-      background-color: #ffffff;
-    }
-  }
-  html,
-  body,
-  #sanity {
-    height: 100%;
-  }
-  body {
+
+  html, body {
+  margin: 0;
+  width: 100%;
+  overflow-x: hidden;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+  
+
+========================================
+ARQUIVO: .\src\styles\reset.css
+========================================
+
+* {
     margin: 0;
-    -webkit-font-smoothing: antialiased;
+    padding: 0;
+    box-sizing: border-box;
   }
-</style><script src="https://core.sanity-cdn.com/bridge.js" async type="module" data-sanity-core></script>
-</head><body><div id="sanity"></div><script src="/.sanity/runtime/app.js" type="module"></script><noscript><div class="sanity-app-no-js__root"><div class="sanity-app-no-js__content"><style type="text/css">
-.sanity-app-no-js__root {
-  position: absolute;
-  top: 0;
-  right: 0;
-  left: 0;
-  bottom: 0;
-  background: #fff;
-}
-
-.sanity-app-no-js__content {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  text-align: center;
-  font-family: helvetica, arial, sans-serif;
-}
-</style><h1>JavaScript disabled</h1><p>Please <a href="https://www.enable-javascript.com/">enable JavaScript</a> in your browser and reload the page to proceed.</p></div></div></noscript></body></html>
+  
 
 ========================================
-ARQUIVO: ./ryth-studio/static/.gitkeep
+ARQUIVO: .\src\styles\variables.css
 ========================================
 
-Files placed here will be served by the Sanity server under the `/static`-prefix
+@import url('https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@300;400;500;600;700;800;900&display=swap');
 
+@font-face {
+    font-family: 'Monument Extended';
+    src: url('../assets/fonts/monumentextended-regular.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+:root {
+    --black: #000000;
+    --white: #ffffff;
+
+    --main-white: #F8F8FB;
+    --main-black: #060A27;
+    --main-purple: #7728D9;
+    --main-green: #C5F339;
+  
+    --font-family: 'Red Hat Display', sans-serif;
+    --font-monument: 'Monument Extended', sans-serif;
+  }
+  
 

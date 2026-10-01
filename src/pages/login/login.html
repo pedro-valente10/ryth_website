@@ -1,30 +1,68 @@
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RYTH - Login</title>
 
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="stylesheet" type="text/css" href="/src/pages/login/login.css" />
 
-  <link rel="stylesheet" type="text/css" href="src/pages/competicoes/competicoes.css"/>
-  
+  <script type="module" src="/src/pages/login/login.ts"></script>
+  <script type="module" src="/src/main.ts"></script>
 </head>
 <body>
 
-  <!-- ===================== NAVBAR (componente global) ===================== -->
+  <!-- Navbar (Injetada dinamicamente pelo main.ts) -->
   <div id="navbar-root"></div>
 
-  <main class="main">
+  <main class="login-page">
+    <section class="login">
+      <div class="login__container">
+        
+        <!-- Formulário de Login -->
+        <form class="login__form" action="#" method="POST">
+          <div class="login__field">
+            <label for="email" class="login__label">e-mail:</label>
+            <input 
+              type="email" 
+              id="email" 
+              name="email" 
+              class="login__input" 
+              required 
+              autocomplete="email" 
+            />
+          </div>
 
+          <div class="login__field">
+            <label for="senha" class="login__label">senha:</label>
+            <input 
+              type="password" 
+              id="senha" 
+              name="senha" 
+              class="login__input" 
+              required 
+              autocomplete="current-password" 
+            />
+          </div>
 
+          <button type="submit" class="login__btn login__btn--submit">entrar</button>
+        </form>
 
+        <!-- Card de Cadastro em Destaque Verde -->
+        <div class="login__signup-card">
+          <h2 class="login__signup-title">Não tem uma conta?</h2>
+          <p class="login__signup-text">
+            Crie sua conta gratuitamente e comece a construir sua trajetória em um ecossistema que conecta dança, música e oportunidades.
+          </p>
+          <a href="/src/pages/cadastro/index.html" class="login__btn login__btn--signup">Criar minha conta</a>
+        </div>
 
+      </div>
+    </section>
+  </main>
 
-
-
-    
- </main>
-
-  <!-- ===================== FOOTER (componente global) ===================== -->
+  <!-- Footer (Injetado dinamicamente pelo main.ts) -->
   <div id="footer-root"></div>
 
   <script type="module" src="/src/main.ts"></script>
