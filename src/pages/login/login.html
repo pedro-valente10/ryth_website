@@ -6,65 +6,69 @@
   <title>RYTH - Login</title>
 
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-  <link rel="stylesheet" type="text/css" href="/src/pages/login/login.css" />
 
+  <!-- O login.css é importado pelo login.ts -->
   <script type="module" src="/src/pages/login/login.ts"></script>
   <script type="module" src="/src/main.ts"></script>
 </head>
 <body>
 
-  <!-- Navbar (Injetada dinamicamente pelo main.ts) -->
-  <div id="navbar-root"></div>
+  <!-- Navbar (injetada pelo main.ts) -->
+  <header id="navbar-root"></header>
 
   <main class="login-page">
     <section class="login">
       <div class="login__container">
-        
-        <!-- Formulário de Login -->
-        <form class="login__form" action="#" method="POST">
+
+        <!-- Formulário (serve para login e cadastro) -->
+        <form class="login__form" novalidate>
           <div class="login__field">
             <label for="email" class="login__label">e-mail:</label>
-            <input 
-              type="email" 
-              id="email" 
-              name="email" 
-              class="login__input" 
-              required 
-              autocomplete="email" 
+            <input
+              type="email"
+              id="email"
+              name="email"
+              class="login__input"
+              required
+              autocomplete="email"
             />
           </div>
 
           <div class="login__field">
             <label for="senha" class="login__label">senha:</label>
-            <input 
-              type="password" 
-              id="senha" 
-              name="senha" 
-              class="login__input" 
-              required 
-              autocomplete="current-password" 
+            <input
+              type="password"
+              id="senha"
+              name="senha"
+              class="login__input"
+              required
+              minlength="6"
+              autocomplete="current-password"
             />
           </div>
 
           <button type="submit" class="login__btn login__btn--submit">entrar</button>
         </form>
 
-        <!-- Card de Cadastro em Destaque Verde -->
+        <!-- Card verde: alterna entre "criar conta" e "já tenho conta" -->
         <div class="login__signup-card">
-          <h2 class="login__signup-title">Não tem uma conta?</h2>
-          <p class="login__signup-text">
+          <h2 class="login__signup-title" id="login-card-titulo">Não tem uma conta?</h2>
+          <p class="login__signup-text" id="login-card-texto">
             Crie sua conta gratuitamente e comece a construir sua trajetória em um ecossistema que conecta dança, música e oportunidades.
           </p>
-          <a href="/src/pages/cadastro/index.html" class="login__btn login__btn--signup">Criar minha conta</a>
+          <a
+            href="/src/pages/login/login.html?modo=cadastro"
+            id="login-card-link"
+            class="login__btn login__btn--signup"
+          >Criar minha conta</a>
         </div>
 
       </div>
     </section>
   </main>
 
-  <!-- Footer (Injetado dinamicamente pelo main.ts) -->
-  <div id="footer-root"></div>
+  <!-- Footer (injetado pelo main.ts) -->
+  <footer id="footer-root"></footer>
 
-  <script type="module" src="/src/main.ts"></script>
 </body>
 </html>

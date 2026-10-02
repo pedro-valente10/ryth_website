@@ -1,6 +1,12 @@
-   import { createClient } from '@supabase/supabase-js'
+import { createClient, type SupabaseClient } from "@supabase/supabase-js";
 
-   export const supabase = createClient(
-     import.meta.env.VITE_SUPABASE_URL,
-     import.meta.env.VITE_SUPABASE_ANON_KEY
-   )
+
+const url = import.meta.env.VITE_SUPABASE_URL as string | undefined;
+const key = import.meta.env.VITE_SUPABASE_ANON_KEY as string | undefined;
+
+export const supabase: SupabaseClient | null =
+  url && key ? createClient(url, key) : null;
+
+if (!supabase) {
+  console.warn("[Supabase] Variáveis de ambiente ausentes: login indisponível.");
+}
