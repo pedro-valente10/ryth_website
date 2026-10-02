@@ -1,3 +1,7 @@
+/* ================================================
+              BASE
+      (vale para login e cadastro) 
+  ================================================= */
 .login-page {
   background-color: var(--main-white);
   min-height: calc(100vh - 160px);
@@ -156,4 +160,14 @@
   .login__signup-text {
     font-size: 0.88rem;
   }
+}
+
+
+/* ================================================
+              exclusivo CADASTRO
+  ================================================= */
+.login-page--cadastro .login__btn--submit {
+  background-color: var(--main-green);
+  color: var(--main-black);
+
 }
