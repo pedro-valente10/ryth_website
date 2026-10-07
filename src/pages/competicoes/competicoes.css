@@ -1,0 +1,157 @@
+.competicoes {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 4rem 2rem 5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3rem;
+  background-color: var(--main-white);
+}
+
+.competicoes__title {
+  font-family: var(--font-monument, sans-serif);
+  font-size: clamp(2.2rem, 5vw, 3.5rem);
+  font-weight: 900;
+  color: var(--main-black);
+  text-transform: uppercase;
+  text-align: center;
+  line-height: 1.1;
+  margin: 0;
+}
+
+.competicoes__group {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.competicoes__subtitle {
+  font-family: var(--font-family);
+  font-size: clamp(1.3rem, 2.5vw, 1.6rem);
+  font-weight: 700;
+  text-transform: uppercase;
+  margin: 0;
+}
+
+.competicoes__subtitle--active   { color: var(--main-green); }
+.competicoes__subtitle--finished { color: var(--main-purple); }
+
+/* Grid de 3 colunas */
+.competicoes__grid {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.75rem;
+}
+
+/* Card inteiro é um link */
+.competicoes__card {
+  --card-color: var(--main-green);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.6rem;
+  text-decoration: none;
+  color: var(--main-black);
+}
+
+.competicoes__card--finished {
+  --card-color: var(--main-purple);
+}
+
+/* Quadrado da foto */
+.competicoes__media {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  box-sizing: border-box;
+  border: 6px solid var(--card-color);
+  border-radius: 36px;
+  background-color: #828288; /* placeholder até ter a foto */
+  overflow: hidden;
+}
+
+.competicoes__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Camada de cor que aparece no hover */
+.competicoes__media::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-color: var(--card-color);
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+
+/* Texto "INSCREVA-SE" */
+.competicoes__cta {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-family);
+  font-size: clamp(0.95rem, 1.6vw, 1.15rem);
+  font-weight: 600;
+  color: var(--white);
+  text-transform: uppercase;
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.competicoes__card:hover .competicoes__media::after,
+.competicoes__card:focus-visible .competicoes__media::after {
+  opacity: 0.75;
+}
+
+.competicoes__card:hover .competicoes__cta,
+.competicoes__card:focus-visible .competicoes__cta {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.competicoes__name {
+  font-family: var(--font-family);
+  font-size: 1rem;
+}
+
+/* Celular */
+@media (max-width: 768px) {
+  .competicoes {
+    padding: 2.5rem 1.25rem 3rem;
+    gap: 2.5rem;
+  }
+
+  .competicoes__grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.25rem;
+  }
+
+  .competicoes__media {
+    border-radius: 28px;
+    border-width: 5px;
+  }
+}
+
+@media (max-width: 420px) {
+  .competicoes__grid {
+    grid-template-columns: 1fr;
+    max-width: 280px;
+  }
+}
+
+/* Telas sem mouse (celular/tablet): não existe hover, então o botão fica sempre visível */
+@media (hover: none) {
+  .competicoes__media::after { opacity: 0.45; }
+  .competicoes__cta { opacity: 1; transform: none; }
+}

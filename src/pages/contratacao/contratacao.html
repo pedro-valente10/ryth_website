@@ -1,12 +1,13 @@
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-
-  <link rel="stylesheet" type="text/css" href="src/pages/competicoes/competicoes.css"/>
+  <title>RYTH - Contratação</title>
   
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <script type="module" src="/src/pages/contratacao/contratacao.ts"></script>
+  <script type="module" src="/src/main.ts"></script>
 </head>
 <body>
 
@@ -14,19 +15,46 @@
   <div id="navbar-root"></div>
 
   <main class="main">
+    <section class="contratacao">
+      <header class="contratacao__header">
+        <h1 class="contratacao__title">Como funciona?</h1>
+        <p class="contratacao__intro">
+          A RYTH aproxima talentos, artistas, marcas e produtores em um ambiente
+          criado para gerar oportunidades reais. Escolha a forma de participação
+          que melhor atende ao seu objetivo e faça parte de um ecossistema que
+          conecta criatividade, visibilidade e mercado.
+        </p>
+      </header>
 
+      <div class="contratacao__cards">
+        <!-- Card Parcerias -->
+        <article class="contratacao__card contratacao__card--green">
+          <h2 class="contratacao__card-title contratacao__card-title--purple">Parcerias</h2>
+          <p class="contratacao__card-text contratacao__card-text--dark">
+            Desenvolva ações com a RYTH e conecte sua marca, projeto ou iniciativa
+            a uma comunidade que valoriza a criatividade e impulsiona novos
+            talentos. Juntos, criamos experiências que fortalecem a dança, a
+            música e todo o ecossistema criativo.
+          </p>
+          <a href="#" class="contratacao__cta contratacao__cta--purple">Quero ser parceiro</a>
+        </article>
 
-
-
-
-
-
-    
- </main>
+        <!-- Card Músicas -->
+        <article class="contratacao__card contratacao__card--purple">
+          <h2 class="contratacao__card-title contratacao__card-title--green">Músicas</h2>
+          <p class="contratacao__card-text contratacao__card-text--light">
+            Divulgue suas músicas por meio de desafios de dança e alcance novos
+            públicos de forma autêntica. Na RYTH, cada coreografia amplia o
+            potencial de conexão entre artistas, comunidade e mercado.
+          </p>
+          <a href="#" class="contratacao__cta contratacao__cta--green">Cadastrar música</a>
+        </article>
+      </div>
+    </section>
+  </main>
 
   <!-- ===================== FOOTER (componente global) ===================== -->
   <div id="footer-root"></div>
 
-  <script type="module" src="/src/main.ts"></script>
 </body>
 </html>

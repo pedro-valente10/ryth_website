@@ -2,11 +2,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RYTH - Competições</title>
 
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-
-  <link rel="stylesheet" type="text/css" href="src/pages/competicoes/competicoes.css"/>
-  
+  <script type="module" src="/src/pages/competicoes/competicoes.ts"></script>
+  <script type="module" src="/src/main.ts"></script>
 </head>
 <body>
 
@@ -14,19 +14,68 @@
   <div id="navbar-root"></div>
 
   <main class="main">
+  <section class="competicoes">
+    <h1 class="competicoes__title">Competições</h1>
 
+    <!-- ATIVAS -->
+    <div class="competicoes__group">
+      <h2 class="competicoes__subtitle competicoes__subtitle--active">Ativas</h2>
+      <div class="competicoes__grid">
+        <a class="competicoes__card competicoes__card--active" href="#">
+          <span class="competicoes__media">
+            <!-- <img src="..." alt="" /> quando tiver a foto -->
+            <span class="competicoes__cta">Inscreva-se</span>
+          </span>
+          <span class="competicoes__name">Lorem ipsum</span>
+        </a>
 
+        <a class="competicoes__card competicoes__card--active" href="#">
+          <span class="competicoes__media">
+            <span class="competicoes__cta">Inscreva-se</span>
+          </span>
+          <span class="competicoes__name">Lorem ipsum</span>
+        </a>
 
+        <a class="competicoes__card competicoes__card--active" href="#">
+          <span class="competicoes__media">
+            <span class="competicoes__cta">Inscreva-se</span>
+          </span>
+          <span class="competicoes__name">Lorem ipsum</span>
+        </a>
+      </div>
+    </div>
 
+    <!-- FINALIZADAS -->
+    <div class="competicoes__group">
+      <h2 class="competicoes__subtitle competicoes__subtitle--finished">Finalizadas</h2>
+      <div class="competicoes__grid">
+        <a class="competicoes__card competicoes__card--finished" href="#">
+          <span class="competicoes__media">
+            <span class="competicoes__cta">Inscreva-se</span>
+          </span>
+          <span class="competicoes__name">Lorem ipsum</span>
+        </a>
 
+        <a class="competicoes__card competicoes__card--finished" href="#">
+          <span class="competicoes__media">
+            <span class="competicoes__cta">Inscreva-se</span>
+          </span>
+          <span class="competicoes__name">Lorem ipsum</span>
+        </a>
 
-
-    
- </main>
+        <a class="competicoes__card competicoes__card--finished" href="#">
+          <span class="competicoes__media">
+            <span class="competicoes__cta">Inscreva-se</span>
+          </span>
+          <span class="competicoes__name">Lorem ipsum</span>
+        </a>
+      </div>
+    </div>
+  </section>
+</main>
 
   <!-- ===================== FOOTER (componente global) ===================== -->
   <div id="footer-root"></div>
 
-  <script type="module" src="/src/main.ts"></script>
 </body>
 </html>

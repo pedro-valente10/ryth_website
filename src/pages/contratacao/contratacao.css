@@ -1,0 +1,128 @@
+.contratacao {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 4rem 2rem 5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+  background-color: var(--main-white);
+}
+
+/* Cabeçalho */
+.contratacao__header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  text-align: center;
+}
+
+.contratacao__title {
+  font-family: var(--font-monument, sans-serif);
+  font-size: clamp(2.2rem, 5vw, 3.5rem);
+  font-weight: 900;
+  color: var(--main-black);
+  line-height: 1.1;
+  margin: 0;
+}
+
+.contratacao__intro {
+  font-family: var(--font-family);
+  font-size: clamp(0.95rem, 1.6vw, 1.1rem);
+  line-height: 1.5;
+  color: var(--main-black);
+  max-width: 900px;
+  margin: 0;
+}
+
+/* Grid dos cards */
+.contratacao__cards {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem;
+  align-items: stretch;
+}
+
+.contratacao__card {
+  border-radius: 36px;
+  padding: 2.5rem 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 1.25rem;
+}
+
+.contratacao__card--green  { background-color: var(--main-green); }
+.contratacao__card--purple { background-color: var(--main-purple); }
+
+.contratacao__card-title {
+  font-family: var(--font-monument, sans-serif);
+  font-size: clamp(2rem, 3.5vw, 2.8rem);
+  font-weight: 900;
+  line-height: 1.1;
+  margin: 0;
+}
+
+.contratacao__card-title--purple { color: var(--main-purple); }
+.contratacao__card-title--green  { color: var(--main-green); }
+
+.contratacao__card-text {
+  font-family: var(--font-family);
+  font-size: clamp(0.95rem, 1.5vw, 1.05rem);
+  line-height: 1.45;
+  margin: 0;
+  flex: 1; /* empurra o botão para o fim, alinhando os dois cards */
+}
+
+.contratacao__card-text--dark  { color: var(--main-black); }
+.contratacao__card-text--light { color: var(--white); }
+
+/* Botões pílula */
+.contratacao__cta {
+  display: inline-block;
+  width: 100%;
+  box-sizing: border-box;
+  font-family: var(--font-family);
+  font-size: 1.15rem;
+  font-weight: 700;
+  padding: 0.9rem 2rem;
+  border-radius: 50px;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.contratacao__cta--purple {
+  background-color: var(--main-purple);
+  color: var(--white);
+}
+
+.contratacao__cta--green {
+  background-color: var(--main-green);
+  color: var(--main-black);
+}
+
+.contratacao__cta:hover {
+  transform: translateY(-2px);
+  opacity: 0.9;
+}
+
+/* Celular */
+@media (max-width: 768px) {
+  .contratacao {
+    padding: 2.5rem 1.25rem 3rem;
+    gap: 2rem;
+  }
+
+  .contratacao__cards {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .contratacao__card {
+    padding: 2rem 1.5rem;
+    border-radius: 24px;
+  }
+}
