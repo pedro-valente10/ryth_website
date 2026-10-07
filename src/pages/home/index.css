@@ -6,41 +6,51 @@
    1. HERO (TELA INICIAL COM MOLDURA ROXA)
    ========================================== */
 .hero {
-  min-height: 80vh;
+  /* altura da tela menos a navbar: ajuste o 80px para a altura real dela */
+  height: calc(100vh - var(--navbar-height, 80px));
+  height: calc(100svh - var(--navbar-height, 80px));
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  gap: 2.5rem;
-  padding: 3rem 1.5rem;
-  background-color: var(--main-white);
+  justify-content: flex-start;   /* encosta tudo no topo, logo abaixo da navbar */
+  gap: 1.5rem;                   /* espaço entre o frame e o botão */
+  padding: 1.5rem 3rem 2rem;     /* topo menor para subir o frame */
+  box-sizing: border-box;
+  background: linear-gradient(
+    to bottom,
+    var(--main-black) 0%,
+    var(--main-black) 33.333%,
+    var(--main-white) 33.333%,
+    var(--main-white) 100%
+  );
 }
 
-/* Moldura retangular com borda roxa e fundo chumbo */
 .hero__frame {
+  flex: 1;                       /* preenche todo o espaço entre a navbar e o botão */
+  min-height: 0;                 /* permite o frame encolher em telas baixas */
   width: 100%;
-  max-width: 950px;
+  max-width: 1600px;
+  box-sizing: border-box;
   background-color: #828288;
-  border: 12px solid var(--main-purple);
-  padding: 4rem 2.5rem;
-  text-align: center;
+  border: 18px solid var(--main-purple);
+  padding: 3rem 2.5rem;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  gap: 1.5rem;
+  justify-content: flex-end;
+  text-align: center;
+  /* remova o margin-bottom: o gap do .hero já faz esse papel */
 }
 
 /* Título em Monument Extended */
 .hero__title {
   font-family: var(--font-monument, sans-serif);
-  font-size: clamp(2.2rem, 5vw, 3.8rem);
+  font-size: clamp(4.2rem, 5vw, 3.8rem);
   font-weight: 900;
   color: var(--white);
   line-height: 1.1;
   letter-spacing: -0.5px;
   text-transform: uppercase;
-  margin: 0;
 }
 
 /* Destaque "COMPETIR" em roxo vibrante */
@@ -51,22 +61,24 @@
 /* Subtítulo em texto branco centralizado */
 .hero__subtitle {
   font-family: var(--font-family);
-  font-size: clamp(1rem, 2vw, 1.25rem);
+  font-size: clamp(1.25rem, 2vw, 1.25rem);
   color: var(--white);
   text-align: center;
-  max-width: 750px;
+  max-width: 1200px;
   line-height: 1.4;
   margin: 0;
 }
 
 /* Botão "inscrições" em formato de pílula verde */
 .hero__cta {
+  flex-shrink: 0;                /* o botão nunca é espremido */
+  margin-top: 0;
   background-color: var(--main-green);
   color: var(--main-black);
   font-family: var(--font-family);
   font-size: 1.3rem;
   font-weight: 700;
-  padding: 0.9rem 3.5rem;
+  padding: 1rem 24rem;
   border-radius: 50px;
   border: none;
   cursor: pointer;
@@ -197,7 +209,7 @@
   font-family: var(--font-family);
   font-size: 1.25rem;
   font-weight: 700;
-  padding: 0.9rem 3.5rem;
+  padding: 1rem 24rem;
   border-radius: 50px;
   border: none;
   cursor: pointer;
@@ -531,6 +543,27 @@
 
 /* Responsividade para celulares */
 @media (max-width: 768px) {
+    .hero {
+    padding: 1rem;
+  }
+
+    .hero__frame {
+    border-width: 8px;
+    padding: 2rem 0.8rem; /* menos padding lateral = mais largura para o texto */
+  }
+
+  .hero__title {
+    width: 100%;
+    max-width: none;
+    font-size: clamp(2.2rem, 9vw, 3.5rem); /* mínimo < máximo */
+  }
+
+  .hero__subtitle {
+    width: 100%;
+    max-width: none;
+    font-size: clamp(0.85rem, 3.5vw, 1rem);
+  }
+
   .partnerships-music {
     padding: 2.5rem 1.25rem;
     gap: 1.5rem;
@@ -750,24 +783,6 @@
    ========================================== */
 @media (max-width: 768px) {
   /* Hero */
-  .hero {
-    padding: 2rem 1rem;
-    gap: 1.5rem;
-  }
-
-  .hero__frame {
-    border-width: 8px;
-    padding: 2.5rem 1.2rem;
-  }
-
-  .hero__title {
-    font-size: clamp(1.6rem, 7vw, 2.4rem);
-  }
-
-  .hero__subtitle {
-    font-size: 0.95rem;
-  }
-
   .hero__cta {
     font-size: 1.1rem;
     padding: 0.8rem 2.5rem;
