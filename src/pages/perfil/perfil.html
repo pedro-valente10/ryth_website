@@ -6,10 +6,12 @@
   <title>RYTH - Perfil</title>
 
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <script type="module" src="/src/pages/perfil/perfil.ts"></script>
+  <script type="module" src="/src/main.ts"></script>
 </head>
 <body>
 
-  <!-- Navbar (Injetada dinamicamente pelo main.ts) -->
+  <!-- ===================== NAVBAR (componente global) ===================== -->
   <div id="navbar-root"></div>
 
   <main class="profile-page">
@@ -66,10 +68,8 @@
     </section>
   </main>
 
-  <!-- Footer (Injetado dinamicamente pelo main.ts) -->
+  <!-- ===================== FOOTER (componente global) ===================== -->
   <div id="footer-root"></div>
 
-  <script type="module" src="/src/pages/perfil/perfil.ts"></script>
-  <script type="module" src="/src/main.ts"></script>
 </body>
 </html>
