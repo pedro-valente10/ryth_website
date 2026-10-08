@@ -29,7 +29,7 @@
   flex: 1;                       /* preenche todo o espaço entre a navbar e o botão */
   min-height: 0;                 /* permite o frame encolher em telas baixas */
   width: 100%;
-  max-width: 1600px;
+  max-width: 1800px;
   box-sizing: border-box;
   background-color: #828288;
   border: 18px solid var(--main-purple);
