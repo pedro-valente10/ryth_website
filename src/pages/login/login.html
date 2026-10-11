@@ -6,19 +6,31 @@
   <title>RYTH - Login</title>
 
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-  <script type="module" src="/src/pages/login/login.ts"></script>
+  <script type="module" src="./login.ts"></script>
   <script type="module" src="/src/main.ts"></script>
 </head>
-<body>
+<body class="login-page">
 
-  <!-- ===================== NAVBAR (componente global) ===================== -->
+  <!-- NAVBAR -->
   <header id="navbar-root"></header>
 
-  <main class="login-page">
-    <section class="login">
-      <div class="login__container">
+  <main class="login">
+    <div class="login__container">
 
-        <!-- Formulário (serve para login e cadastro) -->
+      <!-- Wrapper do formulário com as ilustrações nas laterais -->
+      <div class="login__form-wrapper">
+        
+        <!-- Decorações - Lado Esquerdo -->
+        <div class="login__decor login__decor--left" aria-hidden="true">
+          <img src="/src/assets/Ativo 8 3.png" alt="" class="decor-img decor-star-purple-bg" />
+          <img src="/src/assets/Ativo 7 3.png" alt="" class="decor-img decor-spiral-green" />
+          <img src="/src/assets/Ativo 6 2.png" alt="" class="decor-img decor-spiral-purple-sm" />
+          <img src="/src/assets/Estrela-verde 2.png" alt="" class="decor-img decor-star-green-sm" />
+          <img src="/src/assets/Esfera-verde 2.png" alt="" class="decor-img decor-sphere-green" />
+          <img src="/src/assets/Ativo 3 2.png" alt="" class="decor-img decor-sphere-purple" />
+        </div>
+
+        <!-- Formulário -->
         <form class="login__form" novalidate>
           <div class="login__field">
             <label for="email" class="login__label">e-mail:</label>
@@ -48,24 +60,34 @@
           <button type="submit" class="login__btn login__btn--submit">entrar</button>
         </form>
 
-        <!-- Card verde: alterna entre "criar conta" e "já tenho conta" -->
-        <div class="login__signup-card">
-          <h2 class="login__signup-title" id="login-card-titulo">Não tem uma conta?</h2>
-          <p class="login__signup-text" id="login-card-texto">
-            Crie sua conta gratuitamente e comece a construir sua trajetória em um ecossistema que conecta dança, música e oportunidades.
-          </p>
-          <a
-            href="/src/pages/login/login.html?modo=cadastro"
-            id="login-card-link"
-            class="login__btn login__btn--signup"
-          >Criar minha conta</a>
+        <!-- Decorações - Lado Direito -->
+        <div class="login__decor login__decor--right" aria-hidden="true">
+          <img src="/src/assets/Estrela-verde 2.png" alt="" class="decor-img decor-star-green-top" />
+          <img src="/src/assets/Ativo 9 3.png" alt="" class="decor-img decor-star-purple-sm" />
+          <img src="/src/assets/Ativo 8 3.png" alt="" class="decor-img decor-star-purple-lg" />
+          <img src="/src/assets/Ativo 6 3.png" alt="" class="decor-img decor-spiral-purple-lg" />
+          <img src="/src/assets/Ativo 3 3.png" alt="" class="decor-img decor-sphere-purple-right" />
         </div>
 
       </div>
-    </section>
+
+      <!-- Card Verde de Cadastro -->
+      <div class="login__signup-card">
+        <h2 class="login__signup-title" id="login-card-titulo">Não tem uma conta?</h2>
+        <p class="login__signup-text" id="login-card-texto">
+          Crie sua conta gratuitamente e comece a construir sua trajetória em um ecossistema que conecta dança, música e oportunidades.
+        </p>
+        <a
+          href="/src/pages/login/login.html?modo=cadastro"
+          id="login-card-link"
+          class="login__btn login__btn--signup"
+        >Criar minha conta</a>
+      </div>
+
+    </div>
   </main>
 
-  <!-- ===================== FOOTER (componente global) ===================== -->
+  <!-- FOOTER -->
   <footer id="footer-root"></footer>
 
 </body>
