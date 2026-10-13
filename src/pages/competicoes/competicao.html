@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RYTH - Competição</title>
+
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <script type="module" src="/src/pages/competicoes/competicao.ts"></script>
+  <script type="module" src="/src/main.ts"></script>
+</head>
+<body>
+
+  <!-- ===================== NAVBAR (componente global) ===================== -->
+  <div id="navbar-root"></div>
+
+  <main class="competicao">
+
+    <!-- VOLTAR -->
+    <a class="competicao__back" href="/src/pages/competicoes/competicoes.html">
+      <span aria-hidden="true">‹</span> voltar
+    </a>
+
+    <!-- BANNER -->
+    <div class="competicao__banner">
+      <img id="competicao-banner" src="" alt="" />
+    </div>
+
+    <!-- MÚSICA -->
+    <div class="competicao__musica">
+      <h2 class="competicao__musica-title" id="musica-titulo">Música</h2>
+      <p class="competicao__musica-text" id="musica-descricao">Lorem ipsum dolor sit amet</p>
+    </div>
+
+    <!-- PRÊMIOS -->
+    <section class="competicao__premios">
+      <div class="competicao__podio">
+        <img class="competicao__deco competicao__deco--left" src="" alt="" />
+        <div class="competicao__podio-blocos">
+          <span class="competicao__podio-bloco competicao__podio-bloco--2">2º</span>
+          <span class="competicao__podio-bloco competicao__podio-bloco--1">1º</span>
+          <span class="competicao__podio-bloco competicao__podio-bloco--3">3º</span>
+        </div>
+        <img class="competicao__deco competicao__deco--right" src="" alt="" />
+      </div>
+
+      <div class="competicao__premios-box">
+        <h2 class="competicao__premios-title">Prêmios</h2>
+        <p class="competicao__premios-text" id="premios-texto">
+          Mais do que uma premiação, vota é uma oportunidade para ampliar sua visibilidade...
+        </p>
+      </div>
+    </section>
+
+    <!-- PRAZOS + ESTILO -->
+    <section class="competicao__info">
+      <div class="competicao__info-item competicao__info-item--prazos">
+        <h2 class="competicao__info-title competicao__info-title--prazos">Prazos</h2>
+        <p id="prazos-texto">Acompanhe o período de inscrições, votação e divulgação dos resultados...</p>
+      </div>
+
+      <div class="competicao__info-item competicao__info-item--estilo">
+        <h2 class="competicao__info-title competicao__info-title--estilo">Estilo</h2>
+        <p id="estilo-texto">Cada desafio possui um estilo próprio. Use sua criatividade...</p>
+      </div>
+    </section>
+
+    <!-- PARTICIPANTES -->
+    <section class="competicao__participantes">
+      <h2 class="competicao__participantes-title">Participantes</h2>
+
+      <!-- Itens de exemplo para estilizar; o competicao.ts vai substituir -->
+      <div class="competicao__participantes-grid" id="participantes-grid">
+        <button class="competicao__participante competicao__participante--roxo" type="button">
+          <span class="competicao__avatar">foto de perfil</span>
+          <span class="competicao__participante-nome">Lorem ipsum</span>
+        </button>
+        <button class="competicao__participante competicao__participante--verde" type="button">
+          <span class="competicao__avatar">foto de perfil</span>
+          <span class="competicao__participante-nome">Lorem ipsum</span>
+        </button>
+        <!-- ...repita até 10 itens (2 linhas de 5) -->
+      </div>
+
+      <!-- PAGINAÇÃO -->
+      <nav class="competicao__paginacao" aria-label="Paginação de participantes">
+        <button class="competicao__seta" type="button" aria-label="Página anterior">‹</button>
+        <div class="competicao__dots" id="paginacao-dots">
+          <span class="competicao__dot"></span>
+          <span class="competicao__dot"></span>
+          <span class="competicao__dot competicao__dot--active"></span>
+          <span class="competicao__dot"></span>
+          <span class="competicao__dot"></span>
+        </div>
+        <button class="competicao__seta" type="button" aria-label="Próxima página">›</button>
+      </nav>
+
+      <!-- AÇÕES -->
+      <div class="competicao__acoes">
+        <button class="competicao__btn competicao__btn--votar" id="btn-votar" type="button">votar</button>
+        <button class="competicao__btn competicao__btn--inscrever" id="btn-inscrever" type="button">inscreva-se</button>
+      </div>
+    </section>
+
+    <!-- CONFIRMAR VOTO (aparece ao escolher um participante e clicar em "votar") -->
+    <section class="competicao__confirmar" id="confirmar-voto" hidden>
+      <h2 class="competicao__confirmar-title">Confirmar voto</h2>
+      <div class="competicao__confirmar-participante">
+        <span class="competicao__avatar competicao__avatar--grande" id="confirmar-foto">foto de perfil</span>
+        <span id="confirmar-nome">Lorem ipsum</span>
+      </div>
+      <button class="competicao__btn competicao__btn--confirmar" id="btn-confirmar" type="button">votar</button>
+    </section>
+
+  </main>
+
+  <!-- ===================== FOOTER (componente global) ===================== -->
+  <div id="footer-root"></div>
+
+</body>
+</html>

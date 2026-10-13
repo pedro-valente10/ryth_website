@@ -1,0 +1,355 @@
+/* ===================== VARIÁVEIS DA PÁGINA ===================== */
+.competicao {
+  --c-roxo: #7b2fe0;
+  --c-verde: #c6f432;
+  --c-escuro: #0d0d2b;
+  --c-fundo: #f7f7fb;
+  --c-cinza: #8a8a8a;
+
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 1.25rem 1rem 3rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  background: var(--c-fundo);
+  color: var(--c-escuro);
+}
+
+/* ===================== VOLTAR ===================== */
+.competicao__back {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.5rem 1.25rem;
+  border-radius: 999px;
+  background: var(--c-escuro);
+  color: var(--c-roxo);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+/* ===================== BANNER ===================== */
+.competicao__banner {
+  width: 100%;
+  aspect-ratio: 16 / 7;
+  border-radius: 1.25rem;
+  background: var(--c-cinza);
+  overflow: hidden;
+}
+
+.competicao__banner img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* ===================== MÚSICA ===================== */
+.competicao__musica {
+  align-self: center;
+  text-align: center;
+  padding: 0.75rem 2rem;
+  border-radius: 1rem;
+  background: var(--c-roxo);
+  color: #fff;
+}
+
+.competicao__musica-title {
+  margin: 0;
+  font-size: 1.1rem;
+  color: var(--c-verde);
+}
+
+.competicao__musica-text {
+  margin: 0.25rem 0 0;
+  font-size: 0.85rem;
+}
+
+/* ===================== PRÊMIOS ===================== */
+.competicao__premios {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.competicao__podio {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 1rem;
+  width: 100%;
+}
+
+.competicao__podio-blocos {
+  display: flex;
+  align-items: flex-end;
+}
+
+.competicao__podio-bloco {
+  display: flex;
+  justify-content: center;
+  padding-top: 0.5rem;
+  min-width: 5rem;
+  background: var(--c-roxo);
+  color: var(--c-verde);
+  font-weight: 700;
+  font-size: 1.25rem;
+}
+
+.competicao__podio-bloco--1 { height: 5.5rem; }
+.competicao__podio-bloco--2 { height: 4.5rem; }
+.competicao__podio-bloco--3 { height: 3.75rem; }
+
+.competicao__deco {
+  width: 3rem;
+  height: 3rem;
+  object-fit: contain;
+}
+
+.competicao__premios-box {
+  width: 100%;
+  padding: 1rem 1.25rem 1.5rem;
+  border-radius: 1.5rem;
+  background: var(--c-verde);
+  text-align: center;
+}
+
+.competicao__premios-title {
+  margin: 0 0 0.5rem;
+  font-size: 1.5rem;
+  color: var(--c-roxo);
+}
+
+.competicao__premios-text {
+  margin: 0;
+  font-size: 0.8rem;
+  line-height: 1.4;
+}
+
+/* ===================== PRAZOS + ESTILO ===================== */
+.competicao__info {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.competicao__info-title {
+  margin: 0 0 0.25rem;
+  font-size: 1.5rem;
+}
+
+.competicao__info-title--prazos { color: var(--c-roxo); }
+.competicao__info-title--estilo { color: var(--c-verde); }
+
+.competicao__info-item p {
+  margin: 0;
+  line-height: 1.4;
+}
+
+.competicao__info-item--estilo {
+  text-align: right;
+}
+
+/* ===================== PARTICIPANTES ===================== */
+.competicao__participantes {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.competicao__participantes-title {
+  margin: 0;
+  font-size: 1.75rem;
+  text-align: center;
+}
+
+.competicao__participantes-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  width: 100%;
+}
+
+.competicao__participante {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+}
+
+.competicao__avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 4.25rem;
+  height: 4.25rem;
+  border-radius: 50%;
+  border: 3px solid var(--c-roxo);
+  background: #fff;
+  font-size: 0.55rem;
+  text-align: center;
+  overflow: hidden;
+}
+
+.competicao__avatar--grande {
+  width: 5rem;
+  height: 5rem;
+}
+
+.competicao__participante--roxo .competicao__avatar { border-color: var(--c-roxo); }
+.competicao__participante--verde .competicao__avatar { border-color: var(--c-verde); }
+
+.competicao__participante-nome {
+  font-size: 0.7rem;
+}
+
+/* participante selecionado (adicione esta classe via TS ao clicar) */
+.competicao__participante--selecionado .competicao__avatar {
+  box-shadow: 0 0 0 4px var(--c-escuro);
+}
+
+.competicao__participante:focus-visible,
+.competicao__btn:focus-visible,
+.competicao__seta:focus-visible {
+  outline: 3px solid var(--c-roxo);
+  outline-offset: 3px;
+}
+
+/* ===================== PAGINAÇÃO ===================== */
+.competicao__paginacao {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.competicao__seta {
+  border: 0;
+  background: none;
+  font-size: 1.5rem;
+  line-height: 1;
+  color: var(--c-escuro);
+  cursor: pointer;
+}
+
+.competicao__dots {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.competicao__dot {
+  width: 0.9rem;
+  height: 0.9rem;
+  border-radius: 50%;
+  background: var(--c-escuro);
+}
+
+.competicao__dot--active {
+  background: var(--c-verde);
+}
+
+/* ===================== BOTÕES ===================== */
+.competicao__acoes {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+  width: 100%;
+}
+
+.competicao__btn {
+  flex: 1 1 10rem;
+  max-width: 14rem;
+  padding: 0.8rem 1.5rem;
+  border: 0;
+  border-radius: 999px;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.15s ease, opacity 0.15s ease;
+}
+
+.competicao__btn:hover { transform: translateY(-2px); }
+.competicao__btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+.competicao__btn--votar { background: var(--c-escuro); color: var(--c-verde); }
+.competicao__btn--inscrever { background: var(--c-escuro); color: var(--c-roxo); }
+
+/* ===================== CONFIRMAR VOTO ===================== */
+.competicao__confirmar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.5rem 1.25rem;
+  border-radius: 1.5rem;
+  background: var(--c-roxo);
+  color: #fff;
+}
+
+.competicao__confirmar[hidden] {
+  display: none;
+}
+
+.competicao__confirmar-title {
+  margin: 0;
+  font-size: 1.5rem;
+  color: var(--c-verde);
+}
+
+.competicao__confirmar-participante {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.competicao__btn--confirmar {
+  width: 100%;
+  max-width: none;
+  background: var(--c-verde);
+  color: var(--c-escuro);
+}
+
+/* ===================== TELAS MAIORES ===================== */
+@media (min-width: 768px) {
+  .competicao {
+    padding: 2rem 2rem 4rem;
+    gap: 2.5rem;
+  }
+
+  .competicao__info {
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 3rem;
+  }
+
+  .competicao__info-item {
+    flex: 1;
+  }
+
+  .competicao__participantes-grid {
+    grid-template-columns: repeat(5, 1fr);
+  }
+
+  .competicao__avatar {
+    width: 5.5rem;
+    height: 5.5rem;
+  }
+
+  .competicao__podio-bloco {
+    min-width: 7rem;
+  }
+
+  .competicao__deco {
+    width: 4.5rem;
+    height: 4.5rem;
+  }
+}

@@ -9,6 +9,7 @@ export default defineConfig({
         login: resolve(__dirname, 'src/pages/login/login.html'),
         perfil: resolve(__dirname, 'src/pages/perfil/perfil.html'),
         competicoes: resolve(__dirname, 'src/pages/competicoes/competicoes.html'),
+        competicao: resolve(__dirname, "src/pages/competicoes/competicao.html"),
         contratacao: resolve(__dirname, 'src/pages/contratacao/contratacao.html'),
       },
     },
