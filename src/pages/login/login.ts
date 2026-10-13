@@ -1,5 +1,6 @@
 import "./login.css";
-import { fazerLogin, fazerCadastro } from "../../services/auth";
+import { validarEmail, validarSenhaCadastro, textoRequisitosSenha } from "../../services/erros";
+import { fazerLogin, fazerCadastro, confirmarCodigo, reenviarCodigo } from "../../services/auth";
 import { ROTAS } from "../../config/routes";
 
 type Modo = "login" | "cadastro";
@@ -28,6 +29,21 @@ const CONFIG = {
   },
 } as const;
 
+function criarFeedback(form: HTMLFormElement): HTMLParagraphElement {
+  const el = document.createElement("p");
+  el.className = "login__feedback";
+  el.setAttribute("role", "alert");
+  el.style.fontSize = "0.9rem";
+  el.style.marginTop = "0.5rem";
+  el.style.textAlign = "center";
+  form.appendChild(el);
+  return el;
+}
+
+function mensagemDeErro(err: unknown): string {
+  return err instanceof Error ? err.message : "Algo deu errado. Tente novamente.";
+}
+
 function inicializarLogin(): void {
   const form = document.querySelector<HTMLFormElement>(".login__form");
   const emailInput = document.querySelector<HTMLInputElement>("#email");
@@ -54,38 +70,123 @@ function inicializarLogin(): void {
   cardLink.textContent = cfg.cardLink;
   cardLink.href = cfg.cardHref;
 
-  // Elemento para exibir mensagens dinâmicas
-  let feedbackEl = form.querySelector<HTMLParagraphElement>(".login__feedback");
-  if (!feedbackEl) {
-    feedbackEl = document.createElement("p");
-    feedbackEl.className = "login__feedback";
-    feedbackEl.setAttribute("role", "alert");
-    feedbackEl.style.fontSize = "0.9rem";
-    feedbackEl.style.marginTop = "0.5rem";
-    feedbackEl.style.textAlign = "center";
-    form.appendChild(feedbackEl);
+  // No cadastro, mostra os requisitos da senha logo abaixo do campo
+  let dicaSenha: HTMLParagraphElement | null = null;
+  if (modo === "cadastro") {
+    dicaSenha = document.createElement("p");
+    dicaSenha.className = "login__hint";
+    dicaSenha.textContent = textoRequisitosSenha();
+    senhaInput.insertAdjacentElement("afterend", dicaSenha);
   }
 
-  function mostrarFeedback(texto: string, erro = true): void {
-    feedbackEl!.style.color = erro ? "#FF4D4D" : "#2ECC71";
-    feedbackEl!.textContent = texto;
-  }
+  // Elemento para exibir mensagens dinâmicas
+  const feedbackEl =
+    form.querySelector<HTMLParagraphElement>(".login__feedback") ?? criarFeedback(form);
+
+  const mostrarFeedback = (texto: string, erro = true): void => {
+    feedbackEl.style.color = erro ? "#FF4D4D" : "#2ECC71";
+    feedbackEl.textContent = texto;
+  };
+
+  // Quando definido, o formulário está no passo "digitar código de confirmação"
+  let acaoCodigo: (() => Promise<void>) | null = null;
+
+  // Troca o formulário de cadastro pelo passo de confirmação do e-mail
+  const mostrarPassoCodigo = (email: string): void => {
+    emailInput.disabled = true;
+    senhaInput.style.display = "none";
+    if (dicaSenha) dicaSenha.style.display = "none";
+    const labelSenha = form.querySelector<HTMLElement>('label[for="senha"]');
+    if (labelSenha) labelSenha.style.display = "none";
+    submitBtn.style.display = "none";
+
+    const codigoInput = document.createElement("input");
+    codigoInput.type = "text";
+    codigoInput.inputMode = "numeric";
+    codigoInput.autocomplete = "one-time-code";
+    codigoInput.placeholder = "código recebido por e-mail";
+    codigoInput.className = senhaInput.className;
+
+    const confirmarBtn = document.createElement("button");
+    confirmarBtn.type = "button";
+    confirmarBtn.className = submitBtn.className;
+    confirmarBtn.textContent = "confirmar";
+
+    const reenviarBtn = document.createElement("button");
+    reenviarBtn.type = "button";
+    reenviarBtn.textContent = "reenviar código";
+
+    const confirmar = async (): Promise<void> => {
+      const codigo = codigoInput.value.trim();
+      if (!codigo) {
+        mostrarFeedback("Digite o código que enviamos para o seu e-mail.");
+        codigoInput.focus();
+        return;
+      }
+
+      try {
+        confirmarBtn.disabled = true;
+        await confirmarCodigo(email, codigo);
+        window.location.href = ROTAS.perfil;
+      } catch (err: unknown) {
+        mostrarFeedback(mensagemDeErro(err));
+        confirmarBtn.disabled = false;
+      }
+    };
+
+    // Enter dentro do campo de código também confirma (em vez de refazer o cadastro)
+    acaoCodigo = confirmar;
+    confirmarBtn.addEventListener("click", confirmar);
+
+    reenviarBtn.addEventListener("click", async () => {
+      try {
+        reenviarBtn.disabled = true;
+        await reenviarCodigo(email);
+        mostrarFeedback("Novo código enviado. Confira sua caixa de entrada e o spam.", false);
+      } catch (err: unknown) {
+        mostrarFeedback(mensagemDeErro(err));
+      } finally {
+        reenviarBtn.disabled = false;
+      }
+    });
+
+    feedbackEl.before(codigoInput, confirmarBtn, reenviarBtn);
+    codigoInput.focus();
+  };
 
   form.addEventListener("submit", async (event) => {
     event.preventDefault();
-    feedbackEl!.textContent = "";
+    feedbackEl.textContent = "";
+
+    // Já está no passo do código: Enter confirma o código
+    if (acaoCodigo) {
+      await acaoCodigo();
+      return;
+    }
 
     const email = emailInput.value.trim();
     const senha = senhaInput.value; // senha não deve ser alterada com trim()
 
-    if (!email || !senha) {
-      mostrarFeedback("Preencha todos os campos.");
+    const erroEmail = validarEmail(email);
+    if (erroEmail) {
+      mostrarFeedback(erroEmail);
+      emailInput.focus();
       return;
     }
 
-    if (modo === "cadastro" && senha.length < 6) {
-      mostrarFeedback("A senha deve ter pelo menos 6 caracteres.");
+    if (modo === "login" && !senha) {
+      mostrarFeedback("Informe sua senha.");
+      senhaInput.focus();
       return;
+    }
+
+    if (modo === "cadastro") {
+      const erroSenha = validarSenhaCadastro(senha);
+      if (erroSenha) {
+        mostrarFeedback(erroSenha);
+        senhaInput.focus();
+        return;
+      }
     }
 
     try {
@@ -98,15 +199,14 @@ function inicializarLogin(): void {
       } else {
         const { precisaConfirmar } = await fazerCadastro(email, senha);
         if (precisaConfirmar) {
-          mostrarFeedback("Conta criada! Confirme seu e-mail para poder entrar.", false);
+          mostrarFeedback("Enviamos um código para o seu e-mail. Digite-o abaixo.", false);
+          mostrarPassoCodigo(email);
         } else {
           window.location.href = ROTAS.perfil;
         }
       }
     } catch (err: unknown) {
-      mostrarFeedback(
-        err instanceof Error ? err.message : "Algo deu errado. Tente novamente."
-      );
+      mostrarFeedback(mensagemDeErro(err));
     } finally {
       submitBtn.disabled = false;
       submitBtn.textContent = cfg.botao;

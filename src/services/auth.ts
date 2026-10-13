@@ -1,4 +1,6 @@
 import { supabase } from "./supabase";
+import { traduzirErroAuth } from "./erros";
+import { ROTAS } from "../config/routes";
 
 export interface Usuario {
   id?: string;
@@ -34,7 +36,7 @@ export async function fazerLogin(email: string, senha: string): Promise<Usuario>
     });
 
     if (error) {
-      throw new Error(error.message || "Credenciais inválidas.");
+      throw new Error(traduzirErroAuth(error));
     }
 
     if (data.user?.email) {
@@ -68,14 +70,54 @@ export async function fazerCadastro(
   const { data, error } = await supabase.auth.signUp({
     email,
     password: senha,
+    options: { emailRedirectTo: `${window.location.origin}${ROTAS.perfil}` },
   });
 
   if (error) {
-    throw new Error(error.message);
+    throw new Error(traduzirErroAuth(error));
+  }
+
+  // E-mail já cadastrado: o Supabase não devolve erro, mas retorna identities vazio
+  if (data.user && data.user.identities?.length === 0) {
+    throw new Error("Este e-mail já está cadastrado. Tente fazer login.");
   }
 
   // Sem sessão = o Supabase está exigindo confirmação por e-mail
   return { precisaConfirmar: !data.session };
+}
+
+/**
+ * Confirma o e-mail do novo usuário com o código recebido
+ */
+export async function confirmarCodigo(email: string, codigo: string): Promise<void> {
+  if (!supabase) {
+    throw new Error("Supabase não está configurado.");
+  }
+
+  const { error } = await supabase.auth.verifyOtp({
+    email,
+    token: codigo.trim(),
+    type: "signup",
+  });
+
+  if (error) {
+    throw new Error(traduzirErroAuth(error));
+  }
+}
+
+/**
+ * Reenvia o código de confirmação para o e-mail
+ */
+export async function reenviarCodigo(email: string): Promise<void> {
+  if (!supabase) {
+    throw new Error("Supabase não está configurado.");
+  }
+
+  const { error } = await supabase.auth.resend({ type: "signup", email });
+
+  if (error) {
+    throw new Error(traduzirErroAuth(error));
+  }
 }
 
 /**
