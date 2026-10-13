@@ -1,4 +1,4 @@
-import "./competicao.css"
+import "./competicao.css";
 import { cmsFetch } from "../../services/cms";
 
 type Competicao = {
@@ -8,6 +8,7 @@ type Competicao = {
   premios?: string;
   prazos?: string;
   estilo?: string;
+  banner?: string;
 };
 
 function setText(id: string, valor?: string) {
@@ -20,7 +21,15 @@ async function renderCompeticao() {
   if (!slug) return;
 
   const comp = await cmsFetch<Competicao>(
-    `*[_type == "competicao" && slug.current == $slug][0]`,
+    `*[_type == "competicao" && slug.current == $slug][0]{
+      titulo,
+      musicaTitulo,
+      musicaDescricao,
+      premios,
+      prazos,
+      estilo,
+      "banner": banner.asset->url
+    }`,
     { slug }
   );
   if (!comp) return;
@@ -31,6 +40,12 @@ async function renderCompeticao() {
   setText("premios-texto", comp.premios);
   setText("prazos-texto", comp.prazos);
   setText("estilo-texto", comp.estilo);
+
+  const bannerEl = document.querySelector<HTMLImageElement>("#competicao-banner");
+  if (bannerEl && comp.banner) {
+    bannerEl.src = `${comp.banner}?w=1600&auto=format`;
+    bannerEl.alt = comp.titulo;
+  }
 }
 
 renderCompeticao();
