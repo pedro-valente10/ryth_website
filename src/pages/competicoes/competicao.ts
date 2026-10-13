@@ -1,4 +1,15 @@
+// 1. Estilos Globais e Componentes
+import "../../styles/reset.css";
+import "../../styles/global.css";
+import "../../styles/variables.css";
+
+import "../../components/navbar/navbar.css";
+import "../../components/footer/footer.css";
 import "./competicao.css";
+
+// 2. Componentes e Serviços
+import { renderNavbar } from "../../components/navbar/navbar";
+import { renderFooter } from "../../components/footer/footer";
 import { cmsFetch } from "../../services/cms";
 
 type Competicao = {
@@ -11,17 +22,17 @@ type Competicao = {
   banner?: string;
 };
 
-function setText(id: string, valor?: string) {
+function setText(id: string, valor?: string): void {
   const el = document.getElementById(id);
   if (el && valor) el.textContent = valor;
 }
 
-async function renderCompeticao() {
+async function carregarDadosSanity(): Promise<void> {
   const slug = new URLSearchParams(window.location.search).get("slug");
-  if (!slug) return;
+  if (!slug) return; // Mantém a imagem padrão e textos do HTML se não houver parâmetro ?slug=
 
   const comp = await cmsFetch<Competicao>(
-    `*[_type == "competicao" && slug.current == $slug][0]{
+    `*[_type == "competicao" && slug.current == $slug]{
       titulo,
       musicaTitulo,
       musicaDescricao,
@@ -32,6 +43,7 @@ async function renderCompeticao() {
     }`,
     { slug }
   );
+
   if (!comp) return;
 
   document.title = `RYTH - ${comp.titulo}`;
@@ -48,4 +60,65 @@ async function renderCompeticao() {
   }
 }
 
-renderCompeticao();
+function inicializarInteratividadeVotacao(): void {
+  const participantes = document.querySelectorAll<HTMLButtonElement>(".competicao__participante");
+  const confirmarNome = document.querySelector<HTMLElement>("#confirmar-nome");
+  const btnVotarMain = document.querySelector<HTMLButtonElement>("#btn-votar");
+  const btnConfirmarVoto = document.querySelector<HTMLButtonElement>("#btn-confirmar");
+
+  let participanteSelecionado: string | null = null;
+
+  // Seleção dinâmica dos participantes
+  participantes.forEach((p) => {
+    p.addEventListener("click", () => {
+      participantes.forEach((el) => el.classList.remove("competicao__participante--selecionado"));
+      p.classList.add("competicao__participante--selecionado");
+
+      const nome = p.getAttribute("data-nome") || 
+                   p.querySelector(".competicao__participante-nome")?.textContent;
+      if (nome) {
+        participanteSelecionado = nome;
+        if (confirmarNome) {
+          confirmarNome.textContent = participanteSelecionado;
+        }
+      }
+    });
+  });
+
+  // Botão "votar" da seção de ações faz rolagem suave até a caixa de confirmação
+  if (btnVotarMain) {
+    btnVotarMain.addEventListener("click", () => {
+      if (!participanteSelecionado) {
+        alert("Selecione um participante no grid antes de votar!");
+        return;
+      }
+      const cardConfirmar = document.querySelector<HTMLElement>("#confirmar-voto");
+      cardConfirmar?.scrollIntoView({ behavior: "smooth" });
+    });
+  }
+
+  // Ação de registrar voto no botão dentro da caixa
+  if (btnConfirmarVoto) {
+    btnConfirmarVoto.addEventListener("click", () => {
+      if (!participanteSelecionado) {
+        alert("Selecione um participante no grid acima.");
+        return;
+      }
+      alert(`Voto registrado com sucesso em "${participanteSelecionado}"!`);
+    });
+  }
+}
+
+// Inicialização da página
+async function init(): Promise<void> {
+  renderFooter();
+  await renderNavbar();
+  await carregarDadosSanity();
+  inicializarInteratividadeVotacao();
+}
+
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", init);
+} else {
+  init();
+}

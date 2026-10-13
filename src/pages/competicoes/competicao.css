@@ -1,42 +1,57 @@
-/* ===================== VARIÁVEIS DA PÁGINA ===================== */
-.competicao {
-  --c-roxo: #7b2fe0;
-  --c-verde: #c6f432;
-  --c-escuro: #0d0d2b;
-  --c-fundo: #f7f7fb;
-  --c-cinza: #8a8a8a;
+/* ==========================================================================
+   PÁGINA DE DETALHES DA COMPETIÇÃO - STYLES CONSOLIDADOS
+   ========================================================================== */
 
-  max-width: 1100px;
-  margin: 0 auto;
-  padding: 1.25rem 1rem 3rem;
+.competicao-page {
+  background-color: var(--main-white);
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
-  gap: 2rem;
-  background: var(--c-fundo);
-  color: var(--c-escuro);
 }
 
-/* ===================== VOLTAR ===================== */
+.competicao {
+  flex: 1;
+  width: 100%;
+  max-width: 1050px;
+  margin: 0 auto;
+  padding: 2.5rem 1.5rem 5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+  background-color: var(--main-white);
+  color: var(--main-black);
+}
+
+/* ===================== BOTÃO VOLTAR ===================== */
 .competicao__back {
   align-self: flex-start;
   display: inline-flex;
   align-items: center;
-  gap: 0.4rem;
-  padding: 0.5rem 1.25rem;
-  border-radius: 999px;
-  background: var(--c-escuro);
-  color: var(--c-roxo);
+  gap: 0.5rem;
+  padding: 0.6rem 1.6rem;
+  border-radius: 50px;
+  background-color: var(--main-black);
+  color: var(--main-purple);
   text-decoration: none;
-  font-weight: 500;
+  font-family: var(--font-family);
+  font-size: 1rem;
+  font-weight: 700;
+  transition: transform 0.2s ease, opacity 0.2s ease;
 }
 
-/* ===================== BANNER ===================== */
+.competicao__back:hover {
+  transform: translateY(-2px);
+  opacity: 0.95;
+}
+
+/* ===================== BANNER PRINCIPAL ===================== */
 .competicao__banner {
   width: 100%;
   aspect-ratio: 16 / 7;
-  border-radius: 1.25rem;
-  background: var(--c-cinza);
+  border-radius: 28px;
+  background-color: #828288;
   overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
 }
 
 .competicao__banner img {
@@ -50,36 +65,44 @@
 .competicao__musica {
   align-self: center;
   text-align: center;
-  padding: 0.75rem 2rem;
-  border-radius: 1rem;
-  background: var(--c-roxo);
-  color: #fff;
+  padding: 1.2rem 3rem;
+  border-radius: 20px;
+  background-color: var(--main-purple);
+  color: var(--white);
+  max-width: 520px;
+  width: 100%;
 }
 
 .competicao__musica-title {
+  font-family: var(--font-family);
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: var(--main-green);
   margin: 0;
-  font-size: 1.1rem;
-  color: var(--c-verde);
 }
 
 .competicao__musica-text {
-  margin: 0.25rem 0 0;
-  font-size: 0.85rem;
+  font-family: var(--font-family);
+  font-size: 1rem;
+  margin: 0.3rem 0 0;
+  color: var(--white);
 }
 
-/* ===================== PRÊMIOS ===================== */
+/* ===================== PÓDIO & PRÊMIOS (VERDE) ===================== */
 .competicao__premios {
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 100%;
 }
 
 .competicao__podio {
   display: flex;
   align-items: flex-end;
   justify-content: center;
-  gap: 1rem;
+  gap: 1.5rem;
   width: 100%;
+  margin-bottom: 0;
 }
 
 .competicao__podio-blocos {
@@ -90,66 +113,104 @@
 .competicao__podio-bloco {
   display: flex;
   justify-content: center;
-  padding-top: 0.5rem;
-  min-width: 5rem;
-  background: var(--c-roxo);
-  color: var(--c-verde);
-  font-weight: 700;
-  font-size: 1.25rem;
+  padding-top: 0.6rem;
+  min-width: 5.5rem;
+  background-color: var(--main-green);
+  color: var(--main-purple);
+  font-family: var(--font-family);
+  font-weight: 800;
+  font-size: 1.4rem;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
 }
 
-.competicao__podio-bloco--1 { height: 5.5rem; }
-.competicao__podio-bloco--2 { height: 4.5rem; }
-.competicao__podio-bloco--3 { height: 3.75rem; }
+.competicao__podio-bloco--1 { height: 6rem; z-index: 2; }
+.competicao__podio-bloco--2 { height: 4.8rem; }
+.competicao__podio-bloco--3 { height: 4rem; }
 
 .competicao__deco {
-  width: 3rem;
-  height: 3rem;
+  width: 3.5rem;
+  height: 3.5rem;
   object-fit: contain;
+  margin-bottom: 0.5rem;
 }
 
 .competicao__premios-box {
   width: 100%;
-  padding: 1rem 1.25rem 1.5rem;
-  border-radius: 1.5rem;
-  background: var(--c-verde);
+  padding: 2.8rem 2.2rem;
+  border-radius: 32px;
+  background-color: var(--main-green);
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
 }
 
 .competicao__premios-title {
-  margin: 0 0 0.5rem;
-  font-size: 1.5rem;
-  color: var(--c-roxo);
+  font-family: var(--font-monument, sans-serif);
+  font-size: clamp(1.8rem, 3.5vw, 2.5rem);
+  font-weight: 900;
+  color: var(--main-purple);
+  margin: 0;
 }
 
 .competicao__premios-text {
+  font-family: var(--font-family);
+  font-size: clamp(0.95rem, 1.5vw, 1.05rem);
+  line-height: 1.5;
+  color: var(--main-black);
   margin: 0;
-  font-size: 0.8rem;
-  line-height: 1.4;
+  max-width: 850px;
+  align-self: center;
 }
 
 /* ===================== PRAZOS + ESTILO ===================== */
 .competicao__info {
   display: flex;
+  justify-content: space-between;
+  gap: 3rem;
+  width: 100%;
+}
+
+.competicao__info-item {
+  flex: 1;
+  display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 0.6rem;
 }
 
 .competicao__info-title {
-  margin: 0 0 0.25rem;
-  font-size: 1.5rem;
+  font-family: var(--font-monument, sans-serif);
+  font-size: clamp(1.8rem, 3vw, 2.2rem);
+  font-weight: 900;
+  margin: 0;
 }
 
-.competicao__info-title--prazos { color: var(--c-roxo); }
-.competicao__info-title--estilo { color: var(--c-verde); }
+.competicao__info-title--prazos {
+  color: var(--main-purple);
+  text-align: left;
+}
+
+.competicao__info-title--estilo {
+  color: var(--main-green);
+  text-align: right;
+}
+
+.competicao__info-item--prazos p {
+  text-align: left;
+}
+
+.competicao__info-item--estilo p {
+  text-align: right;
+}
 
 .competicao__info-item p {
+  font-family: var(--font-family);
+  font-size: 0.98rem;
+  line-height: 1.5;
+  color: var(--main-black);
   margin: 0;
-  line-height: 1.4;
-}
-
-.competicao__info-item--estilo {
-  text-align: right;
 }
 
 /* ===================== PARTICIPANTES ===================== */
@@ -157,19 +218,23 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1.5rem;
+  gap: 2rem;
+  width: 100%;
 }
 
 .competicao__participantes-title {
-  margin: 0;
-  font-size: 1.75rem;
+  font-family: var(--font-monument, sans-serif);
+  font-size: clamp(1.8rem, 3vw, 2.4rem);
+  font-weight: 900;
+  color: var(--main-black);
   text-align: center;
+  margin: 0;
 }
 
 .competicao__participantes-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1rem;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 1.5rem;
   width: 100%;
 }
 
@@ -177,12 +242,10 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.35rem;
-  padding: 0;
-  border: 0;
+  gap: 0.5rem;
   background: none;
-  font: inherit;
-  color: inherit;
+  border: none;
+  padding: 0;
   cursor: pointer;
 }
 
@@ -190,166 +253,223 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 4.25rem;
-  height: 4.25rem;
+  width: 5.5rem;
+  height: 5.5rem;
   border-radius: 50%;
-  border: 3px solid var(--c-roxo);
-  background: #fff;
-  font-size: 0.55rem;
+  background-color: #828288;
+  color: var(--main-black);
+  font-family: var(--font-family);
+  font-size: 0.75rem;
+  font-weight: 500;
   text-align: center;
   overflow: hidden;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.competicao__avatar--grande {
-  width: 5rem;
-  height: 5rem;
+.competicao__participante--roxo .competicao__avatar {
+  border: 4px solid var(--main-purple);
 }
 
-.competicao__participante--roxo .competicao__avatar { border-color: var(--c-roxo); }
-.competicao__participante--verde .competicao__avatar { border-color: var(--c-verde); }
+.competicao__participante--verde .competicao__avatar {
+  border: 4px solid var(--main-green);
+}
+
+.competicao__participante--selecionado .competicao__avatar {
+  box-shadow: 0 0 0 4px var(--main-black);
+  transform: scale(1.08);
+}
 
 .competicao__participante-nome {
-  font-size: 0.7rem;
+  font-family: var(--font-family);
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--main-black);
 }
 
-/* participante selecionado (adicione esta classe via TS ao clicar) */
-.competicao__participante--selecionado .competicao__avatar {
-  box-shadow: 0 0 0 4px var(--c-escuro);
-}
-
-.competicao__participante:focus-visible,
-.competicao__btn:focus-visible,
-.competicao__seta:focus-visible {
-  outline: 3px solid var(--c-roxo);
-  outline-offset: 3px;
-}
-
-/* ===================== PAGINAÇÃO ===================== */
+/* PAGINAÇÃO */
 .competicao__paginacao {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
+  gap: 1rem;
 }
 
 .competicao__seta {
-  border: 0;
+  border: none;
   background: none;
-  font-size: 1.5rem;
-  line-height: 1;
-  color: var(--c-escuro);
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: var(--main-black);
   cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.competicao__seta:hover {
+  transform: scale(1.2);
 }
 
 .competicao__dots {
   display: flex;
-  gap: 0.5rem;
+  gap: 0.6rem;
+  align-items: center;
 }
 
 .competicao__dot {
-  width: 0.9rem;
-  height: 0.9rem;
+  width: 11px;
+  height: 11px;
   border-radius: 50%;
-  background: var(--c-escuro);
+  background-color: var(--main-black);
 }
 
 .competicao__dot--active {
-  background: var(--c-verde);
+  background-color: var(--main-purple);
 }
 
-/* ===================== BOTÕES ===================== */
+/* BOTÕES DE AÇÃO */
 .competicao__acoes {
   display: flex;
-  flex-wrap: wrap;
   justify-content: center;
-  gap: 1rem;
+  gap: 1.5rem;
   width: 100%;
 }
 
 .competicao__btn {
-  flex: 1 1 10rem;
-  max-width: 14rem;
-  padding: 0.8rem 1.5rem;
-  border: 0;
-  border-radius: 999px;
-  font: inherit;
-  font-weight: 600;
+  font-family: var(--font-family);
+  font-size: 1.15rem;
+  font-weight: 700;
+  padding: 0.85rem 3.5rem;
+  border-radius: 50px;
+  border: none;
   cursor: pointer;
-  transition: transform 0.15s ease, opacity 0.15s ease;
+  text-transform: lowercase;
+  transition: transform 0.2s ease, opacity 0.2s ease;
 }
 
-.competicao__btn:hover { transform: translateY(-2px); }
-.competicao__btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+.competicao__btn:hover {
+  transform: translateY(-2px);
+  opacity: 0.92;
+}
 
-.competicao__btn--votar { background: var(--c-escuro); color: var(--c-verde); }
-.competicao__btn--inscrever { background: var(--c-escuro); color: var(--c-roxo); }
+.competicao__btn--votar {
+  background-color: var(--main-black);
+  color: var(--main-green);
+}
 
-/* ===================== CONFIRMAR VOTO ===================== */
+.competicao__btn--inscrever {
+  background-color: var(--main-black);
+  color: var(--main-purple);
+}
+
+/* ===================== CAIXA CONFIRMAR VOTO (caixaconfirmavoto.png) ===================== */
 .competicao__confirmar {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1rem;
-  padding: 1.5rem 1.25rem;
-  border-radius: 1.5rem;
-  background: var(--c-roxo);
-  color: #fff;
-}
-
-.competicao__confirmar[hidden] {
-  display: none;
+  gap: 1.25rem;
+  padding: 2.2rem 2rem;
+  border-radius: 32px;
+  background-color: var(--main-purple);
+  width: 100%;
+  max-width: 480px;
+  margin: 1.5rem auto 0;
+  text-align: center;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
 }
 
 .competicao__confirmar-title {
+  font-family: var(--font-monument, sans-serif);
+  font-size: clamp(1.8rem, 3.5vw, 2.2rem);
+  font-weight: 900;
+  color: var(--main-green);
   margin: 0;
-  font-size: 1.5rem;
-  color: var(--c-verde);
 }
 
 .competicao__confirmar-participante {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
+  justify-content: center;
+  gap: 1.25rem;
+}
+
+.competicao__avatar--confirmar {
+  width: 4.8rem;
+  height: 4.8rem;
+  background-color: var(--white);
+  border: 4px solid var(--main-green);
+  border-radius: 50%;
+  color: var(--main-black);
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.competicao__confirmar-nome {
+  font-family: var(--font-family);
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--white);
 }
 
 .competicao__btn--confirmar {
+  background-color: var(--main-green);
+  color: var(--main-black);
+  font-size: 1.15rem;
+  font-weight: 800;
+  padding: 0.85rem 3.5rem;
+  border-radius: 50px;
+  border: none;
+  cursor: pointer;
   width: 100%;
-  max-width: none;
-  background: var(--c-verde);
-  color: var(--c-escuro);
+  max-width: 320px;
+  transition: transform 0.2s ease, opacity 0.2s ease;
 }
 
-/* ===================== TELAS MAIORES ===================== */
-@media (min-width: 768px) {
-  .competicao {
-    padding: 2rem 2rem 4rem;
-    gap: 2.5rem;
-  }
+.competicao__btn--confirmar:hover {
+  transform: translateY(-2px);
+  opacity: 0.95;
+}
 
+/* ===================== RESPONSIVIDADE ===================== */
+@media (max-width: 820px) {
   .competicao__info {
-    flex-direction: row;
-    justify-content: space-between;
-    gap: 3rem;
+    flex-direction: column;
+    gap: 2rem;
   }
 
-  .competicao__info-item {
-    flex: 1;
+  .competicao__info-title--estilo,
+  .competicao__info-item--estilo p {
+    text-align: left;
   }
 
   .competicao__participantes-grid {
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 520px) {
+  .competicao {
+    padding: 1.5rem 1rem 3rem;
+    gap: 2rem;
   }
 
-  .competicao__avatar {
-    width: 5.5rem;
-    height: 5.5rem;
+  .competicao__participantes-grid {
+    grid-template-columns: repeat(2, 1fr);
   }
 
   .competicao__podio-bloco {
-    min-width: 7rem;
+    min-width: 4rem;
   }
 
-  .competicao__deco {
-    width: 4.5rem;
-    height: 4.5rem;
+  .competicao__acoes {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .competicao__btn {
+    width: 100%;
+    max-width: 280px;
+  }
+
+  .competicao__confirmar {
+    padding: 1.8rem 1.25rem;
+    border-radius: 24px;
   }
 }
