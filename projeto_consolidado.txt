@@ -102,6 +102,7 @@ export default defineConfig({
         login: resolve(__dirname, 'src/pages/login/login.html'),
         perfil: resolve(__dirname, 'src/pages/perfil/perfil.html'),
         competicoes: resolve(__dirname, 'src/pages/competicoes/competicoes.html'),
+        competicao: resolve(__dirname, "src/pages/competicoes/competicao.html"),
         contratacao: resolve(__dirname, 'src/pages/contratacao/contratacao.html'),
       },
     },
@@ -1843,30 +1844,17 @@ ARQUIVO: ./src/pages/competicoes/competicoes.html
   <!-- ===================== NAVBAR (componente global) ===================== -->
   <div id="navbar-root"></div>
 
-  <main class="main">
+ <main class="main">
   <section class="competicoes">
     <h1 class="competicoes__title">Competições</h1>
 
     <!-- ATIVAS -->
     <div class="competicoes__group">
       <h2 class="competicoes__subtitle competicoes__subtitle--active">Ativas</h2>
-      <div class="competicoes__grid">
-        <a class="competicoes__card competicoes__card--active" href="#">
-          <span class="competicoes__media">
-            <!-- <img src="..." alt="" /> quando tiver a foto -->
-            <span class="competicoes__cta">Inscreva-se</span>
-          </span>
-          <span class="competicoes__name">Lorem ipsum</span>
-        </a>
-
-        <a class="competicoes__card competicoes__card--active" href="#">
-          <span class="competicoes__media">
-            <span class="competicoes__cta">Inscreva-se</span>
-          </span>
-          <span class="competicoes__name">Lorem ipsum</span>
-        </a>
-
-        <a class="competicoes__card competicoes__card--active" href="#">
+      <div class="competicoes__grid" id="grid-ativas">
+        <!-- Card de exemplo: o competicoes.ts substitui isto quando o Sanity responde -->
+        <a class="competicoes__card competicoes__card--active"
+           href="/src/pages/competicoes/competicao.html?slug=teste">
           <span class="competicoes__media">
             <span class="competicoes__cta">Inscreva-se</span>
           </span>
@@ -1878,25 +1866,11 @@ ARQUIVO: ./src/pages/competicoes/competicoes.html
     <!-- FINALIZADAS -->
     <div class="competicoes__group">
       <h2 class="competicoes__subtitle competicoes__subtitle--finished">Finalizadas</h2>
-      <div class="competicoes__grid">
-        <a class="competicoes__card competicoes__card--finished" href="#">
-          <span class="competicoes__media">
-            <span class="competicoes__cta">Inscreva-se</span>
-          </span>
-          <span class="competicoes__name">Lorem ipsum</span>
-        </a>
-
-        <a class="competicoes__card competicoes__card--finished" href="#">
-          <span class="competicoes__media">
-            <span class="competicoes__cta">Inscreva-se</span>
-          </span>
-          <span class="competicoes__name">Lorem ipsum</span>
-        </a>
-
-        <a class="competicoes__card competicoes__card--finished" href="#">
-          <span class="competicoes__media">
-            <span class="competicoes__cta">Inscreva-se</span>
-          </span>
+      <div class="competicoes__grid" id="grid-finalizadas">
+        <!-- Card de exemplo: o competicoes.ts substitui isto quando o Sanity responde -->
+        <a class="competicoes__card competicoes__card--finished"
+           href="/src/pages/competicoes/competicao.html?slug=teste">
+          <span class="competicoes__media"></span>
           <span class="competicoes__name">Lorem ipsum</span>
         </a>
       </div>
@@ -2073,44 +2047,699 @@ ARQUIVO: ./src/pages/competicoes/competicoes.css
 }
 
 ========================================
+ARQUIVO: ./src/pages/competicoes/competicao.css
+========================================
+
+/* ===================== VARIÁVEIS DA PÁGINA ===================== */
+.competicao {
+  --c-roxo: #7b2fe0;
+  --c-verde: #c6f432;
+  --c-escuro: #0d0d2b;
+  --c-fundo: #f7f7fb;
+  --c-cinza: #8a8a8a;
+
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 1.25rem 1rem 3rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  background: var(--c-fundo);
+  color: var(--c-escuro);
+}
+
+/* ===================== VOLTAR ===================== */
+.competicao__back {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.5rem 1.25rem;
+  border-radius: 999px;
+  background: var(--c-escuro);
+  color: var(--c-roxo);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+/* ===================== BANNER ===================== */
+.competicao__banner {
+  width: 100%;
+  aspect-ratio: 16 / 7;
+  border-radius: 1.25rem;
+  background: var(--c-cinza);
+  overflow: hidden;
+}
+
+.competicao__banner img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* ===================== MÚSICA ===================== */
+.competicao__musica {
+  align-self: center;
+  text-align: center;
+  padding: 0.75rem 2rem;
+  border-radius: 1rem;
+  background: var(--c-roxo);
+  color: #fff;
+}
+
+.competicao__musica-title {
+  margin: 0;
+  font-size: 1.1rem;
+  color: var(--c-verde);
+}
+
+.competicao__musica-text {
+  margin: 0.25rem 0 0;
+  font-size: 0.85rem;
+}
+
+/* ===================== PRÊMIOS ===================== */
+.competicao__premios {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.competicao__podio {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 1rem;
+  width: 100%;
+}
+
+.competicao__podio-blocos {
+  display: flex;
+  align-items: flex-end;
+}
+
+.competicao__podio-bloco {
+  display: flex;
+  justify-content: center;
+  padding-top: 0.5rem;
+  min-width: 5rem;
+  background: var(--c-roxo);
+  color: var(--c-verde);
+  font-weight: 700;
+  font-size: 1.25rem;
+}
+
+.competicao__podio-bloco--1 { height: 5.5rem; }
+.competicao__podio-bloco--2 { height: 4.5rem; }
+.competicao__podio-bloco--3 { height: 3.75rem; }
+
+.competicao__deco {
+  width: 3rem;
+  height: 3rem;
+  object-fit: contain;
+}
+
+.competicao__premios-box {
+  width: 100%;
+  padding: 1rem 1.25rem 1.5rem;
+  border-radius: 1.5rem;
+  background: var(--c-verde);
+  text-align: center;
+}
+
+.competicao__premios-title {
+  margin: 0 0 0.5rem;
+  font-size: 1.5rem;
+  color: var(--c-roxo);
+}
+
+.competicao__premios-text {
+  margin: 0;
+  font-size: 0.8rem;
+  line-height: 1.4;
+}
+
+/* ===================== PRAZOS + ESTILO ===================== */
+.competicao__info {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.competicao__info-title {
+  margin: 0 0 0.25rem;
+  font-size: 1.5rem;
+}
+
+.competicao__info-title--prazos { color: var(--c-roxo); }
+.competicao__info-title--estilo { color: var(--c-verde); }
+
+.competicao__info-item p {
+  margin: 0;
+  line-height: 1.4;
+}
+
+.competicao__info-item--estilo {
+  text-align: right;
+}
+
+/* ===================== PARTICIPANTES ===================== */
+.competicao__participantes {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.competicao__participantes-title {
+  margin: 0;
+  font-size: 1.75rem;
+  text-align: center;
+}
+
+.competicao__participantes-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  width: 100%;
+}
+
+.competicao__participante {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+}
+
+.competicao__avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 4.25rem;
+  height: 4.25rem;
+  border-radius: 50%;
+  border: 3px solid var(--c-roxo);
+  background: #fff;
+  font-size: 0.55rem;
+  text-align: center;
+  overflow: hidden;
+}
+
+.competicao__avatar--grande {
+  width: 5rem;
+  height: 5rem;
+}
+
+.competicao__participante--roxo .competicao__avatar { border-color: var(--c-roxo); }
+.competicao__participante--verde .competicao__avatar { border-color: var(--c-verde); }
+
+.competicao__participante-nome {
+  font-size: 0.7rem;
+}
+
+/* participante selecionado (adicione esta classe via TS ao clicar) */
+.competicao__participante--selecionado .competicao__avatar {
+  box-shadow: 0 0 0 4px var(--c-escuro);
+}
+
+.competicao__participante:focus-visible,
+.competicao__btn:focus-visible,
+.competicao__seta:focus-visible {
+  outline: 3px solid var(--c-roxo);
+  outline-offset: 3px;
+}
+
+/* ===================== PAGINAÇÃO ===================== */
+.competicao__paginacao {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.competicao__seta {
+  border: 0;
+  background: none;
+  font-size: 1.5rem;
+  line-height: 1;
+  color: var(--c-escuro);
+  cursor: pointer;
+}
+
+.competicao__dots {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.competicao__dot {
+  width: 0.9rem;
+  height: 0.9rem;
+  border-radius: 50%;
+  background: var(--c-escuro);
+}
+
+.competicao__dot--active {
+  background: var(--c-verde);
+}
+
+/* ===================== BOTÕES ===================== */
+.competicao__acoes {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+  width: 100%;
+}
+
+.competicao__btn {
+  flex: 1 1 10rem;
+  max-width: 14rem;
+  padding: 0.8rem 1.5rem;
+  border: 0;
+  border-radius: 999px;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.15s ease, opacity 0.15s ease;
+}
+
+.competicao__btn:hover { transform: translateY(-2px); }
+.competicao__btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+.competicao__btn--votar { background: var(--c-escuro); color: var(--c-verde); }
+.competicao__btn--inscrever { background: var(--c-escuro); color: var(--c-roxo); }
+
+/* ===================== CONFIRMAR VOTO ===================== */
+.competicao__confirmar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.5rem 1.25rem;
+  border-radius: 1.5rem;
+  background: var(--c-roxo);
+  color: #fff;
+}
+
+.competicao__confirmar[hidden] {
+  display: none;
+}
+
+.competicao__confirmar-title {
+  margin: 0;
+  font-size: 1.5rem;
+  color: var(--c-verde);
+}
+
+.competicao__confirmar-participante {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.competicao__btn--confirmar {
+  width: 100%;
+  max-width: none;
+  background: var(--c-verde);
+  color: var(--c-escuro);
+}
+
+/* ===================== TELAS MAIORES ===================== */
+@media (min-width: 768px) {
+  .competicao {
+    padding: 2rem 2rem 4rem;
+    gap: 2.5rem;
+  }
+
+  .competicao__info {
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 3rem;
+  }
+
+  .competicao__info-item {
+    flex: 1;
+  }
+
+  .competicao__participantes-grid {
+    grid-template-columns: repeat(5, 1fr);
+  }
+
+  .competicao__avatar {
+    width: 5.5rem;
+    height: 5.5rem;
+  }
+
+  .competicao__podio-bloco {
+    min-width: 7rem;
+  }
+
+  .competicao__deco {
+    width: 4.5rem;
+    height: 4.5rem;
+  }
+}
+
+========================================
 ARQUIVO: ./src/pages/competicoes/competicoes.ts
 ========================================
 
 import "./competicoes.css";
+import { cmsFetch } from "../../services/cms";
+
+type Competicao = {
+  titulo: string;
+  slug: string;
+  ativa?: boolean;
+  imagem?: string;
+};
+
+const BASE_DETALHE = "/src/pages/competicoes/competicao.html";
+
+function cardHTML(c: Competicao, estado: "active" | "finished") {
+  const href = `${BASE_DETALHE}?slug=${encodeURIComponent(c.slug)}`;
+  const cta =
+    estado === "active" ? `<span class="competicoes__cta">Inscreva-se</span>` : "";
+  const img = c.imagem
+    ? `<img src="${c.imagem}?w=800&auto=format" alt="${c.titulo}" loading="lazy" />`
+    : "";
+
+  return `
+    <a class="competicoes__card competicoes__card--${estado}" href="${href}">
+      <span class="competicoes__media">${img}${cta}</span>
+      <span class="competicoes__name">${c.titulo}</span>
+    </a>`;
+}
+
+async function renderLista() {
+  const gridAtivas = document.querySelector<HTMLElement>("#grid-ativas");
+  const gridFinalizadas = document.querySelector<HTMLElement>("#grid-finalizadas");
+  if (!gridAtivas || !gridFinalizadas) return;
+
+  const competicoes = await cmsFetch<Competicao[]>(
+    `*[_type == "competicao"] | order(ordem asc, _createdAt desc) {
+      titulo,
+      "slug": slug.current,
+      ativa,
+      "imagem": imagemCard.asset->url
+    }`
+  );
+
+  if (!competicoes) {
+    console.warn("Competições não carregadas: confira o .env do Sanity.");
+    return;
+  }
+
+  const ativas = competicoes.filter((c) => c.ativa);
+  const finalizadas = competicoes.filter((c) => !c.ativa);
+
+  gridAtivas.innerHTML =
+    ativas.map((c) => cardHTML(c, "active")).join("") ||
+    "<p>Nenhuma competição ativa no momento.</p>";
+
+  gridFinalizadas.innerHTML =
+    finalizadas.map((c) => cardHTML(c, "finished")).join("") ||
+    "<p>Nenhuma competição finalizada.</p>";
+}
+
+renderLista();
+
+========================================
+ARQUIVO: ./src/pages/competicoes/competicao.html
+========================================
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RYTH - Competição</title>
+
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <script type="module" src="/src/pages/competicoes/competicao.ts"></script>
+  <script type="module" src="/src/main.ts"></script>
+</head>
+<body>
+
+  <!-- ===================== NAVBAR (componente global) ===================== -->
+  <div id="navbar-root"></div>
+
+  <main class="competicao">
+
+    <!-- VOLTAR -->
+    <a class="competicao__back" href="/src/pages/competicoes/competicoes.html">
+      <span aria-hidden="true">‹</span> voltar
+    </a>
+
+    <!-- BANNER -->
+    <div class="competicao__banner">
+      <img id="competicao-banner" src="" alt="" />
+    </div>
+
+    <!-- MÚSICA -->
+    <div class="competicao__musica">
+      <h2 class="competicao__musica-title" id="musica-titulo">Música</h2>
+      <p class="competicao__musica-text" id="musica-descricao">Lorem ipsum dolor sit amet</p>
+    </div>
+
+    <!-- PRÊMIOS -->
+    <section class="competicao__premios">
+      <div class="competicao__podio">
+        <img class="competicao__deco competicao__deco--left" src="" alt="" />
+        <div class="competicao__podio-blocos">
+          <span class="competicao__podio-bloco competicao__podio-bloco--2">2º</span>
+          <span class="competicao__podio-bloco competicao__podio-bloco--1">1º</span>
+          <span class="competicao__podio-bloco competicao__podio-bloco--3">3º</span>
+        </div>
+        <img class="competicao__deco competicao__deco--right" src="" alt="" />
+      </div>
+
+      <div class="competicao__premios-box">
+        <h2 class="competicao__premios-title">Prêmios</h2>
+        <p class="competicao__premios-text" id="premios-texto">
+          Mais do que uma premiação, vota é uma oportunidade para ampliar sua visibilidade...
+        </p>
+      </div>
+    </section>
+
+    <!-- PRAZOS + ESTILO -->
+    <section class="competicao__info">
+      <div class="competicao__info-item competicao__info-item--prazos">
+        <h2 class="competicao__info-title competicao__info-title--prazos">Prazos</h2>
+        <p id="prazos-texto">Acompanhe o período de inscrições, votação e divulgação dos resultados...</p>
+      </div>
+
+      <div class="competicao__info-item competicao__info-item--estilo">
+        <h2 class="competicao__info-title competicao__info-title--estilo">Estilo</h2>
+        <p id="estilo-texto">Cada desafio possui um estilo próprio. Use sua criatividade...</p>
+      </div>
+    </section>
+
+    <!-- PARTICIPANTES -->
+    <section class="competicao__participantes">
+      <h2 class="competicao__participantes-title">Participantes</h2>
+
+      <!-- Itens de exemplo para estilizar; o competicao.ts vai substituir -->
+      <div class="competicao__participantes-grid" id="participantes-grid">
+        <button class="competicao__participante competicao__participante--roxo" type="button">
+          <span class="competicao__avatar">foto de perfil</span>
+          <span class="competicao__participante-nome">Lorem ipsum</span>
+        </button>
+        <button class="competicao__participante competicao__participante--verde" type="button">
+          <span class="competicao__avatar">foto de perfil</span>
+          <span class="competicao__participante-nome">Lorem ipsum</span>
+        </button>
+        <!-- ...repita até 10 itens (2 linhas de 5) -->
+      </div>
+
+      <!-- PAGINAÇÃO -->
+      <nav class="competicao__paginacao" aria-label="Paginação de participantes">
+        <button class="competicao__seta" type="button" aria-label="Página anterior">‹</button>
+        <div class="competicao__dots" id="paginacao-dots">
+          <span class="competicao__dot"></span>
+          <span class="competicao__dot"></span>
+          <span class="competicao__dot competicao__dot--active"></span>
+          <span class="competicao__dot"></span>
+          <span class="competicao__dot"></span>
+        </div>
+        <button class="competicao__seta" type="button" aria-label="Próxima página">›</button>
+      </nav>
+
+      <!-- AÇÕES -->
+      <div class="competicao__acoes">
+        <button class="competicao__btn competicao__btn--votar" id="btn-votar" type="button">votar</button>
+        <button class="competicao__btn competicao__btn--inscrever" id="btn-inscrever" type="button">inscreva-se</button>
+      </div>
+    </section>
+
+    <!-- CONFIRMAR VOTO (aparece ao escolher um participante e clicar em "votar") -->
+    <section class="competicao__confirmar" id="confirmar-voto" hidden>
+      <h2 class="competicao__confirmar-title">Confirmar voto</h2>
+      <div class="competicao__confirmar-participante">
+        <span class="competicao__avatar competicao__avatar--grande" id="confirmar-foto">foto de perfil</span>
+        <span id="confirmar-nome">Lorem ipsum</span>
+      </div>
+      <button class="competicao__btn competicao__btn--confirmar" id="btn-confirmar" type="button">votar</button>
+    </section>
+
+  </main>
+
+  <!-- ===================== FOOTER (componente global) ===================== -->
+  <div id="footer-root"></div>
+
+</body>
+</html>
+
+========================================
+ARQUIVO: ./src/pages/competicoes/competicao.ts
+========================================
+
+import "./competicao.css";
+import { cmsFetch } from "../../services/cms";
+
+type Competicao = {
+  titulo: string;
+  musicaTitulo?: string;
+  musicaDescricao?: string;
+  premios?: string;
+  prazos?: string;
+  estilo?: string;
+  banner?: string;
+};
+
+function setText(id: string, valor?: string) {
+  const el = document.getElementById(id);
+  if (el && valor) el.textContent = valor;
+}
+
+async function renderCompeticao() {
+  const slug = new URLSearchParams(window.location.search).get("slug");
+  if (!slug) return;
+
+  const comp = await cmsFetch<Competicao>(
+    `*[_type == "competicao" && slug.current == $slug][0]{
+      titulo,
+      musicaTitulo,
+      musicaDescricao,
+      premios,
+      prazos,
+      estilo,
+      "banner": banner.asset->url
+    }`,
+    { slug }
+  );
+  if (!comp) return;
+
+  document.title = `RYTH - ${comp.titulo}`;
+  setText("musica-titulo", comp.musicaTitulo);
+  setText("musica-descricao", comp.musicaDescricao);
+  setText("premios-texto", comp.premios);
+  setText("prazos-texto", comp.prazos);
+  setText("estilo-texto", comp.estilo);
+
+  const bannerEl = document.querySelector<HTMLImageElement>("#competicao-banner");
+  if (bannerEl && comp.banner) {
+    bannerEl.src = `${comp.banner}?w=1600&auto=format`;
+    bannerEl.alt = comp.titulo;
+  }
+}
+
+renderCompeticao();
 
 ========================================
 ARQUIVO: ./src/pages/login/login.css
 ========================================
 
 /* ================================================
-              BASE
-      (vale para login e cadastro) 
-  ================================================= */
+              BASE (Login e Cadastro)
+   ================================================= */
 .login-page {
   background-color: var(--main-white);
   min-height: calc(100vh - 160px);
   display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 4rem 1.5rem;
+  flex-direction: column;
+  overflow-x: hidden; /* Evita rolagem lateral com os elementos afastados */
 }
 
 .login {
+  flex: 1;
   width: 100%;
-  max-width: 480px;
+  max-width: 600px;
   margin: 0 auto;
+  padding: 4rem 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .login__container {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 2.5rem;
+  gap: 3.5rem;
   width: 100%;
+  position: relative;
 }
 
 /* --------------------------------------------------------------------------
-   1. FORMULÁRIO DE LOGIN (E-MAIL, SENHA, ENTRAR)
+   DECORAÇÕES LATERAIS (AJUSTADAS PARA NÃO INVASÃO DE NAVBAR E FOOTER)
+   -------------------------------------------------------------------------- */
+.login__form-wrapper {
+  position: relative;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.login__decor {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 180px;
+  height: 280px; /* Altura contida para não vazar no header/footer */
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Afastamento ajustado para as laterais */
+.login__decor--left {
+  left: -220px;
+}
+
+.login__decor--right {
+  right: -220px;
+}
+
+.decor-img {
+  position: absolute;
+  object-fit: contain;
+  pointer-events: none;
+}
+
+/* Posições e escalas equilibradas - Esquerda */
+.decor-star-purple-bg   { width: 65px; top: 0px; left: 10px; }
+.decor-spiral-green     { width: 145px; top: 25px; left: 10px; }
+.decor-spiral-purple-sm { width: 90px; bottom: 0px; left: -5px; }
+.decor-star-green-sm   { width: 28px; top: 110px; left: 105px; }
+.decor-sphere-green     { width: 18px; top: 70px; left: -10px; }
+.decor-sphere-purple    { width: 20px; bottom: 35px; left: -15px; }
+
+/* Posições e escalas equilibradas - Direita */
+.decor-star-green-top   { width: 30px; top: 5px; left: 10px; }
+.decor-star-purple-sm   { width: 35px; top: 0px; right: 10px; }
+.decor-star-purple-lg   { width: 72px; top: 40px; right: -10px; }
+.decor-spiral-purple-lg { width: 150px; bottom: 0px; right: -5px; }
+.decor-sphere-purple-right { width: 18px; top: 30px; right: -15px; }
+
+/* --------------------------------------------------------------------------
+   1. FORMULÁRIO DE LOGIN
    -------------------------------------------------------------------------- */
 .login__form {
   width: 100%;
@@ -2119,6 +2748,8 @@ ARQUIVO: ./src/pages/login/login.css
   flex-direction: column;
   align-items: center;
   gap: 1.25rem;
+  position: relative;
+  z-index: 2;
 }
 
 .login__field {
@@ -2138,7 +2769,7 @@ ARQUIVO: ./src/pages/login/login.css
 
 .login__input {
   width: 100%;
-  height: 48px;
+  height: 50px;
   padding: 0 1.25rem;
   background-color: var(--main-black);
   color: var(--white);
@@ -2154,7 +2785,6 @@ ARQUIVO: ./src/pages/login/login.css
   box-shadow: 0 0 0 3px var(--main-purple);
 }
 
-/* Botões em formato Pílula */
 .login__btn {
   display: inline-flex;
   align-items: center;
@@ -2177,16 +2807,17 @@ ARQUIVO: ./src/pages/login/login.css
   color: var(--white);
   font-size: 1.15rem;
   font-weight: 700;
-  padding: 0.75rem 3.5rem;
+  padding: 0.8rem 3.8rem;
   text-transform: lowercase;
   margin-top: 0.5rem;
 }
 
 /* --------------------------------------------------------------------------
-   2. CARD DE CADASTRO ("Não tem uma conta?")
+   2. CARD DE CADASTRO
    -------------------------------------------------------------------------- */
 .login__signup-card {
   width: 100%;
+  max-width: 480px;
   background-color: var(--main-green);
   border-radius: 28px;
   padding: 2.5rem 2rem;
@@ -2195,6 +2826,8 @@ ARQUIVO: ./src/pages/login/login.css
   align-items: center;
   text-align: center;
   gap: 1.2rem;
+  position: relative;
+  z-index: 2;
 }
 
 .login__signup-title {
@@ -2227,6 +2860,12 @@ ARQUIVO: ./src/pages/login/login.css
 /* --------------------------------------------------------------------------
    3. RESPONSIVIDADE
    -------------------------------------------------------------------------- */
+@media (max-width: 820px) {
+  .login__decor {
+    display: none;
+  }
+}
+
 @media (max-width: 480px) {
   .login-page {
     padding: 2.5rem 1rem;
@@ -2246,14 +2885,10 @@ ARQUIVO: ./src/pages/login/login.css
   }
 }
 
-
-/* ================================================
-              exclusivo CADASTRO
-  ================================================= */
+/* Modo Cadastro */
 .login-page--cadastro .login__btn--submit {
   background-color: var(--main-green);
   color: var(--main-black);
-
 }
 
 ========================================
@@ -2391,19 +3026,31 @@ ARQUIVO: ./src/pages/login/login.html
   <title>RYTH - Login</title>
 
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-  <script type="module" src="/src/pages/login/login.ts"></script>
+  <script type="module" src="./login.ts"></script>
   <script type="module" src="/src/main.ts"></script>
 </head>
-<body>
+<body class="login-page">
 
-  <!-- ===================== NAVBAR (componente global) ===================== -->
+  <!-- NAVBAR -->
   <header id="navbar-root"></header>
 
-  <main class="login-page">
-    <section class="login">
-      <div class="login__container">
+  <main class="login">
+    <div class="login__container">
 
-        <!-- Formulário (serve para login e cadastro) -->
+      <!-- Wrapper do formulário com as ilustrações nas laterais -->
+      <div class="login__form-wrapper">
+        
+        <!-- Decorações - Lado Esquerdo -->
+        <div class="login__decor login__decor--left" aria-hidden="true">
+          <img src="/src/assets/Ativo 8 3.png" alt="" class="decor-img decor-star-purple-bg" />
+          <img src="/src/assets/Ativo 7 3.png" alt="" class="decor-img decor-spiral-green" />
+          <img src="/src/assets/Ativo 6 2.png" alt="" class="decor-img decor-spiral-purple-sm" />
+          <img src="/src/assets/Estrela-verde 2.png" alt="" class="decor-img decor-star-green-sm" />
+          <img src="/src/assets/Esfera-verde 2.png" alt="" class="decor-img decor-sphere-green" />
+          <img src="/src/assets/Ativo 3 2.png" alt="" class="decor-img decor-sphere-purple" />
+        </div>
+
+        <!-- Formulário -->
         <form class="login__form" novalidate>
           <div class="login__field">
             <label for="email" class="login__label">e-mail:</label>
@@ -2433,28 +3080,39 @@ ARQUIVO: ./src/pages/login/login.html
           <button type="submit" class="login__btn login__btn--submit">entrar</button>
         </form>
 
-        <!-- Card verde: alterna entre "criar conta" e "já tenho conta" -->
-        <div class="login__signup-card">
-          <h2 class="login__signup-title" id="login-card-titulo">Não tem uma conta?</h2>
-          <p class="login__signup-text" id="login-card-texto">
-            Crie sua conta gratuitamente e comece a construir sua trajetória em um ecossistema que conecta dança, música e oportunidades.
-          </p>
-          <a
-            href="/src/pages/login/login.html?modo=cadastro"
-            id="login-card-link"
-            class="login__btn login__btn--signup"
-          >Criar minha conta</a>
+        <!-- Decorações - Lado Direito -->
+        <div class="login__decor login__decor--right" aria-hidden="true">
+          <img src="/src/assets/Estrela-verde 2.png" alt="" class="decor-img decor-star-green-top" />
+          <img src="/src/assets/Ativo 9 3.png" alt="" class="decor-img decor-star-purple-sm" />
+          <img src="/src/assets/Ativo 8 3.png" alt="" class="decor-img decor-star-purple-lg" />
+          <img src="/src/assets/Ativo 6 3.png" alt="" class="decor-img decor-spiral-purple-lg" />
+          <img src="/src/assets/Ativo 3 3.png" alt="" class="decor-img decor-sphere-purple-right" />
         </div>
 
       </div>
-    </section>
+
+      <!-- Card Verde de Cadastro -->
+      <div class="login__signup-card">
+        <h2 class="login__signup-title" id="login-card-titulo">Não tem uma conta?</h2>
+        <p class="login__signup-text" id="login-card-texto">
+          Crie sua conta gratuitamente e comece a construir sua trajetória em um ecossistema que conecta dança, música e oportunidades.
+        </p>
+        <a
+          href="/src/pages/login/login.html?modo=cadastro"
+          id="login-card-link"
+          class="login__btn login__btn--signup"
+        >Criar minha conta</a>
+      </div>
+
+    </div>
   </main>
 
-  <!-- ===================== FOOTER (componente global) ===================== -->
+  <!-- FOOTER -->
   <footer id="footer-root"></footer>
 
 </body>
 </html>
+
 
 ========================================
 ARQUIVO: ./src/pages/home/index.css
@@ -3395,10 +4053,10 @@ ARQUIVO: ./ryth-studio/package.json
     "sanity"
   ],
   "dependencies": {
-    "@sanity/vision": "^6.17.0",
+    "@sanity/vision": "^6.18.0",
     "react": "^19.2.4",
     "react-dom": "^19.2.4",
-    "sanity": "^6.17.0",
+    "sanity": "^6.18.0",
     "styled-components": "^6.1.18"
   },
   "devDependencies": {
@@ -3548,84 +4206,67 @@ export const faqType = defineType({
 ARQUIVO: ./ryth-studio/schemaTypes/competicao.ts
 ========================================
 
-import { defineType, defineField } from 'sanity'
+import { defineField, defineType } from "sanity";
 
 export const competicaoType = defineType({
-  name: 'competicao',
-  title: 'Competições',
-  type: 'document',
+  name: "competicao",
+  title: "Competição",
+  type: "document",
   fields: [
     defineField({
-      name: 'titulo',
-      title: 'Título da Competição',
-      type: 'string',
-      validation: (Rule) => Rule.required(),
+      name: "titulo",
+      title: "Nome da competição",
+      type: "string",
+      validation: (r) => r.required(),
     }),
     defineField({
-      name: 'slug',
-      title: 'Identificador URL (Slug)',
-      type: 'slug',
-      options: {
-        source: 'titulo',
-        maxLength: 96,
-      },
+      name: "slug",
+      title: "Endereço da página",
+      description: "Clique em 'Generate' para criar a partir do nome. Não precisa mexer depois.",
+      type: "slug",
+      options: { source: "titulo", maxLength: 96 },
+      validation: (r) => r.required(),
     }),
     defineField({
-      name: 'imagem',
-      title: 'Imagem / Banner da Competição',
-      type: 'image',
-      options: {
-        hotspot: true, // Permite ajustar o corte da imagem no painel
-      },
-      validation: (Rule) => Rule.required(),
+      name: "ativa",
+      title: "Competição ativa?",
+      description: "Ligado: aparece em 'Ativas'. Desligado: aparece em 'Finalizadas'.",
+      type: "boolean",
+      initialValue: true,
     }),
     defineField({
-      name: 'data',
-      title: 'Data do Evento',
-      type: 'date',
-      options: {
-        dateFormat: 'DD/MM/YYYY',
-      },
+      name: "ordem",
+      title: "Ordem de exibição",
+      description: "Número menor aparece primeiro. Opcional.",
+      type: "number",
     }),
     defineField({
-      name: 'local',
-      title: 'Local / Cidade',
-      type: 'string',
+      name: "imagemCard",
+      title: "Foto do card (lista de competições)",
+      type: "image",
+      options: { hotspot: true },
     }),
     defineField({
-      name: 'status',
-      title: 'Status das Inscrições',
-      type: 'string',
-      options: {
-        list: [
-          { title: 'Inscrições Abertas', value: 'abertas' },
-          { title: 'Em Breve', value: 'breve' },
-          { title: 'Encerrado', value: 'encerrado' },
-        ],
-        layout: 'radio',
-      },
-      initialValue: 'abertas',
+      name: "banner",
+      title: "Banner (topo da página da competição)",
+      type: "image",
+      options: { hotspot: true },
     }),
-    defineField({
-      name: 'descricao',
-      title: 'Descrição Resumida',
-      type: 'text',
-      rows: 3,
-    }),
-    defineField({
-      name: 'linkInscricao',
-      title: 'Link para Inscrição / Edital',
-      type: 'url',
-    }),
+    defineField({ name: "musicaTitulo", title: "Música: título", type: "string" }),
+    defineField({ name: "musicaDescricao", title: "Música: descrição", type: "string" }),
+    defineField({ name: "premios", title: "Texto dos prêmios", type: "text", rows: 4 }),
+    defineField({ name: "prazos", title: "Texto dos prazos", type: "text", rows: 4 }),
+    defineField({ name: "estilo", title: "Texto do estilo", type: "text", rows: 4 }),
   ],
   preview: {
-    select: {
-      title: 'titulo',
-      subtitle: 'local',
-      media: 'imagem',
-    },
+    select: { title: "titulo", media: "imagemCard", ativa: "ativa" },
+    prepare: ({ title, media, ativa }) => ({
+      title,
+      subtitle: ativa ? "Ativa" : "Finalizada",
+      media,
+    }),
   },
-})
+});
 
 ========================================
 ARQUIVO: ./ryth-studio/.sanity/runtime/app.js
