@@ -146,7 +146,17 @@ function inicializarLogin(): void {
       } catch (err: unknown) {
         mostrarFeedback(mensagemDeErro(err));
       } finally {
-        reenviarBtn.disabled = false;
+        // Bloqueia o botão por 120s para evitar spam de e-mails
+        let restante = 120;
+        reenviarBtn.disabled = true;
+        const timer = setInterval(() => {
+          restante--;
+          reenviarBtn.textContent = restante > 0 ? `reenviar em ${restante}s` : "reenviar código";
+          if (restante <= 0) {
+            clearInterval(timer);
+            reenviarBtn.disabled = false;
+          }
+        }, 1000);
       }
     });
 
