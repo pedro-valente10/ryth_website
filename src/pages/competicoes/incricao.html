@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RYTH - Inscrição   </title>
+  
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <script type="module" src="/src/pages/contratacao/contratacao.ts"></script>
+  <script type="module" src="/src/main.ts"></script>
+</head>
+<body>
+
+  <!-- ===================== NAVBAR (componente global) ===================== -->
+  <div id="navbar-root"></div>
+    <header id="navbar-root"></header>
+
+    <main class="inscricao">
+      <a id="btn-voltar" class="inscricao__voltar" href="/src/pages/competicoes/competicoes.html">
+        <span aria-hidden="true">&lsaquo;</span> voltar
+      </a>
+
+      <header class="inscricao__cabecalho">
+        <h1 class="inscricao__titulo">Competição</h1>
+        <p id="competicao-nome" class="inscricao__subtitulo">&nbsp;</p>
+      </header>
+
+      <form id="form-inscricao" class="inscricao__form" novalidate>
+        <label class="campo-video">
+          <span class="campo-video__rotulo">Link do vídeo:</span>
+          <input
+            id="video-url"
+            class="campo-video__input"
+            type="url"
+            inputmode="url"
+            placeholder="link"
+            autocomplete="off"
+            required
+          />
+        </label>
+
+        <section class="confirma" aria-labelledby="confirma-titulo">
+          <h2 id="confirma-titulo" class="confirma__titulo">É você mesmo?</h2>
+          <div class="confirma__foto">
+            <img id="perfil-foto" alt="" hidden />
+            <span id="perfil-foto-vazia">foto de perfil</span>
+          </div>
+          <p id="perfil-nome" class="confirma__nome">Nome</p>
+        </section>
+
+        <p class="inscricao__relogin">
+          Caso não seja você <button type="button" id="btn-relogin" class="link-botao">refaça seu login</button>
+        </p>
+
+        <p id="inscricao-msg" class="inscricao__msg" role="alert" hidden></p>
+
+        <button id="btn-inscrever" class="btn-inscrever" type="submit">inscreva-se</button>
+      </form>
+    </main>
+
+    <footer id="footer-root"></footer>
+  </body>
+</html>

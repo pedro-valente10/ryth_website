@@ -1,0 +1,196 @@
+.pagina-inscricao {
+  --insc-azul: var(--main-black);
+  --insc-roxo: var(--main-purple);
+  --insc-roxo-texto: #a64df0; /* roxo mais claro para texto sobre fundo escuro */
+  --insc-lima: var(--main-green);
+  --insc-branco: var(--main-white);
+  background: var(--insc-branco);
+  font-family: var(--font-family);
+}
+
+.inscricao {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 1.5rem 1.25rem 3rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+/* Botão voltar */
+.inscricao__voltar {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 1.4rem;
+  border-radius: 999px;
+  background: var(--insc-azul);
+  color: var(--insc-roxo-texto);
+  text-decoration: none;
+  font-size: 1rem;
+}
+
+/* Título */
+.inscricao__cabecalho {
+  text-align: center;
+}
+.inscricao__titulo {
+  margin: 0;
+  font-family: var(--font-monument);
+  font-size: clamp(1.8rem, 7vw, 3rem);
+  font-weight: normal;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+  color: var(--insc-azul);
+}
+.inscricao__subtitulo {
+  margin: 0.25rem 0 0;
+  font-family: var(--font-monument);
+  font-size: clamp(1.2rem, 4.5vw, 1.8rem);
+  font-weight: normal;
+  color: var(--insc-lima);
+}
+
+/* Formulário */
+.inscricao__form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.campo-video {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1.1rem 1.5rem;
+  border-radius: 999px;
+  background: var(--insc-azul);
+  cursor: text;
+}
+.campo-video__rotulo {
+  color: var(--insc-roxo-texto);
+  white-space: nowrap;
+}
+.campo-video__input {
+  flex: 1;
+  min-width: 0;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: var(--insc-lima);
+  font: inherit;
+}
+.campo-video__input::placeholder {
+  color: var(--insc-lima);
+  opacity: 0.6;
+}
+.campo-video:focus-within {
+  outline: 3px solid var(--insc-lima);
+  outline-offset: 3px;
+}
+
+/* Card "É você mesmo?" */
+.confirma {
+  width: min(100%, 22rem);
+  padding: 1.25rem 1rem 1.5rem;
+  border-radius: 1.5rem;
+  background: var(--insc-roxo);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+.confirma__titulo {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: var(--insc-lima);
+}
+.confirma__foto {
+  width: 5.5rem;
+  height: 5.5rem;
+  border-radius: 50%;
+  border: 4px solid var(--insc-lima);
+  background: var(--insc-branco);
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  font-size: 0.6rem;
+  text-align: center;
+  color: var(--insc-azul);
+}
+.confirma__foto img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.confirma__nome {
+  margin: 0;
+  color: var(--insc-branco);
+  font-size: 1rem;
+}
+
+/* Texto "refaça seu login" */
+.inscricao__relogin {
+  margin: -0.75rem 0 0;
+  font-size: 0.85rem;
+  color: var(--insc-azul);
+  text-align: center;
+}
+.link-botao {
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  color: var(--insc-roxo);
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+/* Mensagens */
+.inscricao__msg {
+  margin: 0;
+  max-width: 24rem;
+  padding: 0.75rem 1rem;
+  border-radius: 0.75rem;
+  text-align: center;
+  font-size: 0.9rem;
+  background: #fde8e8;
+  color: #8a1c1c;
+}
+.inscricao__msg--ok {
+  background: #e9f8c9;
+  color: #2f4a00;
+}
+
+/* Botão inscreva-se */
+.btn-inscrever {
+  padding: 0.9rem 3rem;
+  border: 0;
+  border-radius: 999px;
+  background: var(--insc-azul);
+  color: var(--insc-lima);
+  font: inherit;
+  font-size: 1.15rem;
+  cursor: pointer;
+}
+.btn-inscrever:hover:not(:disabled) {
+  filter: brightness(1.25);
+}
+.btn-inscrever:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+.btn-inscrever:focus-visible,
+.inscricao__voltar:focus-visible,
+.link-botao:focus-visible {
+  outline: 3px solid var(--insc-lima);
+  outline-offset: 3px;
+}
