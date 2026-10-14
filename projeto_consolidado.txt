@@ -1,35 +1,5 @@
 ========================================
-ARQUIVO: ./pegacodigo.py
-========================================
-
-import os
-
-output_file = 'projeto_consolidado.txt'
-ignore_dirs = {'node_modules', '.git', 'dist', 'build', '.vscode'}
-ignore_exts = {'.png', '.jpg', '.jpeg', '.svg', '.ico', '.woff', '.woff2', '.ttf', '.lock'}
-
-with open(output_file, 'w', encoding='utf-8') as outfile:
-    for root, dirs, files in os.walk('.'):
-        dirs[:] = [d for d in dirs if d not in ignore_dirs]
-        for file in files:
-            if file == output_file or file == 'package-lock.json' or any(file.endswith(ext) for ext in ignore_exts):
-                continue
-            path = os.path.join(root, file)
-            outfile.write(f'========================================\n')
-            outfile.write(f'ARQUIVO: {path}\n')
-            outfile.write(f'========================================\n\n')
-            try:
-                with open(path, 'r', encoding='utf-8') as f:
-                    outfile.write(f.read())
-            except Exception:
-                outfile.write('[Arquivo não lido ou binário]\n')
-            outfile.write('\n\n')
-
-print('Concluído! Arquivo gerado: projeto_consolidado.txt')
-
-
-========================================
-ARQUIVO: ./.gitignore
+ARQUIVO: .\.gitignore
 ========================================
 
 node_modules/
@@ -39,7 +9,33 @@ dist/
 
 
 ========================================
-ARQUIVO: ./package.json
+ARQUIVO: .\tsconfig.json
+========================================
+
+{
+    "compilerOptions": {
+      "target": "ES2020",
+      "useDefineForClassFields": true,
+      "module": "ESNext",
+      "lib": ["ES2020", "DOM", "DOM.Iterable"],
+      "allowJs": false,
+      "skipLibCheck": true,
+      "esModuleInterop": true,
+      "allowSyntheticDefaultImports": true,
+      "strict": true,
+      "forceConsistentCasingInFileNames": true,
+      "moduleResolution": "Bundler",
+      "resolveJsonModule": true,
+      "isolatedModules": true,
+      "noEmit": true,
+      "noUnusedLocals": true,
+      "noUnusedParameters": true
+    },
+    "include": ["src"]
+  }
+
+========================================
+ARQUIVO: .\package.json
 ========================================
 
 {
@@ -69,26 +65,37 @@ ARQUIVO: ./package.json
 
 
 ========================================
-ARQUIVO: ./.env
+ARQUIVO: .\pegacodigo.py
 ========================================
 
-VITE_SANITY_PROJECT_ID=8q2pttmv
-VITE_SANITY_DATASET=production
+import os
+
+output_file = 'projeto_consolidado.txt'
+ignore_dirs = {'node_modules', '.git', 'dist', 'build', '.vscode'}
+ignore_exts = {'.png', '.jpg', '.jpeg', '.svg', '.ico', '.woff', '.woff2', '.ttf', '.lock'}
+
+with open(output_file, 'w', encoding='utf-8') as outfile:
+    for root, dirs, files in os.walk('.'):
+        dirs[:] = [d for d in dirs if d not in ignore_dirs]
+        for file in files:
+            if file == output_file or file == 'package-lock.json' or any(file.endswith(ext) for ext in ignore_exts):
+                continue
+            path = os.path.join(root, file)
+            outfile.write(f'========================================\n')
+            outfile.write(f'ARQUIVO: {path}\n')
+            outfile.write(f'========================================\n\n')
+            try:
+                with open(path, 'r', encoding='utf-8') as f:
+                    outfile.write(f.read())
+            except Exception:
+                outfile.write('[Arquivo não lido ou binário]\n')
+            outfile.write('\n\n')
+
+print('Concluído! Arquivo gerado: projeto_consolidado.txt')
+
 
 ========================================
-ARQUIVO: ./.env.example
-========================================
-
-# Supabase (Project Settings > API no painel do Supabase)
-VITE_SUPABASE_URL=
-VITE_SUPABASE_ANON_KEY=
-
-# Sanity (o projectId e o dataset estão em ryth-studio/sanity.config.ts)
-VITE_SANITY_PROJECT_ID=
-VITE_SANITY_DATASET=production
-
-========================================
-ARQUIVO: ./vite.config.ts
+ARQUIVO: .\vite.config.ts
 ========================================
 
 import { resolve } from 'path';
@@ -103,6 +110,7 @@ export default defineConfig({
         perfil: resolve(__dirname, 'src/pages/perfil/perfil.html'),
         competicoes: resolve(__dirname, 'src/pages/competicoes/competicoes.html'),
         competicao: resolve(__dirname, "src/pages/competicoes/competicao.html"),
+        inscricao: resolve(__dirname, "src/pages/competicoes/inscricao.html"),
         contratacao: resolve(__dirname, 'src/pages/contratacao/contratacao.html'),
       },
     },
@@ -119,7 +127,7 @@ export default defineConfig({
 });
 
 ========================================
-ARQUIVO: ./index.html
+ARQUIVO: .\index.html
 ========================================
 
 <!DOCTYPE html>
@@ -134,8 +142,9 @@ ARQUIVO: ./index.html
   <script type="module" src="/src/main.ts"></script>
 </head>
   <body>
-    <!-- Navbar (Injetada dinamicamente pelo main.ts) -->
-    <header id="navbar-root"></header>
+
+    <!-- ===================== NAVBAR (componente global) ===================== -->
+    <div id="navbar-root"></div>
 
     <main>
       <!-- ===================== 1. HERO (TELA INICIAL) ===================== -->
@@ -321,7 +330,7 @@ ARQUIVO: ./index.html
 </html>
 
 ========================================
-ARQUIVO: ./README.MD
+ARQUIVO: .\README.MD
 ========================================
 
 # RYTH Website
@@ -370,75 +379,29 @@ ryth_website/
 
 
 ========================================
-ARQUIVO: ./tsconfig.json
+ARQUIVO: .\.env
 ========================================
 
-{
-    "compilerOptions": {
-      "target": "ES2020",
-      "useDefineForClassFields": true,
-      "module": "ESNext",
-      "lib": ["ES2020", "DOM", "DOM.Iterable"],
-      "allowJs": false,
-      "skipLibCheck": true,
-      "esModuleInterop": true,
-      "allowSyntheticDefaultImports": true,
-      "strict": true,
-      "forceConsistentCasingInFileNames": true,
-      "moduleResolution": "Bundler",
-      "resolveJsonModule": true,
-      "isolatedModules": true,
-      "noEmit": true,
-      "noUnusedLocals": true,
-      "noUnusedParameters": true
-    },
-    "include": ["src"]
-  }
+VITE_SANITY_PROJECT_ID=8q2pttmv
+VITE_SANITY_DATASET=production
+
+VITE_SUPABASE_URL=https://yzznphretqpgcsrpvwvi.supabase.co
+VITE_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inl6em5waHJldHFwZ2NzcnB2d3ZpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTA5NTY4MjMsImV4cCI6MjEwNjUzMjgyM30.hmiC7OlKVj_NpIrYhxVYVDapE_rod8CLB76wRArkrDg
 
 ========================================
-ARQUIVO: ./src/main.ts
+ARQUIVO: .\.env.example
 ========================================
 
-import "./styles/reset.css";
-import "./styles/global.css";
-import "./styles/variables.css";
+# Supabase (Project Settings > API no painel do Supabase)
+VITE_SUPABASE_URL=
+VITE_SUPABASE_ANON_KEY=
 
-import "./components/navbar/navbar.css";
-import "./components/footer/footer.css";
-
-import { renderNavbar } from "./components/navbar/navbar";
-import { renderFooter } from "./components/footer/footer";
-
-function markActiveLink(): void {
-  const normalize = (path: string): string =>
-    path.replace(/\/index\.html$/, '/').replace(/\/$/, '') || '/';
-
-  const current = normalize(location.pathname);
-
-  document
-    .querySelectorAll<HTMLAnchorElement>('.navbar__link a')
-    .forEach((link) => {
-      const href = normalize(new URL(link.href, location.origin).pathname);
-
-      if (href === current) {
-        link.setAttribute('aria-current', 'page');
-      } else {
-        link.removeAttribute('aria-current');
-      }
-    });
-}
-
-async function init(): Promise<void> {
-  renderFooter();
-  await renderNavbar();   // espera a sessão do usuário
-  markActiveLink();       // só depois, com os links já na tela
-}
-
-init();
-
+# Sanity (o projectId e o dataset estão em ryth-studio/sanity.config.ts)
+VITE_SANITY_PROJECT_ID=
+VITE_SANITY_DATASET=production
 
 ========================================
-ARQUIVO: ./src/vite-env.d.ts
+ARQUIVO: .\src\vite-env.d.ts
 ========================================
 
 /// <reference types="vite/client" />
@@ -497,73 +460,49 @@ export default defineConfig({
 })
 
 ========================================
-ARQUIVO: ./src/components/header/header.html
+ARQUIVO: .\src\main.ts
 ========================================
 
+import "./styles/reset.css";
+import "./styles/global.css";
+import "./styles/variables.css";
+
+import "./components/navbar/navbar.css";
+import "./components/footer/footer.css";
+
+import { renderNavbar } from "./components/navbar/navbar";
+import { renderFooter } from "./components/footer/footer";
+
+function markActiveLink(): void {
+  const normalize = (path: string): string =>
+    path.replace(/\/index\.html$/, '/').replace(/\/$/, '') || '/';
+
+  const current = normalize(location.pathname);
+
+  document
+    .querySelectorAll<HTMLAnchorElement>('.navbar__link a')
+    .forEach((link) => {
+      const href = normalize(new URL(link.href, location.origin).pathname);
+
+      if (href === current) {
+        link.setAttribute('aria-current', 'page');
+      } else {
+        link.removeAttribute('aria-current');
+      }
+    });
+}
+
+async function init(): Promise<void> {
+  renderFooter();
+  await renderNavbar();   // espera a sessão do usuário
+  markActiveLink();       // só depois, com os links já na tela
+}
+
+init();
 
 
 ========================================
-ARQUIVO: ./src/components/header/header.ts
-========================================
-
-
-
-========================================
-ARQUIVO: ./src/components/header/header.css
-========================================
-
-
-
-========================================
-ARQUIVO: ./src/components/modal/modal.css
-========================================
-
-
-
-========================================
-ARQUIVO: ./src/components/modal/modal.ts
-========================================
-
-
-
-========================================
-ARQUIVO: ./src/components/modal/modal.html
-========================================
-
-
-
-========================================
-ARQUIVO: ./src/components/footer/footer.html
-========================================
-
-<footer class="footer">
-    <div class="footer__brand">
-      <img src="" alt="RYTH" class="footer__logo" id="footer-logo" />
-      <span class="footer__wordmark">RYTH</span>
-      
-  </div>
-  
-    <p class="footer__text">
-      A RYTH conecta dança, música e mercado para transformar talento em
-      oportunidade real. Acompanhe nossas redes sociais e faça parte de uma
-      comunidade que valoriza a criatividade, a autoria e o desenvolvimento
-      de novos talentos.
-    </p>
-  
-    <div class="footer__social">
-      <a href="#" class="footer__social-icon" aria-label="Instagram">
-        <img src="/src/assets/icons/instagram-icon.svg" alt="" width="24" height="24">
-      </a>
-      <a href="#" class="footer__social-icon" aria-label="TikTok">
-        <img src="/src/assets/icons/tiktok-icon.svg" alt="" width="24" height="24">
-      </a>
-    </div>
-      </a>
-  </div>
-  </footer>
-
-========================================
-ARQUIVO: ./src/components/footer/footer.css
+ARQUIVO: .\src\components\footer\footer.css
 ========================================
 
 body {
@@ -705,7 +644,37 @@ main {
 
 
 ========================================
-ARQUIVO: ./src/components/footer/footer.ts
+ARQUIVO: .\src\components\footer\footer.html
+========================================
+
+<footer class="footer">
+    <div class="footer__brand">
+      <img src="" alt="RYTH" class="footer__logo" id="footer-logo" />
+      <span class="footer__wordmark">RYTH</span>
+      
+  </div>
+  
+    <p class="footer__text">
+      A RYTH conecta dança, música e mercado para transformar talento em
+      oportunidade real. Acompanhe nossas redes sociais e faça parte de uma
+      comunidade que valoriza a criatividade, a autoria e o desenvolvimento
+      de novos talentos.
+    </p>
+  
+    <div class="footer__social">
+      <a href="#" class="footer__social-icon" aria-label="Instagram">
+        <img src="/src/assets/icons/instagram-icon.svg" alt="" width="24" height="24">
+      </a>
+      <a href="#" class="footer__social-icon" aria-label="TikTok">
+        <img src="/src/assets/icons/tiktok-icon.svg" alt="" width="24" height="24">
+      </a>
+    </div>
+      </a>
+  </div>
+  </footer>
+
+========================================
+ARQUIVO: .\src\components\footer\footer.ts
 ========================================
 
 import logoUrl from "../../assets/icons/ryth-logo.svg";
@@ -726,93 +695,25 @@ export function renderFooter(rootSelector: string = "#footer-root"): void {
 }
 
 ========================================
-ARQUIVO: ./src/components/faq/faq.ts
+ARQUIVO: .\src\components\modal\modal.css
 ========================================
 
-import { cmsFetch } from "../../services/cms";
 
-type FaqItem = { pergunta: string; resposta: string };
-
-export async function renderizarFAQ(): Promise<void> {
-  const faqContainer = document.querySelector<HTMLElement>('.faq__list');
-  if (!faqContainer) return;
-
-  // Só busca os campos necessários e define a ordem
-  const faqs = await cmsFetch<FaqItem[]>(
-    `*[_type == "faq"] | order(_createdAt asc){ pergunta, resposta }`
-  );
-
-  // Se o Sanity falhar ou vier vazio, o HTML padrão da página permanece
-  if (!faqs) return;
-
-  faqContainer.replaceChildren(
-    ...faqs.map((item) => {
-      const li = document.createElement('li');
-      li.className = 'faq__item';
-
-      const h3 = document.createElement('h3');
-      h3.className = 'faq__question';
-      h3.textContent = item.pergunta;
-
-      const p = document.createElement('p');
-      p.className = 'faq__answer';
-      p.textContent = item.resposta;
-
-      li.append(h3, p);
-      return li;
-    })
-  );
-}
 
 ========================================
-ARQUIVO: ./src/components/navbar/navbar.ts
+ARQUIVO: .\src\components\modal\modal.html
 ========================================
 
-import logoUrl from "../../assets/icons/ryth-logo.svg";
-import navbarHtml from "./navbar.html?raw";
-import { usuarioAtual } from "../../services/auth";
-import { ROTAS } from "../../config/routes";
 
-export async function renderNavbar(rootSelector: string = "#navbar-root"): Promise<void> {
-  const root = document.querySelector(rootSelector);
-  if (!root) return;
-
-  // Injeta o template HTML na página
-  root.innerHTML = navbarHtml;
-
-  // Injeta a logo
-  const logoImage = root.querySelector<HTMLImageElement>("#navbar-logo");
-  if (logoImage) {
-    logoImage.src = logoUrl;
-  }
-
-  // Vincula a marca/logo à Home
-  const brandLink = root.querySelector<HTMLAnchorElement>(".navbar__brand");
-  if (brandLink) brandLink.href = ROTAS.home;
-
-  // Vincula os links de navegação estáticos
-  const contratacaoLink = root.querySelector<HTMLAnchorElement>('a[href*="contratacao"]');
-  if (contratacaoLink) contratacaoLink.href = ROTAS.contratacao;
-
-  const competicoesLink = root.querySelector<HTMLAnchorElement>('a[href*="competicoes"]');
-  if (competicoesLink) competicoesLink.href = ROTAS.competicoes;
-
-  // Vincula o botão de conta (Login ou Perfil de acordo com a sessão)
-  const contaLink = root.querySelector<HTMLAnchorElement>("#navbar-account");
-  if (contaLink) {
-    try {
-      const usuario = await usuarioAtual();
-      contaLink.textContent = usuario ? "Perfil" : "Login";
-      contaLink.href = usuario ? ROTAS.perfil : ROTAS.login;
-    } catch {
-      contaLink.textContent = "Login";
-      contaLink.href = ROTAS.login;
-    }
-  }
-}
 
 ========================================
-ARQUIVO: ./src/components/navbar/navbar.css
+ARQUIVO: .\src\components\modal\modal.ts
+========================================
+
+
+
+========================================
+ARQUIVO: .\src\components\navbar\navbar.css
 ========================================
 
 .navbar {
@@ -923,7 +824,7 @@ ARQUIVO: ./src/components/navbar/navbar.css
 }
 
 ========================================
-ARQUIVO: ./src/components/navbar/navbar.html
+ARQUIVO: .\src\components\navbar\navbar.html
 ========================================
 
 <nav class="navbar">
@@ -950,292 +851,255 @@ ARQUIVO: ./src/components/navbar/navbar.html
   </nav>
 
 ========================================
-ARQUIVO: ./src/services/cms.ts
+ARQUIVO: .\src\components\navbar\navbar.ts
 ========================================
 
-// src/services/cms.ts
-import { sanityClient, urlFor } from './sanity'
+import logoUrl from "../../assets/icons/ryth-logo.svg";
+import navbarHtml from "./navbar.html?raw";
+import { usuarioAtual } from "../../services/auth";
+import { ROTAS } from "../../config/routes";
 
-// Retorna null em qualquer falha ou resultado vazio → o HTML padrão permanece
-export async function cmsFetch<T = Record<string, any>>(
-  query: string,
-  params: Record<string, unknown> = {}
-): Promise<T | null> {
-  if (!sanityClient) return null
-  try {
-    const data = await sanityClient.fetch<T>(query, params)
-    if (data == null || (Array.isArray(data) && data.length === 0)) return null
-    return data
-  } catch (err) {
-    console.error('[CMS]', err)
-    return null
+export async function renderNavbar(rootSelector: string = "#navbar-root"): Promise<void> {
+  const root = document.querySelector(rootSelector);
+  if (!root) return;
+
+  // Injeta o template HTML na página
+  root.innerHTML = navbarHtml;
+
+  // Injeta a logo
+  const logoImage = root.querySelector<HTMLImageElement>("#navbar-logo");
+  if (logoImage) {
+    logoImage.src = logoUrl;
+  }
+
+  // Vincula a marca/logo à Home
+  const brandLink = root.querySelector<HTMLAnchorElement>(".navbar__brand");
+  if (brandLink) brandLink.href = ROTAS.home;
+
+  // Vincula os links de navegação estáticos
+  const contratacaoLink = root.querySelector<HTMLAnchorElement>('a[href*="contratacao"]');
+  if (contratacaoLink) contratacaoLink.href = ROTAS.contratacao;
+
+  const competicoesLink = root.querySelector<HTMLAnchorElement>('a[href*="competicoes"]');
+  if (competicoesLink) competicoesLink.href = ROTAS.competicoes;
+
+  // Vincula o botão de conta (Login ou Perfil de acordo com a sessão)
+  const contaLink = root.querySelector<HTMLAnchorElement>("#navbar-account");
+  if (contaLink) {
+    try {
+      const usuario = await usuarioAtual();
+      contaLink.textContent = usuario ? "Perfil" : "Login";
+      contaLink.href = usuario ? ROTAS.perfil : ROTAS.login;
+    } catch {
+      contaLink.textContent = "Login";
+      contaLink.href = ROTAS.login;
+    }
   }
 }
 
-// Preenche o HTML com os dados:
-//   data-cms="campo"                → textContent
-//   data-cms="campo" data-cms-attr="href" → atributo
-//   data-cms-img="campo"            → <img src> a partir de uma imagem do Sanity
-//   data-cms-list="campo" + <template> → lista repetida
-export function applyCms(root: ParentNode, data: Record<string, any>): void {
-  root.querySelectorAll<HTMLElement>('[data-cms]').forEach((el) => {
-    const value = data[el.dataset.cms!]
-    if (typeof value !== 'string') return
-    const attr = el.dataset.cmsAttr
-    if (attr) el.setAttribute(attr, value)
-    else el.textContent = value // textContent evita injeção de HTML
-  })
+========================================
+ARQUIVO: .\src\components\faq\faq.ts
+========================================
 
-  root.querySelectorAll<HTMLImageElement>('[data-cms-img]').forEach((img) => {
-    const src = urlFor(data[img.dataset.cmsImg!])
-    if (src) img.src = src
-  })
+import { cmsFetch } from "../../services/cms";
 
-  root.querySelectorAll<HTMLElement>('[data-cms-list]').forEach((container) => {
-    const items = data[container.dataset.cmsList!]
-    const tpl = container.querySelector('template')
-    if (!Array.isArray(items) || items.length === 0 || !tpl) return
+type FaqItem = { pergunta: string; resposta: string };
 
-    Array.from(container.children).forEach((c) => c !== tpl && c.remove())
-    items.forEach((item) => {
-      const node = tpl.content.cloneNode(true) as DocumentFragment
-      applyCms(node, item)
-      container.appendChild(node)
+export async function renderizarFAQ(): Promise<void> {
+  const faqContainer = document.querySelector<HTMLElement>('.faq__list');
+  if (!faqContainer) return;
+
+  // Só busca os campos necessários e define a ordem
+  const faqs = await cmsFetch<FaqItem[]>(
+    `*[_type == "faq"] | order(_createdAt asc){ pergunta, resposta }`
+  );
+
+  // Se o Sanity falhar ou vier vazio, o HTML padrão da página permanece
+  if (!faqs) return;
+
+  faqContainer.replaceChildren(
+    ...faqs.map((item) => {
+      const li = document.createElement('li');
+      li.className = 'faq__item';
+
+      const h3 = document.createElement('h3');
+      h3.className = 'faq__question';
+      h3.textContent = item.pergunta;
+
+      const p = document.createElement('p');
+      p.className = 'faq__answer';
+      p.textContent = item.resposta;
+
+      li.append(h3, p);
+      return li;
     })
-  })
+  );
 }
 
 ========================================
-ARQUIVO: ./src/services/supabase.ts
+ARQUIVO: .\src\pages\competicoes\competicoes.css
 ========================================
 
-import { createClient, type SupabaseClient } from "@supabase/supabase-js";
-
-
-const url = import.meta.env.VITE_SUPABASE_URL as string | undefined;
-const key = import.meta.env.VITE_SUPABASE_ANON_KEY as string | undefined;
-
-export const supabase: SupabaseClient | null =
-  url && key ? createClient(url, key) : null;
-
-if (!supabase) {
-  console.warn("[Supabase] Variáveis de ambiente ausentes: login indisponível.");
+.competicoes {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 4rem 2rem 5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3rem;
+  background-color: var(--main-white);
 }
 
-========================================
-ARQUIVO: ./src/services/sanity.ts
-========================================
-
-// src/services/sanity.ts
-import { createClient } from '@sanity/client'
-import imageUrlBuilder from '@sanity/image-url'
-
-const projectId = import.meta.env.VITE_SANITY_PROJECT_ID
-const dataset = import.meta.env.VITE_SANITY_DATASET || 'production'
-
-if (!projectId) {
-  console.warn('[Sanity] VITE_SANITY_PROJECT_ID ausente: o site usará o conteúdo padrão do HTML.')
-}
-
-// null se não houver projectId, em vez de quebrar a importação
-export const sanityClient = projectId
-  ? createClient({
-      projectId,
-      dataset,
-      useCdn: true, // requisições rápidas via CDN
-      apiVersion: '2024-01-01',
-    })
-  : null
-
-const builder = sanityClient ? imageUrlBuilder(sanityClient) : null
-
-// Gera URLs das imagens cadastradas no Sanity (retorna '' se o Sanity não estiver configurado)
-export function urlFor(source: any): string {
-  return builder && source ? builder.image(source).auto('format').url() : ''
-}
-
-========================================
-ARQUIVO: ./src/services/auth.ts
-========================================
-
-import { supabase } from "./supabase";
-
-export interface Usuario {
-  id?: string;
-  email: string;
-}
-
-/**
- * Retorna o usuário logado (via Supabase ou localStorage de teste)
- */
-export async function usuarioAtual(): Promise<Usuario | null> {
-  // 1. Sessão ativa no Supabase
-  if (supabase) {
-    const { data: { session } } = await supabase.auth.getSession();
-    if (session?.user?.email) {
-      return { id: session.user.id, email: session.user.email };
-    }
-    return null;
-  }
-
-  // 2. Fallback para modo de teste local (só quando o Supabase não está configurado)
-  const usuarioTeste = localStorage.getItem("usuario-teste");
-  return usuarioTeste ? JSON.parse(usuarioTeste) : null;
-}
-
-/**
- * Realiza o login com e-mail e senha
- */
-export async function fazerLogin(email: string, senha: string): Promise<Usuario> {
-  if (supabase) {
-    const { data, error } = await supabase.auth.signInWithPassword({
-      email,
-      password: senha,
-    });
-
-    if (error) {
-      throw new Error(error.message || "Credenciais inválidas.");
-    }
-
-    if (data.user?.email) {
-      return { id: data.user.id, email: data.user.email };
-    }
-
-    throw new Error("Não foi possível obter os dados do usuário.");
-  }
-
-  // Fallback de teste caso o Supabase não esteja conectado
-  if (email && senha.length >= 6) {
-    const usuarioFake: Usuario = { id: "dev-123", email };
-    localStorage.setItem("usuario-teste", JSON.stringify(usuarioFake));
-    return usuarioFake;
-  }
-
-  throw new Error("E-mail ou senha incorretos.");
-}
-
-/**
- * Cria uma conta nova com e-mail e senha
- */
-export async function fazerCadastro(
-  email: string,
-  senha: string
-): Promise<{ precisaConfirmar: boolean }> {
-  if (!supabase) {
-    throw new Error("Cadastro indisponível: o Supabase não está configurado.");
-  }
-
-  const { data, error } = await supabase.auth.signUp({
-    email,
-    password: senha,
-  });
-
-  if (error) {
-    throw new Error(error.message);
-  }
-
-  // Sem sessão = o Supabase está exigindo confirmação por e-mail
-  return { precisaConfirmar: !data.session };
-}
-
-/**
- * Encerra a sessão do usuário
- */
-export async function fazerLogout(): Promise<void> {
-  if (supabase) {
-    await supabase.auth.signOut();
-  }
-  localStorage.removeItem("usuario-teste");
-}
-
-========================================
-ARQUIVO: ./src/assets/fonts/monumentextended-ultrabold.otf
-========================================
-
-[Arquivo não lido ou binário]
-
-
-========================================
-ARQUIVO: ./src/assets/fonts/monumentextended-regular.otf
-========================================
-
-[Arquivo não lido ou binário]
-
-
-========================================
-ARQUIVO: ./src/styles/global.css
-========================================
-
-body {
-    font-family: var(--font-family);
-    background-color: var(--main-white);
-    color: var(--main-black);
-  }
-
-  html, body {
+.competicoes__title {
+  font-family: var(--font-monument, sans-serif);
+  font-size: clamp(2.2rem, 5vw, 3.5rem);
+  font-weight: 900;
+  color: var(--main-black);
+  text-transform: uppercase;
+  text-align: center;
+  line-height: 1.1;
   margin: 0;
+}
+
+.competicoes__group {
   width: 100%;
-  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
 }
 
-*, *::before, *::after {
+.competicoes__subtitle {
+  font-family: var(--font-family);
+  font-size: clamp(1.3rem, 2.5vw, 1.6rem);
+  font-weight: 700;
+  text-transform: uppercase;
+  margin: 0;
+}
+
+.competicoes__subtitle--active   { color: var(--main-green); }
+.competicoes__subtitle--finished { color: var(--main-purple); }
+
+/* Grid de 3 colunas */
+.competicoes__grid {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.75rem;
+}
+
+/* Card inteiro é um link */
+.competicoes__card {
+  --card-color: var(--main-green);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.6rem;
+  text-decoration: none;
+  color: var(--main-black);
+}
+
+.competicoes__card--finished {
+  --card-color: var(--main-purple);
+}
+
+/* Quadrado da foto */
+.competicoes__media {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1;
   box-sizing: border-box;
-}
-  
-
-========================================
-ARQUIVO: ./src/styles/variables.css
-========================================
-
-@import url('https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@300;400;500;600;700;800;900&display=swap');
-
-@font-face {
-    font-family: 'Monument Extended';
-    src: url('../assets/fonts/monumentextended-regular.otf') format('opentype');
-    font-weight: normal;
-    font-style: normal;
-    font-display: swap;
+  border: 6px solid var(--card-color);
+  border-radius: 36px;
+  background-color: #828288; /* placeholder até ter a foto */
+  overflow: hidden;
 }
 
-:root {
-    --black: #000000;
-    --white: #ffffff;
+.competicoes__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
 
-    --main-white: #F8F8FB;
-    --main-black: #060A27;
-    --main-purple: #7728D9;
-    --main-green: #C5F339;
-  
-    --font-family: 'Red Hat Display', sans-serif;
-    --font-monument: 'Monument Extended', sans-serif;
+/* Camada de cor que aparece no hover */
+.competicoes__media::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-color: var(--card-color);
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+
+/* Texto "INSCREVA-SE" */
+.competicoes__cta {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-family);
+  font-size: clamp(0.95rem, 1.6vw, 1.15rem);
+  font-weight: 600;
+  color: var(--white);
+  text-transform: uppercase;
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.competicoes__card:hover .competicoes__media::after,
+.competicoes__card:focus-visible .competicoes__media::after {
+  opacity: 0.75;
+}
+
+.competicoes__card:hover .competicoes__cta,
+.competicoes__card:focus-visible .competicoes__cta {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.competicoes__name {
+  font-family: var(--font-family);
+  font-size: 1rem;
+}
+
+/* Celular */
+@media (max-width: 768px) {
+  .competicoes {
+    padding: 2.5rem 1.25rem 3rem;
+    gap: 2.5rem;
   }
-  
 
-========================================
-ARQUIVO: ./src/styles/reset.css
-========================================
-
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+  .competicoes__grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.25rem;
   }
-  
+
+  .competicoes__media {
+    border-radius: 28px;
+    border-width: 5px;
+  }
+}
+
+@media (max-width: 420px) {
+  .competicoes__grid {
+    grid-template-columns: 1fr;
+    max-width: 280px;
+  }
+}
+
+/* Telas sem mouse (celular/tablet): não existe hover, então o botão fica sempre visível */
+@media (hover: none) {
+  .competicoes__media::after { opacity: 0.45; }
+  .competicoes__cta { opacity: 1; transform: none; }
+}
 
 ========================================
-ARQUIVO: ./src/config/routes.ts
-========================================
-
-export const ROTAS = {
-  home: '/index.html',
-  login: '/src/pages/login/login.html',
-  perfil: '/src/pages/perfil/perfil.html',
-  competicoes: '/src/pages/competicoes/competicoes.html',
-  contratacao: '/src/pages/contratacao/contratacao.html',
-};
-
-========================================
-ARQUIVO: ./src/pages/contratacao/contratacao.html
+ARQUIVO: .\src\pages\competicoes\competicoes.html
 ========================================
 
 <!DOCTYPE html>
@@ -1243,10 +1107,10 @@ ARQUIVO: ./src/pages/contratacao/contratacao.html
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>RYTH - Contratação</title>
-  
+  <title>RYTH - Competições</title>
+
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-  <script type="module" src="/src/pages/contratacao/contratacao.ts"></script>
+  <script type="module" src="/src/pages/competicoes/competicoes.ts"></script>
   <script type="module" src="/src/main.ts"></script>
 </head>
 <body>
@@ -1254,44 +1118,39 @@ ARQUIVO: ./src/pages/contratacao/contratacao.html
   <!-- ===================== NAVBAR (componente global) ===================== -->
   <div id="navbar-root"></div>
 
-  <main class="main">
-    <section class="contratacao">
-      <header class="contratacao__header">
-        <h1 class="contratacao__title">Como funciona?</h1>
-        <p class="contratacao__intro">
-          A RYTH aproxima talentos, artistas, marcas e produtores em um ambiente
-          criado para gerar oportunidades reais. Escolha a forma de participação
-          que melhor atende ao seu objetivo e faça parte de um ecossistema que
-          conecta criatividade, visibilidade e mercado.
-        </p>
-      </header>
+ <main class="main">
+  <section class="competicoes">
+    <h1 class="competicoes__title">Competições</h1>
 
-      <div class="contratacao__cards">
-        <!-- Card Parcerias -->
-        <article class="contratacao__card contratacao__card--green">
-          <h2 class="contratacao__card-title contratacao__card-title--purple">Parcerias</h2>
-          <p class="contratacao__card-text contratacao__card-text--dark">
-            Desenvolva ações com a RYTH e conecte sua marca, projeto ou iniciativa
-            a uma comunidade que valoriza a criatividade e impulsiona novos
-            talentos. Juntos, criamos experiências que fortalecem a dança, a
-            música e todo o ecossistema criativo.
-          </p>
-          <a href="#" class="contratacao__cta contratacao__cta--purple">Quero ser parceiro</a>
-        </article>
-
-        <!-- Card Músicas -->
-        <article class="contratacao__card contratacao__card--purple">
-          <h2 class="contratacao__card-title contratacao__card-title--green">Músicas</h2>
-          <p class="contratacao__card-text contratacao__card-text--light">
-            Divulgue suas músicas por meio de desafios de dança e alcance novos
-            públicos de forma autêntica. Na RYTH, cada coreografia amplia o
-            potencial de conexão entre artistas, comunidade e mercado.
-          </p>
-          <a href="#" class="contratacao__cta contratacao__cta--green">Cadastrar música</a>
-        </article>
+    <!-- ATIVAS -->
+    <div class="competicoes__group">
+      <h2 class="competicoes__subtitle competicoes__subtitle--active">Ativas</h2>
+      <div class="competicoes__grid" id="grid-ativas">
+        <!-- Card de exemplo: o competicoes.ts substitui isto quando o Sanity responde -->
+        <a class="competicoes__card competicoes__card--active"
+           href="/src/pages/competicoes/competicao.html?slug=teste">
+          <span class="competicoes__media">
+            <span class="competicoes__cta">Inscreva-se</span>
+          </span>
+          <span class="competicoes__name">Lorem ipsum</span>
+        </a>
       </div>
-    </section>
-  </main>
+    </div>
+
+    <!-- FINALIZADAS -->
+    <div class="competicoes__group">
+      <h2 class="competicoes__subtitle competicoes__subtitle--finished">Finalizadas</h2>
+      <div class="competicoes__grid" id="grid-finalizadas">
+        <!-- Card de exemplo: o competicoes.ts substitui isto quando o Sanity responde -->
+        <a class="competicoes__card competicoes__card--finished"
+           href="/src/pages/competicoes/competicao.html?slug=teste">
+          <span class="competicoes__media"></span>
+          <span class="competicoes__name">Lorem ipsum</span>
+        </a>
+      </div>
+    </div>
+  </section>
+</main>
 
   <!-- ===================== FOOTER (componente global) ===================== -->
   <div id="footer-root"></div>
@@ -1300,13 +1159,1251 @@ ARQUIVO: ./src/pages/contratacao/contratacao.html
 </html>
 
 ========================================
-ARQUIVO: ./src/pages/contratacao/contratacao.ts
+ARQUIVO: .\src\pages\competicoes\competicoes.ts
 ========================================
 
-import "./contratacao.css";
+import "./competicoes.css";
+import { cmsFetch } from "../../services/cms";
+
+type Competicao = {
+  titulo: string;
+  slug: string;
+  ativa?: boolean;
+  imagem?: string;
+};
+
+const BASE_DETALHE = "/src/pages/competicoes/competicao.html";
+
+function cardHTML(c: Competicao, estado: "active" | "finished") {
+  const href = `${BASE_DETALHE}?slug=${encodeURIComponent(c.slug)}`;
+  const cta =
+    estado === "active" ? `<span class="competicoes__cta">Inscreva-se</span>` : "";
+  const img = c.imagem
+    ? `<img src="${c.imagem}?w=800&auto=format" alt="${c.titulo}" loading="lazy" />`
+    : "";
+
+  return `
+    <a class="competicoes__card competicoes__card--${estado}" href="${href}">
+      <span class="competicoes__media">${img}${cta}</span>
+      <span class="competicoes__name">${c.titulo}</span>
+    </a>`;
+}
+
+async function renderLista() {
+  const gridAtivas = document.querySelector<HTMLElement>("#grid-ativas");
+  const gridFinalizadas = document.querySelector<HTMLElement>("#grid-finalizadas");
+  if (!gridAtivas || !gridFinalizadas) return;
+
+  const competicoes = await cmsFetch<Competicao[]>(
+    `*[_type == "competicao"] | order(ordem asc, _createdAt desc) {
+      titulo,
+      "slug": slug.current,
+      ativa,
+      "imagem": imagemCard.asset->url
+    }`
+  );
+
+  if (!competicoes) {
+    console.warn("Competições não carregadas: confira o .env do Sanity.");
+    return;
+  }
+
+  const ativas = competicoes.filter((c) => c.ativa);
+  const finalizadas = competicoes.filter((c) => !c.ativa);
+
+  gridAtivas.innerHTML =
+    ativas.map((c) => cardHTML(c, "active")).join("") ||
+    "<p>Nenhuma competição ativa no momento.</p>";
+
+  gridFinalizadas.innerHTML =
+    finalizadas.map((c) => cardHTML(c, "finished")).join("") ||
+    "<p>Nenhuma competição finalizada.</p>";
+}
+
+renderLista();
 
 ========================================
-ARQUIVO: ./src/pages/contratacao/contratacao.css
+ARQUIVO: .\src\pages\competicoes\competicao.css
+========================================
+
+/* ==========================================================================
+   PÁGINA DE DETALHES DA COMPETIÇÃO - STYLES CONSOLIDADOS
+   ========================================================================== */
+
+.competicao-page {
+  background-color: var(--main-white);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.competicao {
+  flex: 1;
+  width: 100%;
+  max-width: 1050px;
+  margin: 0 auto;
+  padding: 2.5rem 1.5rem 5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+  background-color: var(--main-white);
+  color: var(--main-black);
+}
+
+/* ===================== BOTÃO VOLTAR ===================== */
+.competicao__back {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 1.6rem;
+  border-radius: 50px;
+  background-color: var(--main-black);
+  color: var(--main-purple);
+  text-decoration: none;
+  font-family: var(--font-family);
+  font-size: 1rem;
+  font-weight: 700;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.competicao__back:hover {
+  transform: translateY(-2px);
+  opacity: 0.95;
+}
+
+/* ===================== BANNER PRINCIPAL ===================== */
+.competicao__banner {
+  width: 100%;
+  aspect-ratio: 16 / 7;
+  border-radius: 28px;
+  background-color: #828288;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+}
+
+.competicao__banner img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* ===================== MÚSICA ===================== */
+.competicao__musica {
+  align-self: center;
+  text-align: center;
+  padding: 1.2rem 3rem;
+  border-radius: 20px;
+  background-color: var(--main-purple);
+  color: var(--white);
+  max-width: 520px;
+  width: 100%;
+}
+
+.competicao__musica-title {
+  font-family: var(--font-family);
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: var(--main-green);
+  margin: 0;
+}
+
+.competicao__musica-text {
+  font-family: var(--font-family);
+  font-size: 1rem;
+  margin: 0.3rem 0 0;
+  color: var(--white);
+}
+
+/* ===================== PÓDIO & PRÊMIOS (VERDE) ===================== */
+.competicao__premios {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.competicao__podio {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 1.5rem;
+  width: 100%;
+  margin-bottom: 0;
+}
+
+.competicao__podio-blocos {
+  display: flex;
+  align-items: flex-end;
+}
+
+.competicao__podio-bloco {
+  display: flex;
+  justify-content: center;
+  padding-top: 0.6rem;
+  min-width: 5.5rem;
+  background-color: var(--main-green);
+  color: var(--main-purple);
+  font-family: var(--font-family);
+  font-weight: 800;
+  font-size: 1.4rem;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+}
+
+.competicao__podio-bloco--1 { height: 6rem; z-index: 2; }
+.competicao__podio-bloco--2 { height: 4.8rem; }
+.competicao__podio-bloco--3 { height: 4rem; }
+
+.competicao__deco {
+  width: 3.5rem;
+  height: 3.5rem;
+  object-fit: contain;
+  margin-bottom: 0.5rem;
+}
+
+.competicao__premios-box {
+  width: 100%;
+  padding: 2.8rem 2.2rem;
+  border-radius: 32px;
+  background-color: var(--main-green);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+}
+
+.competicao__premios-title {
+  font-family: var(--font-monument, sans-serif);
+  font-size: clamp(1.8rem, 3.5vw, 2.5rem);
+  font-weight: 900;
+  color: var(--main-purple);
+  margin: 0;
+}
+
+.competicao__premios-text {
+  font-family: var(--font-family);
+  font-size: clamp(0.95rem, 1.5vw, 1.05rem);
+  line-height: 1.5;
+  color: var(--main-black);
+  margin: 0;
+  max-width: 850px;
+  align-self: center;
+}
+
+/* ===================== PRAZOS + ESTILO ===================== */
+.competicao__info {
+  display: flex;
+  justify-content: space-between;
+  gap: 3rem;
+  width: 100%;
+}
+
+.competicao__info-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.competicao__info-title {
+  font-family: var(--font-monument, sans-serif);
+  font-size: clamp(1.8rem, 3vw, 2.2rem);
+  font-weight: 900;
+  margin: 0;
+}
+
+.competicao__info-title--prazos {
+  color: var(--main-purple);
+  text-align: left;
+}
+
+.competicao__info-title--estilo {
+  color: var(--main-green);
+  text-align: right;
+}
+
+.competicao__info-item--prazos p {
+  text-align: left;
+}
+
+.competicao__info-item--estilo p {
+  text-align: right;
+}
+
+.competicao__info-item p {
+  font-family: var(--font-family);
+  font-size: 0.98rem;
+  line-height: 1.5;
+  color: var(--main-black);
+  margin: 0;
+}
+
+/* ===================== PARTICIPANTES ===================== */
+.competicao__participantes {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+  width: 100%;
+}
+
+.competicao__participantes-title {
+  font-family: var(--font-monument, sans-serif);
+  font-size: clamp(1.8rem, 3vw, 2.4rem);
+  font-weight: 900;
+  color: var(--main-black);
+  text-align: center;
+  margin: 0;
+}
+
+.competicao__participantes-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 1.5rem;
+  width: 100%;
+}
+
+.competicao__participante {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+.competicao__avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 5.5rem;
+  height: 5.5rem;
+  border-radius: 50%;
+  background-color: #828288;
+  color: var(--main-black);
+  font-family: var(--font-family);
+  font-size: 0.75rem;
+  font-weight: 500;
+  text-align: center;
+  overflow: hidden;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.competicao__participante--roxo .competicao__avatar {
+  border: 4px solid var(--main-purple);
+}
+
+.competicao__participante--verde .competicao__avatar {
+  border: 4px solid var(--main-green);
+}
+
+.competicao__participante--selecionado .competicao__avatar {
+  box-shadow: 0 0 0 4px var(--main-black);
+  transform: scale(1.08);
+}
+
+.competicao__participante-nome {
+  font-family: var(--font-family);
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--main-black);
+}
+
+/* PAGINAÇÃO */
+.competicao__paginacao {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.competicao__seta {
+  border: none;
+  background: none;
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: var(--main-black);
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.competicao__seta:hover {
+  transform: scale(1.2);
+}
+
+.competicao__dots {
+  display: flex;
+  gap: 0.6rem;
+  align-items: center;
+}
+
+.competicao__dot {
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background-color: var(--main-black);
+}
+
+.competicao__dot--active {
+  background-color: var(--main-purple);
+}
+
+/* BOTÕES DE AÇÃO */
+.competicao__acoes {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  width: 100%;
+}
+
+.competicao__btn {
+  font-family: var(--font-family);
+  font-size: 1.15rem;
+  font-weight: 700;
+  padding: 0.85rem 3.5rem;
+  border-radius: 50px;
+  border: none;
+  cursor: pointer;
+  text-transform: lowercase;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.competicao__btn:hover {
+  transform: translateY(-2px);
+  opacity: 0.92;
+}
+
+.competicao__btn--votar {
+  background-color: var(--main-black);
+  color: var(--main-green);
+}
+
+.competicao__btn--inscrever {
+  background-color: var(--main-black);
+  color: var(--main-purple);
+}
+
+/* ===================== CAIXA CONFIRMAR VOTO (caixaconfirmavoto.png) ===================== */
+.competicao__confirmar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.25rem;
+  padding: 2.2rem 2rem;
+  border-radius: 32px;
+  background-color: var(--main-purple);
+  width: 100%;
+  max-width: 480px;
+  margin: 1.5rem auto 0;
+  text-align: center;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+}
+
+.competicao__confirmar-title {
+  font-family: var(--font-monument, sans-serif);
+  font-size: clamp(1.8rem, 3.5vw, 2.2rem);
+  font-weight: 900;
+  color: var(--main-green);
+  margin: 0;
+}
+
+.competicao__confirmar-participante {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.25rem;
+}
+
+.competicao__avatar--confirmar {
+  width: 4.8rem;
+  height: 4.8rem;
+  background-color: var(--white);
+  border: 4px solid var(--main-green);
+  border-radius: 50%;
+  color: var(--main-black);
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.competicao__confirmar-nome {
+  font-family: var(--font-family);
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--white);
+}
+
+.competicao__btn--confirmar {
+  background-color: var(--main-green);
+  color: var(--main-black);
+  font-size: 1.15rem;
+  font-weight: 800;
+  padding: 0.85rem 3.5rem;
+  border-radius: 50px;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  max-width: 320px;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.competicao__btn--confirmar:hover {
+  transform: translateY(-2px);
+  opacity: 0.95;
+}
+
+/* ===================== RESPONSIVIDADE ===================== */
+@media (max-width: 820px) {
+  .competicao__info {
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .competicao__info-title--estilo,
+  .competicao__info-item--estilo p {
+    text-align: left;
+  }
+
+  .competicao__participantes-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 520px) {
+  .competicao {
+    padding: 1.5rem 1rem 3rem;
+    gap: 2rem;
+  }
+
+  .competicao__participantes-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .competicao__podio-bloco {
+    min-width: 4rem;
+  }
+
+  .competicao__acoes {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .competicao__btn {
+    width: 100%;
+    max-width: 280px;
+  }
+
+  .competicao__confirmar {
+    padding: 1.8rem 1.25rem;
+    border-radius: 24px;
+  }
+}
+
+========================================
+ARQUIVO: .\src\pages\competicoes\competicao.html
+========================================
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RYTH - Detalhes da Competição</title>
+
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <script type="module" src="./competicao.ts"></script>
+  <script type="module" src="/src/main.ts"></script>
+</head>
+<body class="competicao-page">
+
+  <!-- NAVBAR GLOBAL -->
+  <header id="navbar-root"></header>
+
+  <main class="competicao">
+    <!-- BOTÃO VOLTAR -->
+    <a class="competicao__back" href="/src/pages/competicoes/competicoes.html">
+      <span aria-hidden="true">‹</span> voltar
+    </a>
+
+    <!-- BANNER PRINCIPAL (Com imagem padrão mantida) -->
+    <div class="competicao__banner">
+      <img id="competicao-banner" src="/src/assets/telacompetiçãobonita.png" alt="Banner da Competição" />
+    </div>
+
+    <!-- INFORMAÇÕES DA MÚSICA -->
+    <div class="competicao__musica">
+      <h2 class="competicao__musica-title" id="musica-titulo">Música</h2>
+      <p class="competicao__musica-text" id="musica-descricao">Nome do Artista - Título da Faixa</p>
+    </div>
+
+    <!-- PÓDIO E PRÊMIOS -->
+    <section class="competicao__premios">
+      <div class="competicao__podio">
+        <img class="competicao__deco competicao__deco--left" src="/src/assets/Ativo 16 2.png" alt="" aria-hidden="true" />
+        <div class="competicao__podio-blocos">
+          <span class="competicao__podio-bloco competicao__podio-bloco--2">2º</span>
+          <span class="competicao__podio-bloco competicao__podio-bloco--1">1º</span>
+          <span class="competicao__podio-bloco competicao__podio-bloco--3">3º</span>
+        </div>
+        <img class="competicao__deco competicao__deco--right" src="/src/assets/Ativo 17 2.png" alt="" aria-hidden="true" />
+      </div>
+
+      <div class="competicao__premios-box">
+        <h2 class="competicao__premios-title">Prêmios</h2>
+        <p class="competicao__premios-text" id="premios-texto">
+          Mais do que uma premiação, esta é uma oportunidade para ampliar sua visibilidade e fortalecer sua trajetória artística. Cada desafio aproxima talentos de novas conexões e possibilidades dentro do ecossistema da RYTH.
+        </p>
+      </div>
+    </section>
+
+    <!-- PRAZOS E ESTILO -->
+    <section class="competicao__info">
+      <div class="competicao__info-item competicao__info-item--prazos">
+        <h2 class="competicao__info-title competicao__info-title--prazos">Prazos</h2>
+        <p id="prazos-texto">
+          Acompanhe o período de inscrições, votação e divulgação dos resultados para não perder nenhuma etapa da competição. Planeje sua participação e compartilhe seu talento no momento certo.
+        </p>
+      </div>
+
+      <div class="competicao__info-item competicao__info-item--estilo">
+        <h2 class="competicao__info-title competicao__info-title--estilo">Estilo</h2>
+        <p id="estilo-texto">
+          Cada desafio possui um estilo próprio. Use sua criatividade para interpretar a música e destacar sua identidade em cada apresentação.
+        </p>
+      </div>
+    </section>
+
+    <!-- PARTICIPANTES -->
+    <section class="competicao__participantes">
+      <h2 class="competicao__participantes-title">Participantes</h2>
+
+      <div class="competicao__participantes-grid" id="participantes-grid">
+        <button class="competicao__participante competicao__participante--roxo" type="button" data-nome="Dançarino 1">
+          <span class="competicao__avatar">foto de perfil</span>
+          <span class="competicao__participante-nome">Lorem ipsum</span>
+        </button>
+        <button class="competicao__participante competicao__participante--verde" type="button" data-nome="Dançarino 2">
+          <span class="competicao__avatar">foto de perfil</span>
+          <span class="competicao__participante-nome">Lorem ipsum</span>
+        </button>
+        <button class="competicao__participante competicao__participante--roxo" type="button" data-nome="Dançarino 3">
+          <span class="competicao__avatar">foto de perfil</span>
+          <span class="competicao__participante-nome">Lorem ipsum</span>
+        </button>
+        <button class="competicao__participante competicao__participante--verde" type="button" data-nome="Dançarino 4">
+          <span class="competicao__avatar">foto de perfil</span>
+          <span class="competicao__participante-nome">Lorem ipsum</span>
+        </button>
+        <button class="competicao__participante competicao__participante--roxo" type="button" data-nome="Dançarino 5">
+          <span class="competicao__avatar">foto de perfil</span>
+          <span class="competicao__participante-nome">Lorem ipsum</span>
+        </button>
+      </div>
+
+      <!-- PAGINAÇÃO -->
+      <nav class="competicao__paginacao" aria-label="Paginação de participantes">
+        <button class="competicao__seta" type="button" aria-label="Página anterior">‹</button>
+        <div class="competicao__dots" id="paginacao-dots">
+          <span class="competicao__dot"></span>
+          <span class="competicao__dot"></span>
+          <span class="competicao__dot competicao__dot--active"></span>
+          <span class="competicao__dot"></span>
+          <span class="competicao__dot"></span>
+        </div>
+        <button class="competicao__seta" type="button" aria-label="Próxima página">›</button>
+      </nav>
+
+      <!-- BOTÕES DE AÇÃO -->
+      <div class="competicao__acoes">
+        <button class="competicao__btn competicao__btn--votar" id="btn-votar" type="button">votar</button>
+        <button class="competicao__btn competicao__btn--inscrever" id="btn-inscrever" type="button">inscreva-se</button>
+      </div>
+
+      <!-- CAIXA CONFIRMAR VOTO (VISÍVEL POR PADRÃO - caixaconfirmavoto.png) -->
+      <div class="competicao__confirmar" id="confirmar-voto">
+        <h2 class="competicao__confirmar-title">Confirmar voto</h2>
+        <div class="competicao__confirmar-participante">
+          <span class="competicao__avatar competicao__avatar--confirmar" id="confirmar-foto">foto de perfil</span>
+          <span class="competicao__confirmar-nome" id="confirmar-nome">Lorem ipsum</span>
+        </div>
+        <button class="competicao__btn competicao__btn--confirmar" id="btn-confirmar" type="button">votar</button>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER GLOBAL -->
+  <footer id="footer-root"></footer>
+
+</body>
+</html>
+
+========================================
+ARQUIVO: .\src\pages\competicoes\competicao.ts
+========================================
+
+// 1. Estilos Globais e Componentes
+import "../../styles/reset.css";
+import "../../styles/global.css";
+import "../../styles/variables.css";
+
+import "../../components/navbar/navbar.css";
+import "../../components/footer/footer.css";
+import "./competicao.css";
+
+// 2. Componentes e Serviços
+import { renderNavbar } from "../../components/navbar/navbar";
+import { renderFooter } from "../../components/footer/footer";
+import { cmsFetch } from "../../services/cms";
+import { ROTAS } from "../../config/routes";
+
+type Competicao = {
+  titulo: string;
+  musicaTitulo?: string;
+  musicaDescricao?: string;
+  premios?: string;
+  prazos?: string;
+  estilo?: string;
+  banner?: string;
+};
+
+function setText(id: string, valor?: string): void {
+  const el = document.getElementById(id);
+  if (el && valor) el.textContent = valor;
+}
+
+function slugAtual(): string | null {
+  return new URLSearchParams(window.location.search).get("slug");
+}
+
+async function carregarDadosSanity(): Promise<void> {
+  const slug = slugAtual();
+  if (!slug) return; // Mantém a imagem padrão e textos do HTML se não houver parâmetro ?slug=
+
+  // [0] devolve um único documento (sem ele, o Sanity retorna um array)
+  const comp = await cmsFetch<Competicao>(
+    `*[_type == "competicao" && slug.current == $slug][0]{
+      titulo,
+      musicaTitulo,
+      musicaDescricao,
+      premios,
+      prazos,
+      estilo,
+      "banner": banner.asset->url
+    }`,
+    { slug }
+  );
+
+  if (!comp) return;
+
+  document.title = `RYTH - ${comp.titulo}`;
+  setText("musica-titulo", comp.musicaTitulo);
+  setText("musica-descricao", comp.musicaDescricao);
+  setText("premios-texto", comp.premios);
+  setText("prazos-texto", comp.prazos);
+  setText("estilo-texto", comp.estilo);
+
+  const bannerEl = document.querySelector<HTMLImageElement>("#competicao-banner");
+  if (bannerEl && comp.banner) {
+    bannerEl.src = `${comp.banner}?w=1600&auto=format`;
+    bannerEl.alt = comp.titulo;
+  }
+}
+
+function inicializarBotaoInscricao(): void {
+  const btnInscrever = document.querySelector<HTMLButtonElement>("#btn-inscrever");
+  if (!btnInscrever) return;
+
+  btnInscrever.addEventListener("click", () => {
+    const slug = slugAtual();
+    window.location.href = slug
+      ? `${ROTAS.inscricao}?slug=${encodeURIComponent(slug)}`
+      : ROTAS.competicoes;
+  });
+}
+
+function inicializarInteratividadeVotacao(): void {
+  const participantes = document.querySelectorAll<HTMLButtonElement>(".competicao__participante");
+  const confirmarNome = document.querySelector<HTMLElement>("#confirmar-nome");
+  const btnVotarMain = document.querySelector<HTMLButtonElement>("#btn-votar");
+  const btnConfirmarVoto = document.querySelector<HTMLButtonElement>("#btn-confirmar");
+
+  let participanteSelecionado: string | null = null;
+
+  // Seleção dinâmica dos participantes
+  participantes.forEach((p) => {
+    p.addEventListener("click", () => {
+      participantes.forEach((el) => el.classList.remove("competicao__participante--selecionado"));
+      p.classList.add("competicao__participante--selecionado");
+
+      const nome = p.getAttribute("data-nome") ||
+                   p.querySelector(".competicao__participante-nome")?.textContent;
+      if (nome) {
+        participanteSelecionado = nome;
+        if (confirmarNome) {
+          confirmarNome.textContent = participanteSelecionado;
+        }
+      }
+    });
+  });
+
+  // Botão "votar" da seção de ações faz rolagem suave até a caixa de confirmação
+  if (btnVotarMain) {
+    btnVotarMain.addEventListener("click", () => {
+      if (!participanteSelecionado) {
+        alert("Selecione um participante no grid antes de votar!");
+        return;
+      }
+      const cardConfirmar = document.querySelector<HTMLElement>("#confirmar-voto");
+      cardConfirmar?.scrollIntoView({ behavior: "smooth" });
+    });
+  }
+
+  // Ação de registrar voto no botão dentro da caixa
+  if (btnConfirmarVoto) {
+    btnConfirmarVoto.addEventListener("click", () => {
+      if (!participanteSelecionado) {
+        alert("Selecione um participante no grid acima.");
+        return;
+      }
+      alert(`Voto registrado com sucesso em "${participanteSelecionado}"!`);
+    });
+  }
+}
+
+// Inicialização da página
+async function init(): Promise<void> {
+  renderFooter();
+  await renderNavbar();
+  await carregarDadosSanity();
+  inicializarBotaoInscricao();
+  inicializarInteratividadeVotacao();
+}
+
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", init);
+} else {
+  init();
+}
+
+========================================
+ARQUIVO: .\src\pages\competicoes\inscricao.html
+========================================
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>RYTH - Inscrição na competição</title>
+    
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <script type="module" src="./inscricao.ts"></script>
+    <script type="module" src="/src/main.ts"></script>
+  </head>
+  <body class="pagina-inscricao">
+    
+    <!-- ===================== NAVBAR (componente global) ===================== -->
+    <div id="navbar-root"></div>
+
+    <main class="inscricao">
+      <a id="btn-voltar" class="inscricao__voltar" href="/src/pages/competicoes/competicoes.html">
+        <span aria-hidden="true">&lsaquo;</span> voltar
+      </a>
+
+      <header class="inscricao__cabecalho">
+        <h1 class="inscricao__titulo">Competição</h1>
+        <p id="competicao-nome" class="inscricao__subtitulo">&nbsp;</p>
+      </header>
+
+      <form id="form-inscricao" class="inscricao__form" novalidate>
+        <label class="campo-video">
+          <span class="campo-video__rotulo">Link do vídeo:</span>
+          <input
+            id="video-url"
+            class="campo-video__input"
+            type="url"
+            inputmode="url"
+            placeholder="link"
+            autocomplete="off"
+            required
+          />
+        </label>
+
+        <section class="confirma" aria-labelledby="confirma-titulo">
+          <h2 id="confirma-titulo" class="confirma__titulo">É você mesmo?</h2>
+          <div class="confirma__foto">
+            <img id="perfil-foto" alt="" hidden />
+            <span id="perfil-foto-vazia">foto de perfil</span>
+          </div>
+          <p id="perfil-nome" class="confirma__nome">Nome</p>
+        </section>
+
+        <p class="inscricao__relogin">
+          Caso não seja você <button type="button" id="btn-relogin" class="link-botao">refaça seu login</button>
+        </p>
+
+        <p id="inscricao-msg" class="inscricao__msg" role="alert" hidden></p>
+
+        <button id="btn-inscrever" class="btn-inscrever" type="submit">inscreva-se</button>
+      </form>
+    </main>
+
+    <footer id="footer-root"></footer>
+  </body>
+</html>
+
+========================================
+ARQUIVO: .\src\pages\competicoes\inscricao.css
+========================================
+
+.pagina-inscricao {
+  --insc-azul: var(--main-black);
+  --insc-roxo: var(--main-purple);
+  --insc-roxo-texto: #a64df0; /* roxo mais claro para texto sobre fundo escuro */
+  --insc-lima: var(--main-green);
+  --insc-branco: var(--main-white);
+  background: var(--insc-branco);
+  font-family: var(--font-family);
+}
+
+.inscricao {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 1.5rem 1.25rem 3rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+/* Botão voltar */
+.inscricao__voltar {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 1.4rem;
+  border-radius: 999px;
+  background: var(--insc-azul);
+  color: var(--insc-roxo-texto);
+  text-decoration: none;
+  font-size: 1rem;
+}
+
+/* Título */
+.inscricao__cabecalho {
+  text-align: center;
+}
+.inscricao__titulo {
+  margin: 0;
+  font-family: var(--font-monument);
+  font-size: clamp(1.8rem, 7vw, 3rem);
+  font-weight: normal;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+  color: var(--insc-azul);
+}
+.inscricao__subtitulo {
+  margin: 0.25rem 0 0;
+  font-family: var(--font-monument);
+  font-size: clamp(1.2rem, 4.5vw, 1.8rem);
+  font-weight: normal;
+  color: var(--insc-lima);
+}
+
+/* Formulário */
+.inscricao__form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.campo-video {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1.1rem 1.5rem;
+  border-radius: 999px;
+  background: var(--insc-azul);
+  cursor: text;
+}
+.campo-video__rotulo {
+  color: var(--insc-roxo-texto);
+  white-space: nowrap;
+}
+.campo-video__input {
+  flex: 1;
+  min-width: 0;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: var(--insc-lima);
+  font: inherit;
+}
+.campo-video__input::placeholder {
+  color: var(--insc-lima);
+  opacity: 0.6;
+}
+.campo-video:focus-within {
+  outline: 3px solid var(--insc-lima);
+  outline-offset: 3px;
+}
+
+/* Card "É você mesmo?" */
+.confirma {
+  width: min(100%, 22rem);
+  padding: 1.25rem 1rem 1.5rem;
+  border-radius: 1.5rem;
+  background: var(--insc-roxo);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+.confirma__titulo {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: var(--insc-lima);
+}
+.confirma__foto {
+  width: 5.5rem;
+  height: 5.5rem;
+  border-radius: 50%;
+  border: 4px solid var(--insc-lima);
+  background: var(--insc-branco);
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  font-size: 0.6rem;
+  text-align: center;
+  color: var(--insc-azul);
+}
+.confirma__foto img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.confirma__nome {
+  margin: 0;
+  color: var(--insc-branco);
+  font-size: 1rem;
+}
+
+/* Texto "refaça seu login" */
+.inscricao__relogin {
+  margin: -0.75rem 0 0;
+  font-size: 0.85rem;
+  color: var(--insc-azul);
+  text-align: center;
+}
+.link-botao {
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  color: var(--insc-roxo);
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+/* Mensagens */
+.inscricao__msg {
+  margin: 0;
+  max-width: 24rem;
+  padding: 0.75rem 1rem;
+  border-radius: 0.75rem;
+  text-align: center;
+  font-size: 0.9rem;
+  background: #fde8e8;
+  color: #8a1c1c;
+}
+.inscricao__msg--ok {
+  background: #e9f8c9;
+  color: #2f4a00;
+}
+
+/* Botão inscreva-se */
+.btn-inscrever {
+  padding: 0.9rem 3rem;
+  border: 0;
+  border-radius: 999px;
+  background: var(--insc-azul);
+  color: var(--insc-lima);
+  font: inherit;
+  font-size: 1.15rem;
+  cursor: pointer;
+}
+.btn-inscrever:hover:not(:disabled) {
+  filter: brightness(1.25);
+}
+.btn-inscrever:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+.btn-inscrever:focus-visible,
+.inscricao__voltar:focus-visible,
+.link-botao:focus-visible {
+  outline: 3px solid var(--insc-lima);
+  outline-offset: 3px;
+}
+
+========================================
+ARQUIVO: .\src\pages\competicoes\inscricao.ts
+========================================
+
+// 1. Estilos Globais e Componentes
+import "../../styles/reset.css";
+import "../../styles/global.css";
+import "../../styles/variables.css";
+
+import "../../components/navbar/navbar.css";
+import "../../components/footer/footer.css";
+import "./inscricao.css";
+
+// 2. Componentes e Serviços
+import { renderNavbar } from "../../components/navbar/navbar";
+import { renderFooter } from "../../components/footer/footer";
+import { cmsFetch } from "../../services/cms";
+import { usuarioAtual, fazerLogout } from "../../services/auth";
+import { supabase } from "../../services/supabase";
+import { ROTAS } from "../../config/routes";
+
+const $ = <T extends HTMLElement>(id: string) => document.getElementById(id) as T;
+
+const slug = new URLSearchParams(window.location.search).get("slug");
+
+const form = $<HTMLFormElement>("form-inscricao");
+const inputVideo = $<HTMLInputElement>("video-url");
+const btnInscrever = $<HTMLButtonElement>("btn-inscrever");
+const msg = $<HTMLParagraphElement>("inscricao-msg");
+
+function mostrarMsg(texto: string, ok = false): void {
+  msg.textContent = texto;
+  msg.classList.toggle("inscricao__msg--ok", ok);
+  msg.hidden = false;
+}
+
+function irParaLogin(): void {
+  const volta = encodeURIComponent(location.pathname + location.search);
+  location.href = `${ROTAS.login}?redirect=${volta}`;
+}
+
+function linkValido(valor: string): boolean {
+  try {
+    const url = new URL(valor);
+    return url.protocol === "http:" || url.protocol === "https:";
+  } catch {
+    return false;
+  }
+}
+
+async function carregarCompeticao(): Promise<void> {
+  const comp = await cmsFetch<{ titulo?: string }>(
+    `*[_type == "competicao" && slug.current == $slug][0]{ titulo }`,
+    { slug }
+  );
+  if (comp?.titulo) $("competicao-nome").textContent = comp.titulo;
+}
+
+async function carregarUsuario(): Promise<boolean> {
+  const usuario = await usuarioAtual();
+  if (!usuario) {
+    irParaLogin();
+    return false;
+  }
+  // usuarioAtual() só devolve id e e-mail; troque pelo nome/foto do perfil quando tiver
+  $("perfil-nome").textContent = usuario.email;
+  return true;
+}
+
+async function enviar(e: Event): Promise<void> {
+  e.preventDefault();
+  msg.hidden = true;
+
+  const video = inputVideo.value.trim();
+  if (!video) {
+    mostrarMsg("Cole o link do seu vídeo para se inscrever.");
+    return;
+  }
+  if (!linkValido(video)) {
+    mostrarMsg("O link do vídeo precisa começar com http:// ou https://.");
+    return;
+  }
+
+  const usuario = await usuarioAtual();
+  if (!usuario?.id) {
+    irParaLogin();
+    return;
+  }
+
+  // supabase.ts exporta null quando o .env não está configurado
+  if (!supabase) {
+    mostrarMsg("Não foi possível conectar ao servidor. Tente novamente mais tarde.");
+    return;
+  }
+
+  btnInscrever.disabled = true;
+  const { error } = await supabase.from("inscricoes").insert({
+    competicao_slug: slug,
+    user_id: usuario.id,
+    video_url: video,
+  });
+
+  if (error) {
+    btnInscrever.disabled = false;
+    mostrarMsg(
+      error.code === "23505"
+        ? "Você já está inscrito nesta competição."
+        : "Não foi possível concluir a inscrição. Tente novamente em instantes."
+    );
+    return;
+  }
+
+  mostrarMsg("Inscrição enviada! Redirecionando…", true);
+  setTimeout(() => {
+    location.href = `${ROTAS.competicao}?slug=${encodeURIComponent(slug!)}`;
+  }, 1500);
+}
+
+async function init(): Promise<void> {
+  renderFooter();
+  await renderNavbar();
+
+  // Sem ?slug= na URL não há competição para inscrever
+  if (!slug) {
+    location.href = ROTAS.competicoes;
+    return;
+  }
+
+  $<HTMLAnchorElement>("btn-voltar").href = `${ROTAS.competicao}?slug=${encodeURIComponent(slug)}`;
+
+  if (!(await carregarUsuario())) return;
+  await carregarCompeticao();
+
+  $("btn-relogin").addEventListener("click", async () => {
+    await fazerLogout();
+    irParaLogin();
+  });
+  form.addEventListener("submit", enviar);
+}
+
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", init);
+} else {
+  init();
+}
+
+========================================
+ARQUIVO: .\src\pages\contratacao\contratacao.css
 ========================================
 
 .contratacao {
@@ -1439,7 +2536,650 @@ ARQUIVO: ./src/pages/contratacao/contratacao.css
 }
 
 ========================================
-ARQUIVO: ./src/pages/perfil/perfil.css
+ARQUIVO: .\src\pages\contratacao\contratacao.html
+========================================
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RYTH - Contratação</title>
+  
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <script type="module" src="/src/pages/contratacao/contratacao.ts"></script>
+  <script type="module" src="/src/main.ts"></script>
+</head>
+<body>
+
+  <!-- ===================== NAVBAR (componente global) ===================== -->
+  <div id="navbar-root"></div>
+
+  <main class="main">
+    <section class="contratacao">
+      <header class="contratacao__header">
+        <h1 class="contratacao__title">Como funciona?</h1>
+        <p class="contratacao__intro">
+          A RYTH aproxima talentos, artistas, marcas e produtores em um ambiente
+          criado para gerar oportunidades reais. Escolha a forma de participação
+          que melhor atende ao seu objetivo e faça parte de um ecossistema que
+          conecta criatividade, visibilidade e mercado.
+        </p>
+      </header>
+
+      <div class="contratacao__cards">
+        <!-- Card Parcerias -->
+        <article class="contratacao__card contratacao__card--green">
+          <h2 class="contratacao__card-title contratacao__card-title--purple">Parcerias</h2>
+          <p class="contratacao__card-text contratacao__card-text--dark">
+            Desenvolva ações com a RYTH e conecte sua marca, projeto ou iniciativa
+            a uma comunidade que valoriza a criatividade e impulsiona novos
+            talentos. Juntos, criamos experiências que fortalecem a dança, a
+            música e todo o ecossistema criativo.
+          </p>
+          <a href="#" class="contratacao__cta contratacao__cta--purple">Quero ser parceiro</a>
+        </article>
+
+        <!-- Card Músicas -->
+        <article class="contratacao__card contratacao__card--purple">
+          <h2 class="contratacao__card-title contratacao__card-title--green">Músicas</h2>
+          <p class="contratacao__card-text contratacao__card-text--light">
+            Divulgue suas músicas por meio de desafios de dança e alcance novos
+            públicos de forma autêntica. Na RYTH, cada coreografia amplia o
+            potencial de conexão entre artistas, comunidade e mercado.
+          </p>
+          <a href="#" class="contratacao__cta contratacao__cta--green">Cadastrar música</a>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <!-- ===================== FOOTER (componente global) ===================== -->
+  <div id="footer-root"></div>
+
+</body>
+</html>
+
+========================================
+ARQUIVO: .\src\pages\contratacao\contratacao.ts
+========================================
+
+import "./contratacao.css";
+
+========================================
+ARQUIVO: .\src\pages\login\login.ts
+========================================
+
+import "./login.css";
+import { validarEmail, validarSenhaCadastro, textoRequisitosSenha } from "../../services/erros";
+import { fazerLogin, fazerCadastro, confirmarCodigo, reenviarCodigo } from "../../services/auth";
+import { ROTAS } from "../../config/routes";
+
+type Modo = "login" | "cadastro";
+
+const CONFIG = {
+  login: {
+    titulo: "RYTH - Login",
+    botao: "entrar",
+    botaoCarregando: "entrando...",
+    autocomplete: "current-password",
+    cardTitulo: "Não tem uma conta?",
+    cardTexto:
+      "Crie sua conta gratuitamente e comece a construir sua trajetória em um ecossistema que conecta dança, música e oportunidades.",
+    cardLink: "Criar minha conta",
+    cardHref: `${ROTAS.login}?modo=cadastro`,
+  },
+  cadastro: {
+    titulo: "RYTH - Cadastro",
+    botao: "cadastrar-se",
+    botaoCarregando: "cadastrando...",
+    autocomplete: "new-password",
+    cardTitulo: "Já tem uma conta?",
+    cardTexto: "Entre para acompanhar suas competições e continuar sua trajetória na RYTH.",
+    cardLink: "Fazer login",
+    cardHref: ROTAS.login,
+  },
+} as const;
+
+function criarFeedback(form: HTMLFormElement): HTMLParagraphElement {
+  const el = document.createElement("p");
+  el.className = "login__feedback";
+  el.setAttribute("role", "alert");
+  el.style.fontSize = "0.9rem";
+  el.style.marginTop = "0.5rem";
+  el.style.textAlign = "center";
+  form.appendChild(el);
+  return el;
+}
+
+function mensagemDeErro(err: unknown): string {
+  return err instanceof Error ? err.message : "Algo deu errado. Tente novamente.";
+}
+
+function inicializarLogin(): void {
+  const form = document.querySelector<HTMLFormElement>(".login__form");
+  const emailInput = document.querySelector<HTMLInputElement>("#email");
+  const senhaInput = document.querySelector<HTMLInputElement>("#senha");
+  const submitBtn = document.querySelector<HTMLButtonElement>(".login__btn--submit");
+  const cardTitulo = document.querySelector<HTMLElement>("#login-card-titulo");
+  const cardTexto = document.querySelector<HTMLElement>("#login-card-texto");
+  const cardLink = document.querySelector<HTMLAnchorElement>("#login-card-link");
+
+  if (!form || !emailInput || !senhaInput || !submitBtn || !cardTitulo || !cardTexto || !cardLink) return;
+
+  // Define o modo pela URL: login.html (login) ou login.html?modo=cadastro
+  const modo: Modo =
+    new URLSearchParams(location.search).get("modo") === "cadastro" ? "cadastro" : "login";
+  const cfg = CONFIG[modo];
+
+  // Aplica o modo na página
+  document.title = cfg.titulo;
+  document.querySelector(".login-page")?.classList.toggle("login-page--cadastro", modo === "cadastro");
+  submitBtn.textContent = cfg.botao;
+  senhaInput.autocomplete = cfg.autocomplete;
+  cardTitulo.textContent = cfg.cardTitulo;
+  cardTexto.textContent = cfg.cardTexto;
+  cardLink.textContent = cfg.cardLink;
+  cardLink.href = cfg.cardHref;
+
+  // No cadastro, mostra os requisitos da senha logo abaixo do campo
+  let dicaSenha: HTMLParagraphElement | null = null;
+  if (modo === "cadastro") {
+    dicaSenha = document.createElement("p");
+    dicaSenha.className = "login__hint";
+    dicaSenha.textContent = textoRequisitosSenha();
+    senhaInput.insertAdjacentElement("afterend", dicaSenha);
+  }
+
+  // Elemento para exibir mensagens dinâmicas
+  const feedbackEl =
+    form.querySelector<HTMLParagraphElement>(".login__feedback") ?? criarFeedback(form);
+
+  const mostrarFeedback = (texto: string, erro = true): void => {
+    feedbackEl.style.color = erro ? "#FF4D4D" : "#2ECC71";
+    feedbackEl.textContent = texto;
+  };
+
+  // Quando definido, o formulário está no passo "digitar código de confirmação"
+  let acaoCodigo: (() => Promise<void>) | null = null;
+
+  // Troca o formulário de cadastro pelo passo de confirmação do e-mail
+  const mostrarPassoCodigo = (email: string): void => {
+    emailInput.disabled = true;
+    senhaInput.style.display = "none";
+    if (dicaSenha) dicaSenha.style.display = "none";
+    const labelSenha = form.querySelector<HTMLElement>('label[for="senha"]');
+    if (labelSenha) labelSenha.style.display = "none";
+    submitBtn.style.display = "none";
+
+    const codigoInput = document.createElement("input");
+    codigoInput.type = "text";
+    codigoInput.inputMode = "numeric";
+    codigoInput.autocomplete = "one-time-code";
+    codigoInput.placeholder = "código recebido por e-mail";
+    codigoInput.className = senhaInput.className;
+
+    const confirmarBtn = document.createElement("button");
+    confirmarBtn.type = "button";
+    confirmarBtn.className = submitBtn.className;
+    confirmarBtn.textContent = "confirmar";
+
+    const reenviarBtn = document.createElement("button");
+    reenviarBtn.type = "button";
+    reenviarBtn.textContent = "reenviar código";
+
+    const confirmar = async (): Promise<void> => {
+      const codigo = codigoInput.value.trim();
+      if (!codigo) {
+        mostrarFeedback("Digite o código que enviamos para o seu e-mail.");
+        codigoInput.focus();
+        return;
+      }
+
+      try {
+        confirmarBtn.disabled = true;
+        await confirmarCodigo(email, codigo);
+        window.location.href = ROTAS.perfil;
+      } catch (err: unknown) {
+        mostrarFeedback(mensagemDeErro(err));
+        confirmarBtn.disabled = false;
+      }
+    };
+
+    // Enter dentro do campo de código também confirma (em vez de refazer o cadastro)
+    acaoCodigo = confirmar;
+    confirmarBtn.addEventListener("click", confirmar);
+
+    reenviarBtn.addEventListener("click", async () => {
+      try {
+        reenviarBtn.disabled = true;
+        await reenviarCodigo(email);
+        mostrarFeedback("Novo código enviado. Confira sua caixa de entrada e o spam.", false);
+      } catch (err: unknown) {
+        mostrarFeedback(mensagemDeErro(err));
+      } finally {
+        // Bloqueia o botão por 120s para evitar spam de e-mails
+        let restante = 120;
+        reenviarBtn.disabled = true;
+        const timer = setInterval(() => {
+          restante--;
+          reenviarBtn.textContent = restante > 0 ? `reenviar em ${restante}s` : "reenviar código";
+          if (restante <= 0) {
+            clearInterval(timer);
+            reenviarBtn.disabled = false;
+          }
+        }, 1000);
+      }
+    });
+
+    feedbackEl.before(codigoInput, confirmarBtn, reenviarBtn);
+    codigoInput.focus();
+  };
+
+  form.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    feedbackEl.textContent = "";
+
+    // Já está no passo do código: Enter confirma o código
+    if (acaoCodigo) {
+      await acaoCodigo();
+      return;
+    }
+
+    const email = emailInput.value.trim();
+    const senha = senhaInput.value; // senha não deve ser alterada com trim()
+
+    const erroEmail = validarEmail(email);
+    if (erroEmail) {
+      mostrarFeedback(erroEmail);
+      emailInput.focus();
+      return;
+    }
+
+    if (modo === "login" && !senha) {
+      mostrarFeedback("Informe sua senha.");
+      senhaInput.focus();
+      return;
+    }
+
+    if (modo === "cadastro") {
+      const erroSenha = validarSenhaCadastro(senha);
+      if (erroSenha) {
+        mostrarFeedback(erroSenha);
+        senhaInput.focus();
+        return;
+      }
+    }
+
+    try {
+      submitBtn.disabled = true;
+      submitBtn.textContent = cfg.botaoCarregando;
+
+      if (modo === "login") {
+        await fazerLogin(email, senha);
+        window.location.href = ROTAS.perfil;
+      } else {
+        const { precisaConfirmar } = await fazerCadastro(email, senha);
+        if (precisaConfirmar) {
+          mostrarFeedback("Enviamos um código para o seu e-mail. Digite-o abaixo.", false);
+          mostrarPassoCodigo(email);
+        } else {
+          window.location.href = ROTAS.perfil;
+        }
+      }
+    } catch (err: unknown) {
+      mostrarFeedback(mensagemDeErro(err));
+    } finally {
+      submitBtn.disabled = false;
+      submitBtn.textContent = cfg.botao;
+    }
+  });
+}
+
+// Scripts type="module" já executam depois do HTML carregado
+inicializarLogin();
+
+========================================
+ARQUIVO: .\src\pages\login\login.css
+========================================
+
+/* ================================================
+              BASE (Login e Cadastro)
+   ================================================= */
+.login-page {
+  background-color: var(--main-white);
+  min-height: calc(100vh - 160px);
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden; /* Evita rolagem lateral com os elementos afastados */
+}
+
+.login {
+  flex: 1;
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 4rem 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.login__container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3.5rem;
+  width: 100%;
+  position: relative;
+}
+
+/* --------------------------------------------------------------------------
+   DECORAÇÕES LATERAIS (AJUSTADAS PARA NÃO INVASÃO DE NAVBAR E FOOTER)
+   -------------------------------------------------------------------------- */
+.login__form-wrapper {
+  position: relative;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.login__decor {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 180px;
+  height: 280px; /* Altura contida para não vazar no header/footer */
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Afastamento ajustado para as laterais */
+.login__decor--left {
+  left: -220px;
+}
+
+.login__decor--right {
+  right: -220px;
+}
+
+.decor-img {
+  position: absolute;
+  object-fit: contain;
+  pointer-events: none;
+}
+
+/* Posições e escalas equilibradas - Esquerda */
+.decor-star-purple-bg   { width: 65px; top: 0px; left: 10px; }
+.decor-spiral-green     { width: 145px; top: 25px; left: 10px; }
+.decor-spiral-purple-sm { width: 90px; bottom: 0px; left: -5px; }
+.decor-star-green-sm   { width: 28px; top: 110px; left: 105px; }
+.decor-sphere-green     { width: 18px; top: 70px; left: -10px; }
+.decor-sphere-purple    { width: 20px; bottom: 35px; left: -15px; }
+
+/* Posições e escalas equilibradas - Direita */
+.decor-star-green-top   { width: 30px; top: 5px; left: 10px; }
+.decor-star-purple-sm   { width: 35px; top: 0px; right: 10px; }
+.decor-star-purple-lg   { width: 72px; top: 40px; right: -10px; }
+.decor-spiral-purple-lg { width: 150px; bottom: 0px; right: -5px; }
+.decor-sphere-purple-right { width: 18px; top: 30px; right: -15px; }
+
+/* --------------------------------------------------------------------------
+   1. FORMULÁRIO DE LOGIN
+   -------------------------------------------------------------------------- */
+.login__form {
+  width: 100%;
+  max-width: 360px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.25rem;
+  position: relative;
+  z-index: 2;
+}
+
+.login__field {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.35rem;
+}
+
+.login__label {
+  font-family: var(--font-family);
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: var(--main-black);
+}
+
+.login__input {
+  width: 100%;
+  height: 50px;
+  padding: 0 1.25rem;
+  background-color: var(--main-black);
+  color: var(--white);
+  font-family: var(--font-family);
+  font-size: 1rem;
+  border: none;
+  border-radius: 50px;
+  outline: none;
+  transition: box-shadow 0.2s ease, transform 0.1s ease;
+}
+
+.login__input:focus {
+  box-shadow: 0 0 0 3px var(--main-purple);
+}
+
+.login__btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-family);
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.login__btn:hover {
+  transform: translateY(-2px);
+  opacity: 0.92;
+}
+
+.login__btn--submit {
+  background-color: var(--main-purple);
+  color: var(--white);
+  font-size: 1.15rem;
+  font-weight: 700;
+  padding: 0.8rem 3.8rem;
+  text-transform: lowercase;
+  margin-top: 0.5rem;
+}
+
+/* --------------------------------------------------------------------------
+   2. CARD DE CADASTRO
+   -------------------------------------------------------------------------- */
+.login__signup-card {
+  width: 100%;
+  max-width: 480px;
+  background-color: var(--main-green);
+  border-radius: 28px;
+  padding: 2.5rem 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 1.2rem;
+  position: relative;
+  z-index: 2;
+}
+
+.login__signup-title {
+  font-family: var(--font-family);
+  font-size: 1.8rem;
+  font-weight: 900;
+  color: var(--main-purple);
+  margin: 0;
+  line-height: 1.2;
+}
+
+.login__signup-text {
+  font-family: var(--font-family);
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--main-black);
+  line-height: 1.45;
+  margin: 0;
+  max-width: 360px;
+}
+
+.login__btn--signup {
+  background-color: var(--main-purple);
+  color: var(--white);
+  font-size: 1.05rem;
+  font-weight: 700;
+  padding: 0.8rem 2.2rem;
+}
+
+/* --------------------------------------------------------------------------
+   3. RESPONSIVIDADE
+   -------------------------------------------------------------------------- */
+@media (max-width: 820px) {
+  .login__decor {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .login-page {
+    padding: 2.5rem 1rem;
+  }
+
+  .login__signup-card {
+    padding: 2rem 1.25rem;
+    border-radius: 22px;
+  }
+
+  .login__signup-title {
+    font-size: 1.5rem;
+  }
+
+  .login__signup-text {
+    font-size: 0.88rem;
+  }
+}
+
+/* Modo Cadastro */
+.login-page--cadastro .login__btn--submit {
+  background-color: var(--main-green);
+  color: var(--main-black);
+}
+
+========================================
+ARQUIVO: .\src\pages\login\login.html
+========================================
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RYTH - Login</title>
+
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <script type="module" src="./login.ts"></script>
+  <script type="module" src="/src/main.ts"></script>
+</head>
+<body class="login-page">
+
+  <!-- NAVBAR -->
+  <header id="navbar-root"></header>
+
+  <main class="login">
+    <div class="login__container">
+
+      <!-- Wrapper do formulário com as ilustrações nas laterais -->
+      <div class="login__form-wrapper">
+        
+        <!-- Decorações - Lado Esquerdo -->
+        <div class="login__decor login__decor--left" aria-hidden="true">
+          <img src="/src/assets/Ativo 8 3.png" alt="" class="decor-img decor-star-purple-bg" />
+          <img src="/src/assets/Ativo 7 3.png" alt="" class="decor-img decor-spiral-green" />
+          <img src="/src/assets/Ativo 6 2.png" alt="" class="decor-img decor-spiral-purple-sm" />
+          <img src="/src/assets/Estrela-verde 2.png" alt="" class="decor-img decor-star-green-sm" />
+          <img src="/src/assets/Esfera-verde 2.png" alt="" class="decor-img decor-sphere-green" />
+          <img src="/src/assets/Ativo 3 2.png" alt="" class="decor-img decor-sphere-purple" />
+        </div>
+
+        <!-- Formulário -->
+        <form class="login__form" novalidate>
+          <div class="login__field">
+            <label for="email" class="login__label">e-mail:</label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              class="login__input"
+              required
+              autocomplete="email"
+            />
+          </div>
+
+          <div class="login__field">
+            <label for="senha" class="login__label">senha:</label>
+            <input
+              type="password"
+              id="senha"
+              name="senha"
+              class="login__input"
+              required
+              minlength="6"
+              autocomplete="current-password"
+            />
+          </div>
+
+          <button type="submit" class="login__btn login__btn--submit">entrar</button>
+        </form>
+
+        <!-- Decorações - Lado Direito -->
+        <div class="login__decor login__decor--right" aria-hidden="true">
+          <img src="/src/assets/Estrela-verde 2.png" alt="" class="decor-img decor-star-green-top" />
+          <img src="/src/assets/Ativo 9 3.png" alt="" class="decor-img decor-star-purple-sm" />
+          <img src="/src/assets/Ativo 8 3.png" alt="" class="decor-img decor-star-purple-lg" />
+          <img src="/src/assets/Ativo 6 3.png" alt="" class="decor-img decor-spiral-purple-lg" />
+          <img src="/src/assets/Ativo 3 3.png" alt="" class="decor-img decor-sphere-purple-right" />
+        </div>
+
+      </div>
+
+      <!-- Card Verde de Cadastro -->
+      <div class="login__signup-card">
+        <h2 class="login__signup-title" id="login-card-titulo">Não tem uma conta?</h2>
+        <p class="login__signup-text" id="login-card-texto">
+          Crie sua conta gratuitamente e comece a construir sua trajetória em um ecossistema que conecta dança, música e oportunidades.
+        </p>
+        <a
+          href="/src/pages/login/login.html?modo=cadastro"
+          id="login-card-link"
+          class="login__btn login__btn--signup"
+        >Criar minha conta</a>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer id="footer-root"></footer>
+
+</body>
+</html>
+
+
+========================================
+ARQUIVO: .\src\pages\perfil\perfil.css
 ========================================
 
 .profile-page {
@@ -1701,7 +3441,7 @@ ARQUIVO: ./src/pages/perfil/perfil.css
 }
 
 ========================================
-ARQUIVO: ./src/pages/perfil/perfil.html
+ARQUIVO: .\src\pages\perfil\perfil.html
 ========================================
 
 <!DOCTYPE html>
@@ -1781,7 +3521,7 @@ ARQUIVO: ./src/pages/perfil/perfil.html
 </html>
 
 ========================================
-ARQUIVO: ./src/pages/perfil/perfil.ts
+ARQUIVO: .\src\pages\perfil\perfil.ts
 ========================================
 
 import "./perfil.css";
@@ -1825,1297 +3565,7 @@ export async function carregarPerfil(): Promise<void> {
 carregarPerfil();
 
 ========================================
-ARQUIVO: ./src/pages/competicoes/competicoes.html
-========================================
-
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>RYTH - Competições</title>
-
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-  <script type="module" src="/src/pages/competicoes/competicoes.ts"></script>
-  <script type="module" src="/src/main.ts"></script>
-</head>
-<body>
-
-  <!-- ===================== NAVBAR (componente global) ===================== -->
-  <div id="navbar-root"></div>
-
- <main class="main">
-  <section class="competicoes">
-    <h1 class="competicoes__title">Competições</h1>
-
-    <!-- ATIVAS -->
-    <div class="competicoes__group">
-      <h2 class="competicoes__subtitle competicoes__subtitle--active">Ativas</h2>
-      <div class="competicoes__grid" id="grid-ativas">
-        <!-- Card de exemplo: o competicoes.ts substitui isto quando o Sanity responde -->
-        <a class="competicoes__card competicoes__card--active"
-           href="/src/pages/competicoes/competicao.html?slug=teste">
-          <span class="competicoes__media">
-            <span class="competicoes__cta">Inscreva-se</span>
-          </span>
-          <span class="competicoes__name">Lorem ipsum</span>
-        </a>
-      </div>
-    </div>
-
-    <!-- FINALIZADAS -->
-    <div class="competicoes__group">
-      <h2 class="competicoes__subtitle competicoes__subtitle--finished">Finalizadas</h2>
-      <div class="competicoes__grid" id="grid-finalizadas">
-        <!-- Card de exemplo: o competicoes.ts substitui isto quando o Sanity responde -->
-        <a class="competicoes__card competicoes__card--finished"
-           href="/src/pages/competicoes/competicao.html?slug=teste">
-          <span class="competicoes__media"></span>
-          <span class="competicoes__name">Lorem ipsum</span>
-        </a>
-      </div>
-    </div>
-  </section>
-</main>
-
-  <!-- ===================== FOOTER (componente global) ===================== -->
-  <div id="footer-root"></div>
-
-</body>
-</html>
-
-========================================
-ARQUIVO: ./src/pages/competicoes/competicoes.css
-========================================
-
-.competicoes {
-  max-width: 1000px;
-  margin: 0 auto;
-  padding: 4rem 2rem 5rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 3rem;
-  background-color: var(--main-white);
-}
-
-.competicoes__title {
-  font-family: var(--font-monument, sans-serif);
-  font-size: clamp(2.2rem, 5vw, 3.5rem);
-  font-weight: 900;
-  color: var(--main-black);
-  text-transform: uppercase;
-  text-align: center;
-  line-height: 1.1;
-  margin: 0;
-}
-
-.competicoes__group {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1.5rem;
-}
-
-.competicoes__subtitle {
-  font-family: var(--font-family);
-  font-size: clamp(1.3rem, 2.5vw, 1.6rem);
-  font-weight: 700;
-  text-transform: uppercase;
-  margin: 0;
-}
-
-.competicoes__subtitle--active   { color: var(--main-green); }
-.competicoes__subtitle--finished { color: var(--main-purple); }
-
-/* Grid de 3 colunas */
-.competicoes__grid {
-  width: 100%;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1.75rem;
-}
-
-/* Card inteiro é um link */
-.competicoes__card {
-  --card-color: var(--main-green);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.6rem;
-  text-decoration: none;
-  color: var(--main-black);
-}
-
-.competicoes__card--finished {
-  --card-color: var(--main-purple);
-}
-
-/* Quadrado da foto */
-.competicoes__media {
-  position: relative;
-  width: 100%;
-  aspect-ratio: 1 / 1;
-  box-sizing: border-box;
-  border: 6px solid var(--card-color);
-  border-radius: 36px;
-  background-color: #828288; /* placeholder até ter a foto */
-  overflow: hidden;
-}
-
-.competicoes__media img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-}
-
-/* Camada de cor que aparece no hover */
-.competicoes__media::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background-color: var(--card-color);
-  opacity: 0;
-  transition: opacity 0.25s ease;
-}
-
-/* Texto "INSCREVA-SE" */
-.competicoes__cta {
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: var(--font-family);
-  font-size: clamp(0.95rem, 1.6vw, 1.15rem);
-  font-weight: 600;
-  color: var(--white);
-  text-transform: uppercase;
-  opacity: 0;
-  transform: translateY(6px);
-  transition: opacity 0.25s ease, transform 0.25s ease;
-}
-
-.competicoes__card:hover .competicoes__media::after,
-.competicoes__card:focus-visible .competicoes__media::after {
-  opacity: 0.75;
-}
-
-.competicoes__card:hover .competicoes__cta,
-.competicoes__card:focus-visible .competicoes__cta {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.competicoes__name {
-  font-family: var(--font-family);
-  font-size: 1rem;
-}
-
-/* Celular */
-@media (max-width: 768px) {
-  .competicoes {
-    padding: 2.5rem 1.25rem 3rem;
-    gap: 2.5rem;
-  }
-
-  .competicoes__grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1.25rem;
-  }
-
-  .competicoes__media {
-    border-radius: 28px;
-    border-width: 5px;
-  }
-}
-
-@media (max-width: 420px) {
-  .competicoes__grid {
-    grid-template-columns: 1fr;
-    max-width: 280px;
-  }
-}
-
-/* Telas sem mouse (celular/tablet): não existe hover, então o botão fica sempre visível */
-@media (hover: none) {
-  .competicoes__media::after { opacity: 0.45; }
-  .competicoes__cta { opacity: 1; transform: none; }
-}
-
-========================================
-ARQUIVO: ./src/pages/competicoes/competicao.css
-========================================
-
-/* ===================== VARIÁVEIS DA PÁGINA ===================== */
-.competicao {
-  --c-roxo: #7b2fe0;
-  --c-verde: #c6f432;
-  --c-escuro: #0d0d2b;
-  --c-fundo: #f7f7fb;
-  --c-cinza: #8a8a8a;
-
-  max-width: 1100px;
-  margin: 0 auto;
-  padding: 1.25rem 1rem 3rem;
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
-  background: var(--c-fundo);
-  color: var(--c-escuro);
-}
-
-/* ===================== VOLTAR ===================== */
-.competicao__back {
-  align-self: flex-start;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  padding: 0.5rem 1.25rem;
-  border-radius: 999px;
-  background: var(--c-escuro);
-  color: var(--c-roxo);
-  text-decoration: none;
-  font-weight: 500;
-}
-
-/* ===================== BANNER ===================== */
-.competicao__banner {
-  width: 100%;
-  aspect-ratio: 16 / 7;
-  border-radius: 1.25rem;
-  background: var(--c-cinza);
-  overflow: hidden;
-}
-
-.competicao__banner img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-}
-
-/* ===================== MÚSICA ===================== */
-.competicao__musica {
-  align-self: center;
-  text-align: center;
-  padding: 0.75rem 2rem;
-  border-radius: 1rem;
-  background: var(--c-roxo);
-  color: #fff;
-}
-
-.competicao__musica-title {
-  margin: 0;
-  font-size: 1.1rem;
-  color: var(--c-verde);
-}
-
-.competicao__musica-text {
-  margin: 0.25rem 0 0;
-  font-size: 0.85rem;
-}
-
-/* ===================== PRÊMIOS ===================== */
-.competicao__premios {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.competicao__podio {
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-  gap: 1rem;
-  width: 100%;
-}
-
-.competicao__podio-blocos {
-  display: flex;
-  align-items: flex-end;
-}
-
-.competicao__podio-bloco {
-  display: flex;
-  justify-content: center;
-  padding-top: 0.5rem;
-  min-width: 5rem;
-  background: var(--c-roxo);
-  color: var(--c-verde);
-  font-weight: 700;
-  font-size: 1.25rem;
-}
-
-.competicao__podio-bloco--1 { height: 5.5rem; }
-.competicao__podio-bloco--2 { height: 4.5rem; }
-.competicao__podio-bloco--3 { height: 3.75rem; }
-
-.competicao__deco {
-  width: 3rem;
-  height: 3rem;
-  object-fit: contain;
-}
-
-.competicao__premios-box {
-  width: 100%;
-  padding: 1rem 1.25rem 1.5rem;
-  border-radius: 1.5rem;
-  background: var(--c-verde);
-  text-align: center;
-}
-
-.competicao__premios-title {
-  margin: 0 0 0.5rem;
-  font-size: 1.5rem;
-  color: var(--c-roxo);
-}
-
-.competicao__premios-text {
-  margin: 0;
-  font-size: 0.8rem;
-  line-height: 1.4;
-}
-
-/* ===================== PRAZOS + ESTILO ===================== */
-.competicao__info {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-}
-
-.competicao__info-title {
-  margin: 0 0 0.25rem;
-  font-size: 1.5rem;
-}
-
-.competicao__info-title--prazos { color: var(--c-roxo); }
-.competicao__info-title--estilo { color: var(--c-verde); }
-
-.competicao__info-item p {
-  margin: 0;
-  line-height: 1.4;
-}
-
-.competicao__info-item--estilo {
-  text-align: right;
-}
-
-/* ===================== PARTICIPANTES ===================== */
-.competicao__participantes {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1.5rem;
-}
-
-.competicao__participantes-title {
-  margin: 0;
-  font-size: 1.75rem;
-  text-align: center;
-}
-
-.competicao__participantes-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1rem;
-  width: 100%;
-}
-
-.competicao__participante {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.35rem;
-  padding: 0;
-  border: 0;
-  background: none;
-  font: inherit;
-  color: inherit;
-  cursor: pointer;
-}
-
-.competicao__avatar {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 4.25rem;
-  height: 4.25rem;
-  border-radius: 50%;
-  border: 3px solid var(--c-roxo);
-  background: #fff;
-  font-size: 0.55rem;
-  text-align: center;
-  overflow: hidden;
-}
-
-.competicao__avatar--grande {
-  width: 5rem;
-  height: 5rem;
-}
-
-.competicao__participante--roxo .competicao__avatar { border-color: var(--c-roxo); }
-.competicao__participante--verde .competicao__avatar { border-color: var(--c-verde); }
-
-.competicao__participante-nome {
-  font-size: 0.7rem;
-}
-
-/* participante selecionado (adicione esta classe via TS ao clicar) */
-.competicao__participante--selecionado .competicao__avatar {
-  box-shadow: 0 0 0 4px var(--c-escuro);
-}
-
-.competicao__participante:focus-visible,
-.competicao__btn:focus-visible,
-.competicao__seta:focus-visible {
-  outline: 3px solid var(--c-roxo);
-  outline-offset: 3px;
-}
-
-/* ===================== PAGINAÇÃO ===================== */
-.competicao__paginacao {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-}
-
-.competicao__seta {
-  border: 0;
-  background: none;
-  font-size: 1.5rem;
-  line-height: 1;
-  color: var(--c-escuro);
-  cursor: pointer;
-}
-
-.competicao__dots {
-  display: flex;
-  gap: 0.5rem;
-}
-
-.competicao__dot {
-  width: 0.9rem;
-  height: 0.9rem;
-  border-radius: 50%;
-  background: var(--c-escuro);
-}
-
-.competicao__dot--active {
-  background: var(--c-verde);
-}
-
-/* ===================== BOTÕES ===================== */
-.competicao__acoes {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 1rem;
-  width: 100%;
-}
-
-.competicao__btn {
-  flex: 1 1 10rem;
-  max-width: 14rem;
-  padding: 0.8rem 1.5rem;
-  border: 0;
-  border-radius: 999px;
-  font: inherit;
-  font-weight: 600;
-  cursor: pointer;
-  transition: transform 0.15s ease, opacity 0.15s ease;
-}
-
-.competicao__btn:hover { transform: translateY(-2px); }
-.competicao__btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
-
-.competicao__btn--votar { background: var(--c-escuro); color: var(--c-verde); }
-.competicao__btn--inscrever { background: var(--c-escuro); color: var(--c-roxo); }
-
-/* ===================== CONFIRMAR VOTO ===================== */
-.competicao__confirmar {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1rem;
-  padding: 1.5rem 1.25rem;
-  border-radius: 1.5rem;
-  background: var(--c-roxo);
-  color: #fff;
-}
-
-.competicao__confirmar[hidden] {
-  display: none;
-}
-
-.competicao__confirmar-title {
-  margin: 0;
-  font-size: 1.5rem;
-  color: var(--c-verde);
-}
-
-.competicao__confirmar-participante {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-}
-
-.competicao__btn--confirmar {
-  width: 100%;
-  max-width: none;
-  background: var(--c-verde);
-  color: var(--c-escuro);
-}
-
-/* ===================== TELAS MAIORES ===================== */
-@media (min-width: 768px) {
-  .competicao {
-    padding: 2rem 2rem 4rem;
-    gap: 2.5rem;
-  }
-
-  .competicao__info {
-    flex-direction: row;
-    justify-content: space-between;
-    gap: 3rem;
-  }
-
-  .competicao__info-item {
-    flex: 1;
-  }
-
-  .competicao__participantes-grid {
-    grid-template-columns: repeat(5, 1fr);
-  }
-
-  .competicao__avatar {
-    width: 5.5rem;
-    height: 5.5rem;
-  }
-
-  .competicao__podio-bloco {
-    min-width: 7rem;
-  }
-
-  .competicao__deco {
-    width: 4.5rem;
-    height: 4.5rem;
-  }
-}
-
-========================================
-ARQUIVO: ./src/pages/competicoes/competicoes.ts
-========================================
-
-import "./competicoes.css";
-import { cmsFetch } from "../../services/cms";
-
-type Competicao = {
-  titulo: string;
-  slug: string;
-  ativa?: boolean;
-  imagem?: string;
-};
-
-const BASE_DETALHE = "/src/pages/competicoes/competicao.html";
-
-function cardHTML(c: Competicao, estado: "active" | "finished") {
-  const href = `${BASE_DETALHE}?slug=${encodeURIComponent(c.slug)}`;
-  const cta =
-    estado === "active" ? `<span class="competicoes__cta">Inscreva-se</span>` : "";
-  const img = c.imagem
-    ? `<img src="${c.imagem}?w=800&auto=format" alt="${c.titulo}" loading="lazy" />`
-    : "";
-
-  return `
-    <a class="competicoes__card competicoes__card--${estado}" href="${href}">
-      <span class="competicoes__media">${img}${cta}</span>
-      <span class="competicoes__name">${c.titulo}</span>
-    </a>`;
-}
-
-async function renderLista() {
-  const gridAtivas = document.querySelector<HTMLElement>("#grid-ativas");
-  const gridFinalizadas = document.querySelector<HTMLElement>("#grid-finalizadas");
-  if (!gridAtivas || !gridFinalizadas) return;
-
-  const competicoes = await cmsFetch<Competicao[]>(
-    `*[_type == "competicao"] | order(ordem asc, _createdAt desc) {
-      titulo,
-      "slug": slug.current,
-      ativa,
-      "imagem": imagemCard.asset->url
-    }`
-  );
-
-  if (!competicoes) {
-    console.warn("Competições não carregadas: confira o .env do Sanity.");
-    return;
-  }
-
-  const ativas = competicoes.filter((c) => c.ativa);
-  const finalizadas = competicoes.filter((c) => !c.ativa);
-
-  gridAtivas.innerHTML =
-    ativas.map((c) => cardHTML(c, "active")).join("") ||
-    "<p>Nenhuma competição ativa no momento.</p>";
-
-  gridFinalizadas.innerHTML =
-    finalizadas.map((c) => cardHTML(c, "finished")).join("") ||
-    "<p>Nenhuma competição finalizada.</p>";
-}
-
-renderLista();
-
-========================================
-ARQUIVO: ./src/pages/competicoes/competicao.html
-========================================
-
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>RYTH - Competição</title>
-
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-  <script type="module" src="/src/pages/competicoes/competicao.ts"></script>
-  <script type="module" src="/src/main.ts"></script>
-</head>
-<body>
-
-  <!-- ===================== NAVBAR (componente global) ===================== -->
-  <div id="navbar-root"></div>
-
-  <main class="competicao">
-
-    <!-- VOLTAR -->
-    <a class="competicao__back" href="/src/pages/competicoes/competicoes.html">
-      <span aria-hidden="true">‹</span> voltar
-    </a>
-
-    <!-- BANNER -->
-    <div class="competicao__banner">
-      <img id="competicao-banner" src="" alt="" />
-    </div>
-
-    <!-- MÚSICA -->
-    <div class="competicao__musica">
-      <h2 class="competicao__musica-title" id="musica-titulo">Música</h2>
-      <p class="competicao__musica-text" id="musica-descricao">Lorem ipsum dolor sit amet</p>
-    </div>
-
-    <!-- PRÊMIOS -->
-    <section class="competicao__premios">
-      <div class="competicao__podio">
-        <img class="competicao__deco competicao__deco--left" src="" alt="" />
-        <div class="competicao__podio-blocos">
-          <span class="competicao__podio-bloco competicao__podio-bloco--2">2º</span>
-          <span class="competicao__podio-bloco competicao__podio-bloco--1">1º</span>
-          <span class="competicao__podio-bloco competicao__podio-bloco--3">3º</span>
-        </div>
-        <img class="competicao__deco competicao__deco--right" src="" alt="" />
-      </div>
-
-      <div class="competicao__premios-box">
-        <h2 class="competicao__premios-title">Prêmios</h2>
-        <p class="competicao__premios-text" id="premios-texto">
-          Mais do que uma premiação, vota é uma oportunidade para ampliar sua visibilidade...
-        </p>
-      </div>
-    </section>
-
-    <!-- PRAZOS + ESTILO -->
-    <section class="competicao__info">
-      <div class="competicao__info-item competicao__info-item--prazos">
-        <h2 class="competicao__info-title competicao__info-title--prazos">Prazos</h2>
-        <p id="prazos-texto">Acompanhe o período de inscrições, votação e divulgação dos resultados...</p>
-      </div>
-
-      <div class="competicao__info-item competicao__info-item--estilo">
-        <h2 class="competicao__info-title competicao__info-title--estilo">Estilo</h2>
-        <p id="estilo-texto">Cada desafio possui um estilo próprio. Use sua criatividade...</p>
-      </div>
-    </section>
-
-    <!-- PARTICIPANTES -->
-    <section class="competicao__participantes">
-      <h2 class="competicao__participantes-title">Participantes</h2>
-
-      <!-- Itens de exemplo para estilizar; o competicao.ts vai substituir -->
-      <div class="competicao__participantes-grid" id="participantes-grid">
-        <button class="competicao__participante competicao__participante--roxo" type="button">
-          <span class="competicao__avatar">foto de perfil</span>
-          <span class="competicao__participante-nome">Lorem ipsum</span>
-        </button>
-        <button class="competicao__participante competicao__participante--verde" type="button">
-          <span class="competicao__avatar">foto de perfil</span>
-          <span class="competicao__participante-nome">Lorem ipsum</span>
-        </button>
-        <!-- ...repita até 10 itens (2 linhas de 5) -->
-      </div>
-
-      <!-- PAGINAÇÃO -->
-      <nav class="competicao__paginacao" aria-label="Paginação de participantes">
-        <button class="competicao__seta" type="button" aria-label="Página anterior">‹</button>
-        <div class="competicao__dots" id="paginacao-dots">
-          <span class="competicao__dot"></span>
-          <span class="competicao__dot"></span>
-          <span class="competicao__dot competicao__dot--active"></span>
-          <span class="competicao__dot"></span>
-          <span class="competicao__dot"></span>
-        </div>
-        <button class="competicao__seta" type="button" aria-label="Próxima página">›</button>
-      </nav>
-
-      <!-- AÇÕES -->
-      <div class="competicao__acoes">
-        <button class="competicao__btn competicao__btn--votar" id="btn-votar" type="button">votar</button>
-        <button class="competicao__btn competicao__btn--inscrever" id="btn-inscrever" type="button">inscreva-se</button>
-      </div>
-    </section>
-
-    <!-- CONFIRMAR VOTO (aparece ao escolher um participante e clicar em "votar") -->
-    <section class="competicao__confirmar" id="confirmar-voto" hidden>
-      <h2 class="competicao__confirmar-title">Confirmar voto</h2>
-      <div class="competicao__confirmar-participante">
-        <span class="competicao__avatar competicao__avatar--grande" id="confirmar-foto">foto de perfil</span>
-        <span id="confirmar-nome">Lorem ipsum</span>
-      </div>
-      <button class="competicao__btn competicao__btn--confirmar" id="btn-confirmar" type="button">votar</button>
-    </section>
-
-  </main>
-
-  <!-- ===================== FOOTER (componente global) ===================== -->
-  <div id="footer-root"></div>
-
-</body>
-</html>
-
-========================================
-ARQUIVO: ./src/pages/competicoes/competicao.ts
-========================================
-
-import "./competicao.css";
-import { cmsFetch } from "../../services/cms";
-
-type Competicao = {
-  titulo: string;
-  musicaTitulo?: string;
-  musicaDescricao?: string;
-  premios?: string;
-  prazos?: string;
-  estilo?: string;
-  banner?: string;
-};
-
-function setText(id: string, valor?: string) {
-  const el = document.getElementById(id);
-  if (el && valor) el.textContent = valor;
-}
-
-async function renderCompeticao() {
-  const slug = new URLSearchParams(window.location.search).get("slug");
-  if (!slug) return;
-
-  const comp = await cmsFetch<Competicao>(
-    `*[_type == "competicao" && slug.current == $slug][0]{
-      titulo,
-      musicaTitulo,
-      musicaDescricao,
-      premios,
-      prazos,
-      estilo,
-      "banner": banner.asset->url
-    }`,
-    { slug }
-  );
-  if (!comp) return;
-
-  document.title = `RYTH - ${comp.titulo}`;
-  setText("musica-titulo", comp.musicaTitulo);
-  setText("musica-descricao", comp.musicaDescricao);
-  setText("premios-texto", comp.premios);
-  setText("prazos-texto", comp.prazos);
-  setText("estilo-texto", comp.estilo);
-
-  const bannerEl = document.querySelector<HTMLImageElement>("#competicao-banner");
-  if (bannerEl && comp.banner) {
-    bannerEl.src = `${comp.banner}?w=1600&auto=format`;
-    bannerEl.alt = comp.titulo;
-  }
-}
-
-renderCompeticao();
-
-========================================
-ARQUIVO: ./src/pages/login/login.css
-========================================
-
-/* ================================================
-              BASE (Login e Cadastro)
-   ================================================= */
-.login-page {
-  background-color: var(--main-white);
-  min-height: calc(100vh - 160px);
-  display: flex;
-  flex-direction: column;
-  overflow-x: hidden; /* Evita rolagem lateral com os elementos afastados */
-}
-
-.login {
-  flex: 1;
-  width: 100%;
-  max-width: 600px;
-  margin: 0 auto;
-  padding: 4rem 1.5rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.login__container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 3.5rem;
-  width: 100%;
-  position: relative;
-}
-
-/* --------------------------------------------------------------------------
-   DECORAÇÕES LATERAIS (AJUSTADAS PARA NÃO INVASÃO DE NAVBAR E FOOTER)
-   -------------------------------------------------------------------------- */
-.login__form-wrapper {
-  position: relative;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.login__decor {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 180px;
-  height: 280px; /* Altura contida para não vazar no header/footer */
-  pointer-events: none;
-  z-index: 1;
-}
-
-/* Afastamento ajustado para as laterais */
-.login__decor--left {
-  left: -220px;
-}
-
-.login__decor--right {
-  right: -220px;
-}
-
-.decor-img {
-  position: absolute;
-  object-fit: contain;
-  pointer-events: none;
-}
-
-/* Posições e escalas equilibradas - Esquerda */
-.decor-star-purple-bg   { width: 65px; top: 0px; left: 10px; }
-.decor-spiral-green     { width: 145px; top: 25px; left: 10px; }
-.decor-spiral-purple-sm { width: 90px; bottom: 0px; left: -5px; }
-.decor-star-green-sm   { width: 28px; top: 110px; left: 105px; }
-.decor-sphere-green     { width: 18px; top: 70px; left: -10px; }
-.decor-sphere-purple    { width: 20px; bottom: 35px; left: -15px; }
-
-/* Posições e escalas equilibradas - Direita */
-.decor-star-green-top   { width: 30px; top: 5px; left: 10px; }
-.decor-star-purple-sm   { width: 35px; top: 0px; right: 10px; }
-.decor-star-purple-lg   { width: 72px; top: 40px; right: -10px; }
-.decor-spiral-purple-lg { width: 150px; bottom: 0px; right: -5px; }
-.decor-sphere-purple-right { width: 18px; top: 30px; right: -15px; }
-
-/* --------------------------------------------------------------------------
-   1. FORMULÁRIO DE LOGIN
-   -------------------------------------------------------------------------- */
-.login__form {
-  width: 100%;
-  max-width: 360px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1.25rem;
-  position: relative;
-  z-index: 2;
-}
-
-.login__field {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 0.35rem;
-}
-
-.login__label {
-  font-family: var(--font-family);
-  font-size: 1.1rem;
-  font-weight: 500;
-  color: var(--main-black);
-}
-
-.login__input {
-  width: 100%;
-  height: 50px;
-  padding: 0 1.25rem;
-  background-color: var(--main-black);
-  color: var(--white);
-  font-family: var(--font-family);
-  font-size: 1rem;
-  border: none;
-  border-radius: 50px;
-  outline: none;
-  transition: box-shadow 0.2s ease, transform 0.1s ease;
-}
-
-.login__input:focus {
-  box-shadow: 0 0 0 3px var(--main-purple);
-}
-
-.login__btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  font-family: var(--font-family);
-  border: none;
-  border-radius: 50px;
-  cursor: pointer;
-  text-decoration: none;
-  transition: transform 0.2s ease, opacity 0.2s ease;
-}
-
-.login__btn:hover {
-  transform: translateY(-2px);
-  opacity: 0.92;
-}
-
-.login__btn--submit {
-  background-color: var(--main-purple);
-  color: var(--white);
-  font-size: 1.15rem;
-  font-weight: 700;
-  padding: 0.8rem 3.8rem;
-  text-transform: lowercase;
-  margin-top: 0.5rem;
-}
-
-/* --------------------------------------------------------------------------
-   2. CARD DE CADASTRO
-   -------------------------------------------------------------------------- */
-.login__signup-card {
-  width: 100%;
-  max-width: 480px;
-  background-color: var(--main-green);
-  border-radius: 28px;
-  padding: 2.5rem 2rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  gap: 1.2rem;
-  position: relative;
-  z-index: 2;
-}
-
-.login__signup-title {
-  font-family: var(--font-family);
-  font-size: 1.8rem;
-  font-weight: 900;
-  color: var(--main-purple);
-  margin: 0;
-  line-height: 1.2;
-}
-
-.login__signup-text {
-  font-family: var(--font-family);
-  font-size: 0.95rem;
-  font-weight: 500;
-  color: var(--main-black);
-  line-height: 1.45;
-  margin: 0;
-  max-width: 360px;
-}
-
-.login__btn--signup {
-  background-color: var(--main-purple);
-  color: var(--white);
-  font-size: 1.05rem;
-  font-weight: 700;
-  padding: 0.8rem 2.2rem;
-}
-
-/* --------------------------------------------------------------------------
-   3. RESPONSIVIDADE
-   -------------------------------------------------------------------------- */
-@media (max-width: 820px) {
-  .login__decor {
-    display: none;
-  }
-}
-
-@media (max-width: 480px) {
-  .login-page {
-    padding: 2.5rem 1rem;
-  }
-
-  .login__signup-card {
-    padding: 2rem 1.25rem;
-    border-radius: 22px;
-  }
-
-  .login__signup-title {
-    font-size: 1.5rem;
-  }
-
-  .login__signup-text {
-    font-size: 0.88rem;
-  }
-}
-
-/* Modo Cadastro */
-.login-page--cadastro .login__btn--submit {
-  background-color: var(--main-green);
-  color: var(--main-black);
-}
-
-========================================
-ARQUIVO: ./src/pages/login/login.ts
-========================================
-
-import "./login.css";
-import { fazerLogin, fazerCadastro } from "../../services/auth";
-import { ROTAS } from "../../config/routes";
-
-type Modo = "login" | "cadastro";
-
-const CONFIG = {
-  login: {
-    titulo: "RYTH - Login",
-    botao: "entrar",
-    botaoCarregando: "entrando...",
-    autocomplete: "current-password",
-    cardTitulo: "Não tem uma conta?",
-    cardTexto:
-      "Crie sua conta gratuitamente e comece a construir sua trajetória em um ecossistema que conecta dança, música e oportunidades.",
-    cardLink: "Criar minha conta",
-    cardHref: `${ROTAS.login}?modo=cadastro`,
-  },
-  cadastro: {
-    titulo: "RYTH - Cadastro",
-    botao: "cadastrar-se",
-    botaoCarregando: "cadastrando...",
-    autocomplete: "new-password",
-    cardTitulo: "Já tem uma conta?",
-    cardTexto: "Entre para acompanhar suas competições e continuar sua trajetória na RYTH.",
-    cardLink: "Fazer login",
-    cardHref: ROTAS.login,
-  },
-} as const;
-
-function inicializarLogin(): void {
-  const form = document.querySelector<HTMLFormElement>(".login__form");
-  const emailInput = document.querySelector<HTMLInputElement>("#email");
-  const senhaInput = document.querySelector<HTMLInputElement>("#senha");
-  const submitBtn = document.querySelector<HTMLButtonElement>(".login__btn--submit");
-  const cardTitulo = document.querySelector<HTMLElement>("#login-card-titulo");
-  const cardTexto = document.querySelector<HTMLElement>("#login-card-texto");
-  const cardLink = document.querySelector<HTMLAnchorElement>("#login-card-link");
-
-  if (!form || !emailInput || !senhaInput || !submitBtn || !cardTitulo || !cardTexto || !cardLink) return;
-
-  // Define o modo pela URL: login.html (login) ou login.html?modo=cadastro
-  const modo: Modo =
-    new URLSearchParams(location.search).get("modo") === "cadastro" ? "cadastro" : "login";
-  const cfg = CONFIG[modo];
-
-  // Aplica o modo na página
-  document.title = cfg.titulo;
-  document.querySelector(".login-page")?.classList.toggle("login-page--cadastro", modo === "cadastro");
-  submitBtn.textContent = cfg.botao;
-  senhaInput.autocomplete = cfg.autocomplete;
-  cardTitulo.textContent = cfg.cardTitulo;
-  cardTexto.textContent = cfg.cardTexto;
-  cardLink.textContent = cfg.cardLink;
-  cardLink.href = cfg.cardHref;
-
-  // Elemento para exibir mensagens dinâmicas
-  let feedbackEl = form.querySelector<HTMLParagraphElement>(".login__feedback");
-  if (!feedbackEl) {
-    feedbackEl = document.createElement("p");
-    feedbackEl.className = "login__feedback";
-    feedbackEl.setAttribute("role", "alert");
-    feedbackEl.style.fontSize = "0.9rem";
-    feedbackEl.style.marginTop = "0.5rem";
-    feedbackEl.style.textAlign = "center";
-    form.appendChild(feedbackEl);
-  }
-
-  function mostrarFeedback(texto: string, erro = true): void {
-    feedbackEl!.style.color = erro ? "#FF4D4D" : "#2ECC71";
-    feedbackEl!.textContent = texto;
-  }
-
-  form.addEventListener("submit", async (event) => {
-    event.preventDefault();
-    feedbackEl!.textContent = "";
-
-    const email = emailInput.value.trim();
-    const senha = senhaInput.value; // senha não deve ser alterada com trim()
-
-    if (!email || !senha) {
-      mostrarFeedback("Preencha todos os campos.");
-      return;
-    }
-
-    if (modo === "cadastro" && senha.length < 6) {
-      mostrarFeedback("A senha deve ter pelo menos 6 caracteres.");
-      return;
-    }
-
-    try {
-      submitBtn.disabled = true;
-      submitBtn.textContent = cfg.botaoCarregando;
-
-      if (modo === "login") {
-        await fazerLogin(email, senha);
-        window.location.href = ROTAS.perfil;
-      } else {
-        const { precisaConfirmar } = await fazerCadastro(email, senha);
-        if (precisaConfirmar) {
-          mostrarFeedback("Conta criada! Confirme seu e-mail para poder entrar.", false);
-        } else {
-          window.location.href = ROTAS.perfil;
-        }
-      }
-    } catch (err: unknown) {
-      mostrarFeedback(
-        err instanceof Error ? err.message : "Algo deu errado. Tente novamente."
-      );
-    } finally {
-      submitBtn.disabled = false;
-      submitBtn.textContent = cfg.botao;
-    }
-  });
-}
-
-// Scripts type="module" já executam depois do HTML carregado
-inicializarLogin();
-
-========================================
-ARQUIVO: ./src/pages/login/login.html
-========================================
-
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>RYTH - Login</title>
-
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-  <script type="module" src="./login.ts"></script>
-  <script type="module" src="/src/main.ts"></script>
-</head>
-<body class="login-page">
-
-  <!-- NAVBAR -->
-  <header id="navbar-root"></header>
-
-  <main class="login">
-    <div class="login__container">
-
-      <!-- Wrapper do formulário com as ilustrações nas laterais -->
-      <div class="login__form-wrapper">
-        
-        <!-- Decorações - Lado Esquerdo -->
-        <div class="login__decor login__decor--left" aria-hidden="true">
-          <img src="/src/assets/Ativo 8 3.png" alt="" class="decor-img decor-star-purple-bg" />
-          <img src="/src/assets/Ativo 7 3.png" alt="" class="decor-img decor-spiral-green" />
-          <img src="/src/assets/Ativo 6 2.png" alt="" class="decor-img decor-spiral-purple-sm" />
-          <img src="/src/assets/Estrela-verde 2.png" alt="" class="decor-img decor-star-green-sm" />
-          <img src="/src/assets/Esfera-verde 2.png" alt="" class="decor-img decor-sphere-green" />
-          <img src="/src/assets/Ativo 3 2.png" alt="" class="decor-img decor-sphere-purple" />
-        </div>
-
-        <!-- Formulário -->
-        <form class="login__form" novalidate>
-          <div class="login__field">
-            <label for="email" class="login__label">e-mail:</label>
-            <input
-              type="email"
-              id="email"
-              name="email"
-              class="login__input"
-              required
-              autocomplete="email"
-            />
-          </div>
-
-          <div class="login__field">
-            <label for="senha" class="login__label">senha:</label>
-            <input
-              type="password"
-              id="senha"
-              name="senha"
-              class="login__input"
-              required
-              minlength="6"
-              autocomplete="current-password"
-            />
-          </div>
-
-          <button type="submit" class="login__btn login__btn--submit">entrar</button>
-        </form>
-
-        <!-- Decorações - Lado Direito -->
-        <div class="login__decor login__decor--right" aria-hidden="true">
-          <img src="/src/assets/Estrela-verde 2.png" alt="" class="decor-img decor-star-green-top" />
-          <img src="/src/assets/Ativo 9 3.png" alt="" class="decor-img decor-star-purple-sm" />
-          <img src="/src/assets/Ativo 8 3.png" alt="" class="decor-img decor-star-purple-lg" />
-          <img src="/src/assets/Ativo 6 3.png" alt="" class="decor-img decor-spiral-purple-lg" />
-          <img src="/src/assets/Ativo 3 3.png" alt="" class="decor-img decor-sphere-purple-right" />
-        </div>
-
-      </div>
-
-      <!-- Card Verde de Cadastro -->
-      <div class="login__signup-card">
-        <h2 class="login__signup-title" id="login-card-titulo">Não tem uma conta?</h2>
-        <p class="login__signup-text" id="login-card-texto">
-          Crie sua conta gratuitamente e comece a construir sua trajetória em um ecossistema que conecta dança, música e oportunidades.
-        </p>
-        <a
-          href="/src/pages/login/login.html?modo=cadastro"
-          id="login-card-link"
-          class="login__btn login__btn--signup"
-        >Criar minha conta</a>
-      </div>
-
-    </div>
-  </main>
-
-  <!-- FOOTER -->
-  <footer id="footer-root"></footer>
-
-</body>
-</html>
-
-
-========================================
-ARQUIVO: ./src/pages/home/index.css
+ARQUIVO: .\src\pages\home\index.css
 ========================================
 
 /* ==========================================================================
@@ -3989,7 +4439,7 @@ ARQUIVO: ./src/pages/home/index.css
 }
 
 ========================================
-ARQUIVO: ./src/pages/home/index.ts
+ARQUIVO: .\src\pages\home\index.ts
 ========================================
 
 import "./index.css";
@@ -3998,7 +4448,403 @@ import { renderizarFAQ } from "../../components/faq/faq";
 renderizarFAQ();
 
 ========================================
-ARQUIVO: ./ryth-studio/.gitignore
+ARQUIVO: .\src\styles\global.css
+========================================
+
+body {
+    font-family: var(--font-family);
+    background-color: var(--main-white);
+    color: var(--main-black);
+  }
+
+  html, body {
+  margin: 0;
+  width: 100%;
+  overflow-x: hidden;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+  
+
+========================================
+ARQUIVO: .\src\styles\reset.css
+========================================
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+
+========================================
+ARQUIVO: .\src\styles\variables.css
+========================================
+
+@import url('https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@300;400;500;600;700;800;900&display=swap');
+
+@font-face {
+    font-family: 'Monument Extended';
+    src: url('../assets/fonts/monumentextended-regular.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+:root {
+    --black: #000000;
+    --white: #ffffff;
+
+    --main-white: #F8F8FB;
+    --main-black: #060A27;
+    --main-purple: #7728D9;
+    --main-green: #C5F339;
+  
+    --font-family: 'Red Hat Display', sans-serif;
+    --font-monument: 'Monument Extended', sans-serif;
+  }
+  
+
+========================================
+ARQUIVO: .\src\assets\fonts\monumentextended-regular.otf
+========================================
+
+[Arquivo não lido ou binário]
+
+
+========================================
+ARQUIVO: .\src\assets\fonts\monumentextended-ultrabold.otf
+========================================
+
+[Arquivo não lido ou binário]
+
+
+========================================
+ARQUIVO: .\src\services\sanity.ts
+========================================
+
+// src/services/sanity.ts
+import { createClient } from '@sanity/client'
+import imageUrlBuilder from '@sanity/image-url'
+
+const projectId = import.meta.env.VITE_SANITY_PROJECT_ID
+const dataset = import.meta.env.VITE_SANITY_DATASET || 'production'
+
+if (!projectId) {
+  console.warn('[Sanity] VITE_SANITY_PROJECT_ID ausente: o site usará o conteúdo padrão do HTML.')
+}
+
+// null se não houver projectId, em vez de quebrar a importação
+export const sanityClient = projectId
+  ? createClient({
+      projectId,
+      dataset,
+      useCdn: true, // requisições rápidas via CDN
+      apiVersion: '2024-01-01',
+    })
+  : null
+
+const builder = sanityClient ? imageUrlBuilder(sanityClient) : null
+
+// Gera URLs das imagens cadastradas no Sanity (retorna '' se o Sanity não estiver configurado)
+export function urlFor(source: any): string {
+  return builder && source ? builder.image(source).auto('format').url() : ''
+}
+
+========================================
+ARQUIVO: .\src\services\cms.ts
+========================================
+
+// src/services/cms.ts
+import { sanityClient, urlFor } from './sanity'
+
+// Retorna null em qualquer falha ou resultado vazio → o HTML padrão permanece
+export async function cmsFetch<T = Record<string, any>>(
+  query: string,
+  params: Record<string, unknown> = {}
+): Promise<T | null> {
+  if (!sanityClient) return null
+  try {
+    const data = await sanityClient.fetch<T>(query, params)
+    if (data == null || (Array.isArray(data) && data.length === 0)) return null
+    return data
+  } catch (err) {
+    console.error('[CMS]', err)
+    return null
+  }
+}
+
+// Preenche o HTML com os dados:
+//   data-cms="campo"                → textContent
+//   data-cms="campo" data-cms-attr="href" → atributo
+//   data-cms-img="campo"            → <img src> a partir de uma imagem do Sanity
+//   data-cms-list="campo" + <template> → lista repetida
+export function applyCms(root: ParentNode, data: Record<string, any>): void {
+  root.querySelectorAll<HTMLElement>('[data-cms]').forEach((el) => {
+    const value = data[el.dataset.cms!]
+    if (typeof value !== 'string') return
+    const attr = el.dataset.cmsAttr
+    if (attr) el.setAttribute(attr, value)
+    else el.textContent = value // textContent evita injeção de HTML
+  })
+
+  root.querySelectorAll<HTMLImageElement>('[data-cms-img]').forEach((img) => {
+    const src = urlFor(data[img.dataset.cmsImg!])
+    if (src) img.src = src
+  })
+
+  root.querySelectorAll<HTMLElement>('[data-cms-list]').forEach((container) => {
+    const items = data[container.dataset.cmsList!]
+    const tpl = container.querySelector('template')
+    if (!Array.isArray(items) || items.length === 0 || !tpl) return
+
+    Array.from(container.children).forEach((c) => c !== tpl && c.remove())
+    items.forEach((item) => {
+      const node = tpl.content.cloneNode(true) as DocumentFragment
+      applyCms(node, item)
+      container.appendChild(node)
+    })
+  })
+}
+
+========================================
+ARQUIVO: .\src\services\supabase.ts
+========================================
+
+import { createClient, type SupabaseClient } from "@supabase/supabase-js";
+
+
+const url = import.meta.env.VITE_SUPABASE_URL as string | undefined;
+const key = import.meta.env.VITE_SUPABASE_ANON_KEY as string | undefined;
+
+export const supabase: SupabaseClient | null =
+  url && key ? createClient(url, key) : null;
+
+if (!supabase) {
+  console.warn("[Supabase] Variáveis de ambiente ausentes: login indisponível.");
+}
+
+========================================
+ARQUIVO: .\src\services\auth.ts
+========================================
+
+import { supabase } from "./supabase";
+import { traduzirErroAuth } from "./erros";
+import { ROTAS } from "../config/routes";
+
+export interface Usuario {
+  id?: string;
+  email: string;
+}
+
+/**
+ * Retorna o usuário logado (via Supabase ou localStorage de teste)
+ */
+export async function usuarioAtual(): Promise<Usuario | null> {
+  // 1. Sessão ativa no Supabase
+  if (supabase) {
+    const { data: { session } } = await supabase.auth.getSession();
+    if (session?.user?.email) {
+      return { id: session.user.id, email: session.user.email };
+    }
+    return null;
+  }
+
+  // 2. Fallback para modo de teste local (só quando o Supabase não está configurado)
+  const usuarioTeste = localStorage.getItem("usuario-teste");
+  return usuarioTeste ? JSON.parse(usuarioTeste) : null;
+}
+
+/**
+ * Realiza o login com e-mail e senha
+ */
+export async function fazerLogin(email: string, senha: string): Promise<Usuario> {
+  if (supabase) {
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email,
+      password: senha,
+    });
+
+    if (error) {
+      throw new Error(traduzirErroAuth(error));
+    }
+
+    if (data.user?.email) {
+      return { id: data.user.id, email: data.user.email };
+    }
+
+    throw new Error("Não foi possível obter os dados do usuário.");
+  }
+
+  // Fallback de teste caso o Supabase não esteja conectado
+  if (email && senha.length >= 6) {
+    const usuarioFake: Usuario = { id: "dev-123", email };
+    localStorage.setItem("usuario-teste", JSON.stringify(usuarioFake));
+    return usuarioFake;
+  }
+
+  throw new Error("E-mail ou senha incorretos.");
+}
+
+/**
+ * Cria uma conta nova com e-mail e senha
+ */
+export async function fazerCadastro(
+  email: string,
+  senha: string
+): Promise<{ precisaConfirmar: boolean }> {
+  if (!supabase) {
+    throw new Error("Cadastro indisponível: o Supabase não está configurado.");
+  }
+
+  const { data, error } = await supabase.auth.signUp({
+    email,
+    password: senha,
+    options: { emailRedirectTo: `${window.location.origin}${ROTAS.perfil}` },
+  });
+
+  if (error) {
+    throw new Error(traduzirErroAuth(error));
+  }
+
+  // E-mail já cadastrado: o Supabase não devolve erro, mas retorna identities vazio
+  if (data.user && data.user.identities?.length === 0) {
+    throw new Error("Este e-mail já está cadastrado. Tente fazer login.");
+  }
+
+  // Sem sessão = o Supabase está exigindo confirmação por e-mail
+  return { precisaConfirmar: !data.session };
+}
+
+/**
+ * Confirma o e-mail do novo usuário com o código recebido
+ */
+export async function confirmarCodigo(email: string, codigo: string): Promise<void> {
+  if (!supabase) {
+    throw new Error("Supabase não está configurado.");
+  }
+
+  const { error } = await supabase.auth.verifyOtp({
+    email,
+    token: codigo.trim(),
+    type: "signup",
+  });
+
+  if (error) {
+    throw new Error(traduzirErroAuth(error));
+  }
+}
+
+/**
+ * Reenvia o código de confirmação para o e-mail
+ */
+export async function reenviarCodigo(email: string): Promise<void> {
+  if (!supabase) {
+    throw new Error("Supabase não está configurado.");
+  }
+
+  const { error } = await supabase.auth.resend({ type: "signup", email });
+
+  if (error) {
+    throw new Error(traduzirErroAuth(error));
+  }
+}
+
+/**
+ * Encerra a sessão do usuário
+ */
+export async function fazerLogout(): Promise<void> {
+  if (supabase) {
+    await supabase.auth.signOut();
+  }
+  localStorage.removeItem("usuario-teste");
+}
+
+========================================
+ARQUIVO: .\src\services\erros.ts
+========================================
+
+export const SENHA_MIN = 8;
+
+// Requisitos de senha: a lista alimenta a validação E o texto de ajuda.
+// Para exigir mais (letra, número...), é só adicionar um item aqui.
+export const REQUISITOS_SENHA = [
+  { texto: `ter pelo menos ${SENHA_MIN} caracteres`, ok: (s: string) => s.length >= SENHA_MIN },
+  // { texto: "ter pelo menos um número", ok: (s: string) => /\d/.test(s) },
+  // { texto: "ter pelo menos uma letra", ok: (s: string) => /[A-Za-z]/.test(s) },
+];
+
+export function textoRequisitosSenha(): string {
+  return `A senha precisa ${REQUISITOS_SENHA.map((r) => r.texto).join(", ")}.`;
+}
+
+export function validarEmail(email: string): string | null {
+  if (!email) return "Informe seu e-mail.";
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) {
+    return "Esse e-mail não parece válido. Use o formato nome@exemplo.com.";
+  }
+  return null;
+}
+
+export function validarSenhaCadastro(senha: string): string | null {
+  if (!senha) return "Crie uma senha.";
+  const faltando = REQUISITOS_SENHA.filter((r) => !r.ok(senha)).map((r) => r.texto);
+  return faltando.length ? `A senha precisa ${faltando.join(" e ")}.` : null;
+}
+
+const MENSAGENS_POR_CODIGO: Record<string, string> = {
+  invalid_credentials: "E-mail ou senha incorretos. Confira os dados e tente de novo.",
+  email_not_confirmed: "Você ainda não confirmou seu e-mail. Procure o código na sua caixa de entrada (e no spam).",
+  user_already_exists: "Este e-mail já está cadastrado. Tente fazer login.",
+  email_exists: "Este e-mail já está cadastrado. Tente fazer login.",
+  weak_password: textoRequisitosSenha(),
+  email_address_invalid: "Esse e-mail não é aceito. Verifique se digitou corretamente.",
+  signup_disabled: "Os cadastros estão temporariamente desativados.",
+  over_request_rate_limit: "Muitas tentativas seguidas. Aguarde alguns minutos e tente de novo.",
+  over_email_send_rate_limit: "Muitos e-mails enviados. Aguarde alguns minutos antes de pedir outro código.",
+  otp_expired: "Código inválido ou expirado. Peça um novo código.",
+  user_not_found: "Não encontramos uma conta com esse e-mail.",
+  same_password: "A nova senha precisa ser diferente da atual.",
+};
+
+export function traduzirErroAuth(err: unknown): string {
+  const e = err as { code?: string; message?: string; status?: number } | null;
+
+  if (e?.code && MENSAGENS_POR_CODIGO[e.code]) return MENSAGENS_POR_CODIGO[e.code];
+
+  // Fallback por texto (versões antigas do supabase-js não enviam "code")
+  const msg = (e?.message ?? "").toLowerCase();
+  if (msg.includes("invalid login credentials")) return MENSAGENS_POR_CODIGO.invalid_credentials;
+  if (msg.includes("email not confirmed")) return MENSAGENS_POR_CODIGO.email_not_confirmed;
+  if (msg.includes("already registered")) return MENSAGENS_POR_CODIGO.user_already_exists;
+  if (msg.includes("password should be")) return textoRequisitosSenha();
+  if (msg.includes("rate limit") || e?.status === 429) return MENSAGENS_POR_CODIGO.over_request_rate_limit;
+  if (msg.includes("token has expired") || msg.includes("invalid token")) return MENSAGENS_POR_CODIGO.otp_expired;
+  if (msg.includes("failed to fetch") || msg.includes("network")) {
+    return "Não foi possível conectar. Verifique sua internet e tente novamente.";
+  }
+
+  return "Algo deu errado. Tente novamente em instantes.";
+}
+
+========================================
+ARQUIVO: .\src\config\routes.ts
+========================================
+
+export const ROTAS = {
+  home: '/index.html',
+  login: '/src/pages/login/login.html',
+  perfil: '/src/pages/perfil/perfil.html',
+  competicoes: '/src/pages/competicoes/competicoes.html',
+  competicao: '/src/pages/competicoes/competicao.html',
+  inscricao: '/src/pages/competicoes/inscricao.html',
+  contratacao: '/src/pages/contratacao/contratacao.html',
+};
+
+========================================
+ARQUIVO: .\ryth-studio\.gitignore
 ========================================
 
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
@@ -4033,7 +4879,28 @@ ARQUIVO: ./ryth-studio/.gitignore
 
 
 ========================================
-ARQUIVO: ./ryth-studio/package.json
+ARQUIVO: .\ryth-studio\README.md
+========================================
+
+# Ryth Studio
+
+Painel de edição de conteúdo (Sanity Studio) do site Ryth.
+
+- Rodar localmente: `npm run dev`
+- Publicar: `npm run deploy`
+- Schemas em `schemaTypes/`: `competicao`, `faq`
+
+========================================
+ARQUIVO: .\ryth-studio\eslint.config.mjs
+========================================
+
+import studio from '@sanity/eslint-config-studio'
+
+export default [...studio]
+
+
+========================================
+ARQUIVO: .\ryth-studio\package.json
 ========================================
 
 {
@@ -4076,7 +4943,7 @@ ARQUIVO: ./ryth-studio/package.json
 
 
 ========================================
-ARQUIVO: ./ryth-studio/sanity.cli.ts
+ARQUIVO: .\ryth-studio\sanity.cli.ts
 ========================================
 
 import {defineCliConfig} from 'sanity/cli'
@@ -4097,7 +4964,7 @@ export default defineCliConfig({
 
 
 ========================================
-ARQUIVO: ./ryth-studio/sanity.config.ts
+ARQUIVO: .\ryth-studio\sanity.config.ts
 ========================================
 
 import {defineConfig} from 'sanity'
@@ -4123,28 +4990,7 @@ export default defineConfig({
 
 
 ========================================
-ARQUIVO: ./ryth-studio/README.md
-========================================
-
-# Ryth Studio
-
-Painel de edição de conteúdo (Sanity Studio) do site Ryth.
-
-- Rodar localmente: `npm run dev`
-- Publicar: `npm run deploy`
-- Schemas em `schemaTypes/`: `competicao`, `faq`
-
-========================================
-ARQUIVO: ./ryth-studio/eslint.config.mjs
-========================================
-
-import studio from '@sanity/eslint-config-studio'
-
-export default [...studio]
-
-
-========================================
-ARQUIVO: ./ryth-studio/tsconfig.json
+ARQUIVO: .\ryth-studio\tsconfig.json
 ========================================
 
 {
@@ -4167,43 +5013,7 @@ ARQUIVO: ./ryth-studio/tsconfig.json
 
 
 ========================================
-ARQUIVO: ./ryth-studio/schemaTypes/index.ts
-========================================
-
-import { faqType } from './faq'
-import { competicaoType } from './competicao'
-
-export const schemaTypes = [
-  faqType,
-  competicaoType, // Registra o novo schema aqui
-]
-
-========================================
-ARQUIVO: ./ryth-studio/schemaTypes/faq.ts
-========================================
-
-import { defineType, defineField } from 'sanity'
-
-export const faqType = defineType({
-  name: 'faq',
-  title: 'Perguntas Frequentes (FAQ)',
-  type: 'document',
-  fields: [
-    defineField({
-      name: 'pergunta',
-      title: 'Pergunta',
-      type: 'string',
-    }),
-    defineField({
-      name: 'resposta',
-      title: 'Resposta',
-      type: 'text',
-    }),
-  ],
-})
-
-========================================
-ARQUIVO: ./ryth-studio/schemaTypes/competicao.ts
+ARQUIVO: .\ryth-studio\schemaTypes\competicao.ts
 ========================================
 
 import { defineField, defineType } from "sanity";
@@ -4269,24 +5079,50 @@ export const competicaoType = defineType({
 });
 
 ========================================
-ARQUIVO: ./ryth-studio/.sanity/runtime/app.js
+ARQUIVO: .\ryth-studio\schemaTypes\faq.ts
 ========================================
 
+import { defineType, defineField } from 'sanity'
 
-// This file is auto-generated on 'sanity dev'
-// Modifications to this file is automatically discarded
-import {renderStudio} from "sanity"
-import studioConfig from "../../sanity.config.ts"
+export const faqType = defineType({
+  name: 'faq',
+  title: 'Perguntas Frequentes (FAQ)',
+  type: 'document',
+  fields: [
+    defineField({
+      name: 'pergunta',
+      title: 'Pergunta',
+      type: 'string',
+    }),
+    defineField({
+      name: 'resposta',
+      title: 'Resposta',
+      type: 'text',
+    }),
+  ],
+})
 
-renderStudio(
-  document.getElementById("sanity"),
-  studioConfig,
-  {reactStrictMode: undefined, basePath: "/"}
-)
+========================================
+ARQUIVO: .\ryth-studio\schemaTypes\index.ts
+========================================
+
+import { faqType } from './faq'
+import { competicaoType } from './competicao'
+
+export const schemaTypes = [
+  faqType,
+  competicaoType, // Registra o novo schema aqui
+]
+
+========================================
+ARQUIVO: .\ryth-studio\static\.gitkeep
+========================================
+
+Files placed here will be served by the Sanity server under the `/static`-prefix
 
 
 ========================================
-ARQUIVO: ./ryth-studio/.sanity/runtime/index.html
+ARQUIVO: .\ryth-studio\.sanity\runtime\index.html
 ========================================
 
 <!DOCTYPE html><html lang="en">
@@ -4338,7 +5174,9 @@ Modifications to this file are automatically discarded.
       // - If there are no subscribers, then we log the error to the console and render the error overlay.
       if (errorChannel.subscribers.length) {
         errorChannel.publish({error, params})
-      } else {
+      } else if (error) {
+        // Browsers fire some error events without an error object (a ResizeObserver loop,
+        // a cross-origin "Script error."), and there is nothing useful to show for them.
         console.error(error)
 
         _renderErrorOverlay(error, params)
@@ -4585,9 +5423,19 @@ Modifications to this file are automatically discarded.
 </style><h1>JavaScript disabled</h1><p>Please <a href="https://www.enable-javascript.com/">enable JavaScript</a> in your browser and reload the page to proceed.</p></div></div></noscript></body></html>
 
 ========================================
-ARQUIVO: ./ryth-studio/static/.gitkeep
+ARQUIVO: .\ryth-studio\.sanity\runtime\app.js
 ========================================
 
-Files placed here will be served by the Sanity server under the `/static`-prefix
+
+// This file is auto-generated on 'sanity dev'
+// Modifications to this file is automatically discarded
+import studioConfig from "../../sanity.config.ts"
+import {renderStudio} from "sanity"
+
+renderStudio(
+  document.getElementById("sanity"),
+  studioConfig,
+  {reactStrictMode: undefined, basePath: "/"}
+)
 
 
