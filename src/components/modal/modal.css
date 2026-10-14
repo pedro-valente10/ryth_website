@@ -1,0 +1,157 @@
+/* ==========================================================================
+   COMPONENTE MODAL / POPUP - DESIGN SYSTEM RYTH
+   ========================================================================== */
+
+.modal {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+}
+
+.modal--open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Fundo escurecido com desfoque */
+.modal__overlay {
+  position: absolute;
+  inset: 0;
+  background-color: rgba(6, 10, 39, 0.75);
+  backdrop-filter: blur(4px);
+}
+
+/* Card central em roxo vibrante */
+.modal__card {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 440px;
+  background-color: var(--main-purple);
+  color: var(--white);
+  border-radius: 32px;
+  padding: 2.5rem 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 1.25rem;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.25);
+  transform: translateY(12px) scale(0.96);
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.modal--open .modal__card {
+  transform: translateY(0) scale(1);
+}
+
+/* Botão Fechar (X) */
+.modal__close {
+  position: absolute;
+  top: 1.25rem;
+  right: 1.5rem;
+  background: none;
+  border: none;
+  color: var(--main-green);
+  font-size: 2rem;
+  font-weight: 300;
+  line-height: 1;
+  cursor: pointer;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.modal__close:hover {
+  transform: scale(1.15);
+  opacity: 0.85;
+}
+
+/* Ícone no topo */
+.modal__icon-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  background-color: rgba(255, 255, 255, 0.12);
+  border-radius: 50%;
+}
+
+.modal__icon {
+  width: 28px;
+  height: 28px;
+  color: var(--main-green);
+}
+
+/* Título em Monument Extended */
+.modal__title {
+  font-family: var(--font-monument, sans-serif);
+  font-size: clamp(1.4rem, 3.5vw, 1.8rem);
+  font-weight: 900;
+  color: var(--main-green);
+  margin: 0;
+  line-height: 1.15;
+  text-transform: uppercase;
+}
+
+/* Texto descritivo */
+.modal__text {
+  font-family: var(--font-family);
+  font-size: 1.05rem;
+  font-weight: 500;
+  color: var(--white);
+  line-height: 1.45;
+  margin: 0;
+  max-width: 360px;
+}
+
+/* Botão em formato de Pílula */
+.modal__actions {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: 0.5rem;
+}
+
+.modal__btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-family);
+  font-size: 1.1rem;
+  font-weight: 700;
+  padding: 0.85rem 3rem;
+  border-radius: 50px;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.modal__btn--primary {
+  background-color: var(--main-green);
+  color: var(--main-black);
+}
+
+.modal__btn:hover {
+  transform: translateY(-2px);
+  opacity: 0.92;
+}
+
+/* Adaptativo para telas pequenas */
+@media (max-width: 480px) {
+  .modal__card {
+    padding: 2rem 1.5rem;
+    border-radius: 24px;
+  }
+
+  .modal__btn {
+    width: 100%;
+  }
+}

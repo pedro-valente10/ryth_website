@@ -1,15 +1,4 @@
-// 1. Estilos Globais e Componentes
-import "../../styles/reset.css";
-import "../../styles/global.css";
-import "../../styles/variables.css";
-
-import "../../components/navbar/navbar.css";
-import "../../components/footer/footer.css";
 import "./competicao.css";
-
-// 2. Componentes e Serviços
-import { renderNavbar } from "../../components/navbar/navbar";
-import { renderFooter } from "../../components/footer/footer";
 import { cmsFetch } from "../../services/cms";
 import { ROTAS } from "../../config/routes";
 
@@ -34,11 +23,10 @@ function slugAtual(): string | null {
 
 async function carregarDadosSanity(): Promise<void> {
   const slug = slugAtual();
-  if (!slug) return; // Mantém a imagem padrão e textos do HTML se não houver parâmetro ?slug=
+  if (!slug) return;
 
-  // [0] devolve um único documento (sem ele, o Sanity retorna um array)
   const comp = await cmsFetch<Competicao>(
-    `*[_type == "competicao" && slug.current == $slug][0]{
+    `*[_type == "competicao" && slug.current == $slug]{
       titulo,
       musicaTitulo,
       musicaDescricao,
@@ -72,9 +60,7 @@ function inicializarBotaoInscricao(): void {
 
   btnInscrever.addEventListener("click", () => {
     const slug = slugAtual();
-    window.location.href = slug
-      ? `${ROTAS.inscricao}?slug=${encodeURIComponent(slug)}`
-      : ROTAS.competicoes;
+    window.location.href = slug ? `${ROTAS.inscricao}?slug=${encodeURIComponent(slug)}` : ROTAS.competicoes;
   });
 }
 
@@ -86,13 +72,12 @@ function inicializarInteratividadeVotacao(): void {
 
   let participanteSelecionado: string | null = null;
 
-  // Seleção dinâmica dos participantes
   participantes.forEach((p) => {
     p.addEventListener("click", () => {
       participantes.forEach((el) => el.classList.remove("competicao__participante--selecionado"));
       p.classList.add("competicao__participante--selecionado");
 
-      const nome = p.getAttribute("data-nome") ||
+      const nome = p.getAttribute("data-nome") || 
                    p.querySelector(".competicao__participante-nome")?.textContent;
       if (nome) {
         participanteSelecionado = nome;
@@ -103,7 +88,6 @@ function inicializarInteratividadeVotacao(): void {
     });
   });
 
-  // Botão "votar" da seção de ações faz rolagem suave até a caixa de confirmação
   if (btnVotarMain) {
     btnVotarMain.addEventListener("click", () => {
       if (!participanteSelecionado) {
@@ -115,7 +99,6 @@ function inicializarInteratividadeVotacao(): void {
     });
   }
 
-  // Ação de registrar voto no botão dentro da caixa
   if (btnConfirmarVoto) {
     btnConfirmarVoto.addEventListener("click", () => {
       if (!participanteSelecionado) {
@@ -127,10 +110,7 @@ function inicializarInteratividadeVotacao(): void {
   }
 }
 
-// Inicialização da página
 async function init(): Promise<void> {
-  renderFooter();
-  await renderNavbar();
   await carregarDadosSanity();
   inicializarBotaoInscricao();
   inicializarInteratividadeVotacao();
