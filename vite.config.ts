@@ -10,6 +10,7 @@ export default defineConfig({
         perfil: resolve(__dirname, 'src/pages/perfil/perfil.html'),
         competicoes: resolve(__dirname, 'src/pages/competicoes/competicoes.html'),
         competicao: resolve(__dirname, "src/pages/competicoes/competicao.html"),
+        inscricao: resolve(__dirname, "src/pages/competicoes/inscricao.html"),
         contratacao: resolve(__dirname, 'src/pages/contratacao/contratacao.html'),
       },
     },

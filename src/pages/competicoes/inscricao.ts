@@ -1,119 +1,97 @@
-import './inscricao.css';
+// 1. Estilos Globais e Componentes
+import "../../styles/reset.css";
+import "../../styles/global.css";
+import "../../styles/variables.css";
 
-// AJUSTE os caminhos/nomes abaixo conforme o seu projeto
-import { usuarioAtual, fazerLogout } from '../../services/auth';
-import { cmsFetch } from '../../services/cms';
-import { supabase } from '../../services/supabase';
+import "../../components/navbar/navbar.css";
+import "../../components/footer/footer.css";
+import "./inscricao.css";
 
-const LISTA = '/src/pages/competicoes/competicoes.html';
-const DETALHE = '/src/pages/competicoes/competicao.html';
-const LOGIN = '/src/pages/login/login.html';
+// 2. Componentes e Serviços
+import { renderNavbar } from "../../components/navbar/navbar";
+import { renderFooter } from "../../components/footer/footer";
+import { cmsFetch } from "../../services/cms";
+import { usuarioAtual, fazerLogout } from "../../services/auth";
+import { supabase } from "../../services/supabase";
+import { ROTAS } from "../../config/routes";
 
 const $ = <T extends HTMLElement>(id: string) => document.getElementById(id) as T;
 
-const params = new URLSearchParams(location.search);
-const competicaoId = params.get('id');
+const slug = new URLSearchParams(window.location.search).get("slug");
 
-const form = $<HTMLFormElement>('form-inscricao');
-const inputVideo = $<HTMLInputElement>('video-url');
-const btnInscrever = $<HTMLButtonElement>('btn-inscrever');
-const msg = $<HTMLParagraphElement>('inscricao-msg');
+const form = $<HTMLFormElement>("form-inscricao");
+const inputVideo = $<HTMLInputElement>("video-url");
+const btnInscrever = $<HTMLButtonElement>("btn-inscrever");
+const msg = $<HTMLParagraphElement>("inscricao-msg");
 
-function mostrarMsg(texto: string, ok = false) {
+function mostrarMsg(texto: string, ok = false): void {
   msg.textContent = texto;
-  msg.classList.toggle('inscricao__msg--ok', ok);
+  msg.classList.toggle("inscricao__msg--ok", ok);
   msg.hidden = false;
 }
 
-function irParaLogin() {
+function irParaLogin(): void {
   const volta = encodeURIComponent(location.pathname + location.search);
-  location.href = `${LOGIN}?redirect=${volta}`;
+  location.href = `${ROTAS.login}?redirect=${volta}`;
 }
 
-function linkValido(valor: string) {
+function linkValido(valor: string): boolean {
   try {
     const url = new URL(valor);
-    return url.protocol === 'http:' || url.protocol === 'https:';
+    return url.protocol === "http:" || url.protocol === "https:";
   } catch {
     return false;
   }
 }
 
-async function init() {
-  // Sem competição na URL, não há o que inscrever
-  if (!competicaoId) {
-    location.href = LISTA;
-    return;
-  }
-
-  $<HTMLAnchorElement>('btn-voltar').href = `${DETALHE}?id=${encodeURIComponent(competicaoId)}`;
-
-  // Precisa estar logado
-  const usuario: any = await usuarioAtual();
-  if (!usuario) {
-    irParaLogin();
-    return;
-  }
-
-  // "É você mesmo?": nome e foto (ajuste os campos conforme seu perfil)
-  const meta = usuario.user_metadata ?? {};
-  $('perfil-nome').textContent = meta.nome ?? usuario.nome ?? usuario.email ?? 'Nome';
-  const fotoUrl: string | undefined = meta.foto ?? usuario.foto;
-  if (fotoUrl) {
-    const img = $<HTMLImageElement>('perfil-foto');
-    img.src = fotoUrl;
-    img.hidden = false;
-    $('perfil-foto-vazia').hidden = true;
-  }
-
-  // Nome da competição vindo do Sanity
-  try {
-    const comp = await cmsFetch<{ titulo?: string }>(
-      `*[_type == "competicao" && _id == $id][0]{ titulo }`,
-      { id: competicaoId },
-    );
-    if (comp?.titulo) $('competicao-nome').textContent = comp.titulo;
-  } catch {
-    /* mantém o subtítulo vazio se o Sanity não responder */
-  }
-
-  $('btn-relogin').addEventListener('click', async () => {
-    await fazerLogout();
-    irParaLogin();
-  });
-
-  form.addEventListener('submit', enviar);
+async function carregarCompeticao(): Promise<void> {
+  const comp = await cmsFetch<{ titulo?: string }>(
+    `*[_type == "competicao" && slug.current == $slug][0]{ titulo }`,
+    { slug }
+  );
+  if (comp?.titulo) $("competicao-nome").textContent = comp.titulo;
 }
 
-async function enviar(e: Event) {
+async function carregarUsuario(): Promise<boolean> {
+  const usuario = await usuarioAtual();
+  if (!usuario) {
+    irParaLogin();
+    return false;
+  }
+  // usuarioAtual() só devolve id e e-mail; troque pelo nome/foto do perfil quando tiver
+  $("perfil-nome").textContent = usuario.email;
+  return true;
+}
+
+async function enviar(e: Event): Promise<void> {
   e.preventDefault();
   msg.hidden = true;
 
   const video = inputVideo.value.trim();
   if (!video) {
-    mostrarMsg('Cole o link do seu vídeo para se inscrever.');
+    mostrarMsg("Cole o link do seu vídeo para se inscrever.");
     return;
   }
   if (!linkValido(video)) {
-    mostrarMsg('O link do vídeo precisa começar com http:// ou https://.');
+    mostrarMsg("O link do vídeo precisa começar com http:// ou https://.");
     return;
   }
 
-  const usuario: any = await usuarioAtual();
-  if (!usuario) {
+  const usuario = await usuarioAtual();
+  if (!usuario?.id) {
     irParaLogin();
     return;
   }
 
   // supabase.ts exporta null quando o .env não está configurado
   if (!supabase) {
-    mostrarMsg('Não foi possível conectar ao servidor. Tente novamente mais tarde.');
+    mostrarMsg("Não foi possível conectar ao servidor. Tente novamente mais tarde.");
     return;
   }
 
   btnInscrever.disabled = true;
-  const { error } = await supabase.from('inscricoes').insert({
-    competicao_id: competicaoId,
+  const { error } = await supabase.from("inscricoes").insert({
+    competicao_slug: slug,
     user_id: usuario.id,
     video_url: video,
   });
@@ -121,17 +99,43 @@ async function enviar(e: Event) {
   if (error) {
     btnInscrever.disabled = false;
     mostrarMsg(
-      error.code === '23505'
-        ? 'Você já está inscrito nesta competição.'
-        : 'Não foi possível concluir a inscrição. Tente novamente em instantes.',
+      error.code === "23505"
+        ? "Você já está inscrito nesta competição."
+        : "Não foi possível concluir a inscrição. Tente novamente em instantes."
     );
     return;
   }
 
-  mostrarMsg('Inscrição enviada! Redirecionando…', true);
+  mostrarMsg("Inscrição enviada! Redirecionando…", true);
   setTimeout(() => {
-    location.href = `${DETALHE}?id=${encodeURIComponent(competicaoId!)}`;
+    location.href = `${ROTAS.competicao}?slug=${encodeURIComponent(slug!)}`;
   }, 1500);
 }
 
-init();
+async function init(): Promise<void> {
+  renderFooter();
+  await renderNavbar();
+
+  // Sem ?slug= na URL não há competição para inscrever
+  if (!slug) {
+    location.href = ROTAS.competicoes;
+    return;
+  }
+
+  $<HTMLAnchorElement>("btn-voltar").href = `${ROTAS.competicao}?slug=${encodeURIComponent(slug)}`;
+
+  if (!(await carregarUsuario())) return;
+  await carregarCompeticao();
+
+  $("btn-relogin").addEventListener("click", async () => {
+    await fazerLogout();
+    irParaLogin();
+  });
+  form.addEventListener("submit", enviar);
+}
+
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", init);
+} else {
+  init();
+}

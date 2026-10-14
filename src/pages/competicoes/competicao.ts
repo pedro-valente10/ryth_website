@@ -11,6 +11,7 @@ import "./competicao.css";
 import { renderNavbar } from "../../components/navbar/navbar";
 import { renderFooter } from "../../components/footer/footer";
 import { cmsFetch } from "../../services/cms";
+import { ROTAS } from "../../config/routes";
 
 type Competicao = {
   titulo: string;
@@ -27,12 +28,17 @@ function setText(id: string, valor?: string): void {
   if (el && valor) el.textContent = valor;
 }
 
+function slugAtual(): string | null {
+  return new URLSearchParams(window.location.search).get("slug");
+}
+
 async function carregarDadosSanity(): Promise<void> {
-  const slug = new URLSearchParams(window.location.search).get("slug");
+  const slug = slugAtual();
   if (!slug) return; // Mantém a imagem padrão e textos do HTML se não houver parâmetro ?slug=
 
+  // [0] devolve um único documento (sem ele, o Sanity retorna um array)
   const comp = await cmsFetch<Competicao>(
-    `*[_type == "competicao" && slug.current == $slug]{
+    `*[_type == "competicao" && slug.current == $slug][0]{
       titulo,
       musicaTitulo,
       musicaDescricao,
@@ -60,6 +66,18 @@ async function carregarDadosSanity(): Promise<void> {
   }
 }
 
+function inicializarBotaoInscricao(): void {
+  const btnInscrever = document.querySelector<HTMLButtonElement>("#btn-inscrever");
+  if (!btnInscrever) return;
+
+  btnInscrever.addEventListener("click", () => {
+    const slug = slugAtual();
+    window.location.href = slug
+      ? `${ROTAS.inscricao}?slug=${encodeURIComponent(slug)}`
+      : ROTAS.competicoes;
+  });
+}
+
 function inicializarInteratividadeVotacao(): void {
   const participantes = document.querySelectorAll<HTMLButtonElement>(".competicao__participante");
   const confirmarNome = document.querySelector<HTMLElement>("#confirmar-nome");
@@ -74,7 +92,7 @@ function inicializarInteratividadeVotacao(): void {
       participantes.forEach((el) => el.classList.remove("competicao__participante--selecionado"));
       p.classList.add("competicao__participante--selecionado");
 
-      const nome = p.getAttribute("data-nome") || 
+      const nome = p.getAttribute("data-nome") ||
                    p.querySelector(".competicao__participante-nome")?.textContent;
       if (nome) {
         participanteSelecionado = nome;
@@ -114,6 +132,7 @@ async function init(): Promise<void> {
   renderFooter();
   await renderNavbar();
   await carregarDadosSanity();
+  inicializarBotaoInscricao();
   inicializarInteratividadeVotacao();
 }
 
