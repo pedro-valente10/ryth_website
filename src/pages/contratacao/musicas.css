@@ -1,0 +1,145 @@
+/* ==========================================================================
+   PÁGINA MÚSICAS - DESIGN SYSTEM RYTH
+   ========================================================================== */
+
+.musicas-page {
+  background-color: var(--main-white);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.musicas {
+  flex: 1;
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 3.5rem 1.5rem 5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3.5rem;
+}
+
+/* ===================== CABEÇALHO ===================== */
+.musicas__header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 1.25rem;
+  max-width: 900px;
+}
+
+.musicas__title {
+  font-family: var(--font-monument, sans-serif);
+  font-size: clamp(2.2rem, 5vw, 3.5rem);
+  font-weight: 900;
+  color: var(--main-black);
+  line-height: 1.05;
+  margin: 0;
+  text-transform: uppercase;
+}
+
+.musicas__subtitle {
+  font-family: var(--font-family);
+  font-size: clamp(1rem, 1.8vw, 1.15rem);
+  line-height: 1.5;
+  color: var(--main-black);
+  margin: 0;
+}
+
+/* ===================== GRID DE CARDS ===================== */
+.musicas__grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem;
+  width: 100%;
+}
+
+.musicas__card {
+  background-color: var(--white);
+  border: 3px solid var(--main-green);
+  border-radius: 28px;
+  padding: 2.2rem 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  position: relative;
+  text-align: left;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+}
+
+.musicas__icon {
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  width: 24px;
+  height: 24px;
+  color: var(--main-purple);
+}
+
+.musicas__card-title {
+  font-family: var(--font-monument, sans-serif);
+  font-size: clamp(1.4rem, 2.5vw, 1.8rem);
+  font-weight: 900;
+  color: var(--main-purple);
+  margin: 0;
+}
+
+.musicas__card-text {
+  font-family: var(--font-family);
+  font-size: 1rem;
+  line-height: 1.5;
+  color: var(--main-black);
+  margin: 0;
+}
+
+/* ===================== BOTÃO AÇÃO ===================== */
+.musicas__actions {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.musicas__btn {
+  background-color: var(--main-purple);
+  color: var(--white);
+  font-family: var(--font-family);
+  font-size: 1.25rem;
+  font-weight: 700;
+  padding: 1rem 4rem;
+  border-radius: 50px;
+  border: none;
+  cursor: pointer;
+  text-transform: lowercase;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.musicas__btn:hover {
+  transform: translateY(-2px);
+  opacity: 0.92;
+}
+
+/* ===================== RESPONSIVIDADE ===================== */
+@media (max-width: 768px) {
+  .musicas {
+    padding: 2.5rem 1.25rem 3.5rem;
+    gap: 2.5rem;
+  }
+
+  .musicas__grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .musicas__card {
+    padding: 1.8rem 1.5rem;
+    border-radius: 22px;
+  }
+
+  .musicas__btn {
+    width: 100%;
+    max-width: 320px;
+  }
+}

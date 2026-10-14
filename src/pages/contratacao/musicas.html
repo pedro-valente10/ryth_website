@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RYTH - Músicas</title>
+
+  <!-- Prevenção limpa contra flickering no frame 0 -->
+  <style>
+    html { visibility: hidden; }
+    html.ready { visibility: visible; }
+  </style>
+
+  <link rel="stylesheet" href="/src/styles/global.css" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <script type="module" src="./musicas.ts"></script>
+  <script type="module" src="/src/main.ts"></script>
+</head>
+<body class="musicas-page">
+
+  <!-- NAVBAR GLOBAL -->
+  <header id="navbar-root"></header>
+
+  <main class="musicas">
+    <!-- CABEÇALHO -->
+    <header class="musicas__header">
+      <h1 class="musicas__title">MÚSICAS</h1>
+      <p class="musicas__subtitle">
+        Transforme sua música em um convite à criatividade. Cadastre sua faixa para os desafios da RYTH e permita que dançarinos e criadores levem seu trabalho ainda mais longe, conectando música, movimento e novas oportunidades.
+      </p>
+    </header>
+
+    <!-- GRID DOS 4 PILARES -->
+    <section class="musicas__grid" aria-label="Benefícios para artistas">
+      <!-- Card 1: Alcance -->
+      <article class="musicas__card">
+        <svg class="musicas__icon" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z" />
+        </svg>
+        <h2 class="musicas__card-title">Alcance</h2>
+        <p class="musicas__card-text">
+          Na RYTH, seu som chega em quem ama dançar de verdade. São pessoas que vão escutar, amar e promover o seu trabalho, tudo de forma orgânica.
+        </p>
+      </article>
+
+      <!-- Card 2: Cultura -->
+      <article class="musicas__card">
+        <svg class="musicas__icon" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z" />
+        </svg>
+        <h2 class="musicas__card-title">Cultura</h2>
+        <p class="musicas__card-text">
+          Faça parte da comunidade como música e aumente a presença da marca no cotidiano do público. Estar nesses pequenos espaços e momentos é o que difere músicas boas de músicas virais.
+        </p>
+      </article>
+
+      <!-- Card 3: Tendências -->
+      <article class="musicas__card">
+        <svg class="musicas__icon" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z" />
+        </svg>
+        <h2 class="musicas__card-title">Tendências</h2>
+        <p class="musicas__card-text">
+          A RYTH é a mais nova camada do mercado de músicas e hits. Para artistas, saber se comunicar com o público é essencial para entender como se inserir nas tendências e criar conexão.
+        </p>
+      </article>
+
+      <!-- Card 4: Conexão -->
+      <article class="musicas__card">
+        <svg class="musicas__icon" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z" />
+        </svg>
+        <h2 class="musicas__card-title">Conexão</h2>
+        <p class="musicas__card-text">
+          Ter sua música atrelada a uma dança faz diferentes públicos se conectarem através do movimento na RYTH, impulsionando sua visibilidade no processo.
+        </p>
+      </article>
+    </section>
+
+    <!-- BOTAO DE AÇÃO -->
+    <div class="musicas__actions">
+      <button type="button" class="musicas__btn" id="btn-cadastrar-musica">cadastrar música</button>
+    </div>
+  </main>
+
+  <!-- FOOTER GLOBAL -->
+  <footer id="footer-root"></footer>
+
+</body>
+</html>

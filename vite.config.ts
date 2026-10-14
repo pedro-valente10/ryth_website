@@ -12,6 +12,7 @@ export default defineConfig({
         competicao: resolve(__dirname, "src/pages/competicoes/competicao.html"),
         inscricao: resolve(__dirname, "src/pages/competicoes/inscricao.html"),
         contratacao: resolve(__dirname, 'src/pages/contratacao/contratacao.html'),
+        musicas: resolve(__dirname, 'src/pages/contratacao/musicas.html'),
       },
     },
   },
