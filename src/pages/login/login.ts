@@ -7,6 +7,20 @@ function modoCadastro(): boolean {
   return new URLSearchParams(window.location.search).get("modo") === "cadastro";
 }
 
+/**
+ * Retorna o destino após o login.
+ * Aceita apenas caminhos internos (começam com "/" e não com "//"),
+ * evitando open redirect. Se não houver ?redirect= válido, vai para o perfil.
+ */
+function obterDestino(): string {
+  const redirect = new URLSearchParams(window.location.search).get("redirect");
+
+  if (redirect && redirect.startsWith("/") && !redirect.startsWith("//")) {
+    return redirect;
+  }
+  return ROTAS.perfil;
+}
+
 function alternarInterfaceModo(): void {
   const eCadastro = modoCadastro();
   const tituloCard = document.getElementById("login-card-titulo");
@@ -68,18 +82,21 @@ function inicializarFormulario(): void {
         const resultado = await fazerCadastro(email, senha);
         if (resultado.precisaConfirmar) {
           alert("Conta criada com sucesso! Verifique seu e-mail para confirmar a conta.");
-        } else {
-          alert("Conta criada com sucesso!");
+          // Ainda não está logado: volta para o login em vez de ir ao perfil
+          window.location.href = `${ROTAS.login}?modo=login`;
+          return;
         }
+        alert("Conta criada com sucesso!");
       } else {
         await fazerLogin(email, senha);
       }
 
-      const params = new URLSearchParams(window.location.search);
-      const destino = params.get("redirect") ?? ROTAS.home;
-      window.location.href = destino;
+      window.location.href = obterDestino();
     } catch (error) {
-      const mensagem = error instanceof Error ? error.message : "Ocorreu um erro ao processar a solicitação. Tente novamente.";
+      const mensagem =
+        error instanceof Error
+          ? error.message
+          : "Ocorreu um erro ao processar a solicitação. Tente novamente.";
       alert(mensagem);
     }
   });

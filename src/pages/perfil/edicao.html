@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RYTH - Editar Perfil</title>
+
+  <!-- Oculta o HTML bruto sem criar nenhum loader visual -->
+  <style>
+    html { visibility: hidden; }
+    html.ready { visibility: visible; }
+  </style>
+  <link rel="stylesheet" href="/src/styles/global.css" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <script type="module" src="/src/pages/perfil/edicao.ts"></script>
+  <script type="module" src="/src/main.ts"></script>
+</head>
+<body>
+
+  <!-- ===================== NAVBAR (componente global) ===================== -->
+  <div id="navbar-root"></div>
+
+  <main class="edit-page">
+    <section class="edit">
+      <div class="edit__container">
+
+        <!-- Botão voltar -->
+        <a href="/src/pages/perfil/perfil.html" class="edit__back" id="btn-voltar">
+          <svg class="edit__back-icon" viewBox="0 0 24 24" width="20" height="20" fill="none"
+               stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
+               aria-hidden="true">
+            <polyline points="15 18 9 12 15 6"></polyline>
+          </svg>
+          voltar
+        </a>
+
+        <form class="edit__form" id="form-edicao" novalidate>
+
+          <!-- Fotos: perfil + capa -->
+          <div class="edit__media">
+            <div class="edit__media-item edit__media-item--avatar">
+              <div class="edit__avatar" id="avatar-preview">
+                <span id="avatar-placeholder">foto de perfil</span>
+              </div>
+              <label class="edit__media-label" for="input-avatar">editar foto de perfil</label>
+              <input type="file" id="input-avatar" class="edit__file" accept="image/*" />
+            </div>
+
+            <div class="edit__media-item edit__media-item--cover">
+              <div class="edit__cover" id="cover-preview"></div>
+              <label class="edit__media-label" for="input-cover">editar foto</label>
+              <input type="file" id="input-cover" class="edit__file" accept="image/*" />
+            </div>
+          </div>
+
+          <!-- Campos -->
+          <div class="edit__fields">
+
+            <div class="edit__field">
+              <label class="edit__field-label" for="campo-nome">nome de usuário:</label>
+              <input type="text" id="campo-nome" class="edit__input" maxlength="40" autocomplete="nickname" />
+            </div>
+
+            <div class="edit__field edit__field--multiline">
+              <label class="edit__field-label" for="campo-bio">bio:</label>
+              <textarea id="campo-bio" class="edit__input edit__input--textarea" rows="2" maxlength="300"></textarea>
+            </div>
+
+            <div class="edit__field edit__field--multiline">
+              <label class="edit__field-label" for="campo-estilos">estilos de dança:</label>
+              <textarea id="campo-estilos" class="edit__input edit__input--textarea" rows="2"
+                        placeholder="separe por vírgula. Ex.: Hip Hop, House, Waacking"></textarea>
+            </div>
+
+            <div class="edit__field edit__field--icon">
+              <img src="/src/assets/icons/white-instagram.svg" alt="Instagram" class="edit__field-icon" />
+              <label class="edit__field-label" for="campo-instagram">link:</label>
+              <input type="url" id="campo-instagram" class="edit__input"
+                     placeholder="https://www.instagram.com/seu.perfil" inputmode="url" />
+            </div>
+
+            <div class="edit__field edit__field--icon">
+              <img src="/src/assets/icons/white-tiktok.svg" alt="TikTok" class="edit__field-icon" />
+              <label class="edit__field-label" for="campo-tiktok">link:</label>
+              <input type="url" id="campo-tiktok" class="edit__input"
+                     placeholder="https://www.tiktok.com/@seu.perfil" inputmode="url" />
+            </div>
+
+          </div>
+
+          <p class="edit__erro" id="edit-erro" role="alert" hidden></p>
+
+          <button type="submit" class="edit__btn-salvar" id="btn-salvar">salvar</button>
+        </form>
+
+      </div>
+    </section>
+  </main>
+
+  <!-- ===================== FOOTER (componente global) ===================== -->
+  <div id="footer-root"></div>
+
+</body>
+</html>

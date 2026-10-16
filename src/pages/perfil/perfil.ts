@@ -30,7 +30,7 @@ export async function carregarPerfil(): Promise<void> {
   const btnEditar = document.querySelector<HTMLButtonElement>("#btn-editar");
   if (btnEditar) {
     btnEditar.addEventListener("click", () => {
-      alert("Modo de edição de perfil em desenvolvimento!");
+    window.location.href = ROTAS.edicao;
     });
   }
 }
