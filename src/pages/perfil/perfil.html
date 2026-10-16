@@ -36,10 +36,10 @@
           <div class="profile__cover-container">
             <div class="profile__cover"></div>
             <div class="profile__socials">
-              <a href="#" class="profile__social-link" aria-label="Instagram">
+              <a id="link-instagram" href="#" class="profile__social-link" aria-label="Instagram" hidden>
                 <img src="/src/assets/icons/white-instagram.svg" alt="Instagram" class="profile__social-icon" />
               </a>
-              <a href="#" class="profile__social-link" aria-label="TikTok">
+              <a id="link-tiktok" href="#" class="profile__social-link" aria-label="TikTok" hidden>
                 <img src="/src/assets/icons/white-tiktok.svg" alt="TikTok" class="profile__social-icon" />
               </a>
             </div>
@@ -54,21 +54,16 @@
             <span class="profile__badge-title">competições</span>
           </div>
 
-          <p class="profile__description">
+          <p class="profile__description" id="user-bio">
             Seu perfil, sua identidade. Destaque seu talento, compartilhe sua trajetória e conecte-se a novas oportunidades.
           </p>
         </div>
 
-        <!-- Barra de Abas (Navegação em Pílula Roxa) -->
-        <nav class="profile__tabs">
-          <button class="profile__tab profile__tab--active">Lorem ipsum</button>
-          <button class="profile__tab">Lorem ipsum</button>
-          <button class="profile__tab">Lorem ipsum</button>
-          <button class="profile__tab">Lorem ipsum</button>
-        </nav>
+        <!-- Estilos de dança (pílula roxa; botões gerados pelo perfil.ts) -->
+        <nav class="profile__tabs" id="user-styles" aria-label="Estilos de dança" hidden></nav>
 
         <!-- Botão Editar -->
-        <button href= "src/pages/perfil/edicao.html" class="profile__btn-edit" id="btn-editar">editar</button>
+        <button class="profile__btn-edit" id="btn-editar">editar</button>
 
       </div>
     </section>

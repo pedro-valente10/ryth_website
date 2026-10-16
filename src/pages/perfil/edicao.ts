@@ -1,38 +1,9 @@
 import "./edicao.css";
 import { usuarioAtual } from "../../services/auth";
+import { lerPerfil, salvarPerfil } from "../../services/perfil";
 import { ROTAS } from "../../config/routes";
 
-interface DadosPerfil {
-  nome: string;
-  bio: string;
-  estilos: string[];
-  instagram: string;
-  tiktok: string;
-}
-
 const TAMANHO_MAX_IMAGEM = 5 * 1024 * 1024; // 5 MB
-
-/* --------------------------------------------------------------------------
-   Persistência
-   Por enquanto salva no localStorage (por usuário). Quando o backend
-   estiver pronto, troque APENAS as funções lerPerfil e salvarPerfil.
-   -------------------------------------------------------------------------- */
-function chaveStorage(email: string): string {
-  return `ryth:perfil:${email}`;
-}
-
-function lerPerfil(email: string): Partial<DadosPerfil> {
-  try {
-    const bruto = localStorage.getItem(chaveStorage(email));
-    return bruto ? (JSON.parse(bruto) as Partial<DadosPerfil>) : {};
-  } catch {
-    return {};
-  }
-}
-
-async function salvarPerfil(email: string, dados: DadosPerfil): Promise<void> {
-  localStorage.setItem(chaveStorage(email), JSON.stringify(dados));
-}
 
 /* --------------------------------------------------------------------------
    Utilitários
