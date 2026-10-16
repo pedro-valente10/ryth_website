@@ -1,71 +1,5 @@
 ========================================
-ARQUIVO: .\.gitignore
-========================================
-
-node_modules/
-dist/
-.env
-.env.local
-
-
-========================================
-ARQUIVO: .\tsconfig.json
-========================================
-
-{
-    "compilerOptions": {
-      "target": "ES2020",
-      "useDefineForClassFields": true,
-      "module": "ESNext",
-      "lib": ["ES2020", "DOM", "DOM.Iterable"],
-      "allowJs": false,
-      "skipLibCheck": true,
-      "esModuleInterop": true,
-      "allowSyntheticDefaultImports": true,
-      "strict": true,
-      "forceConsistentCasingInFileNames": true,
-      "moduleResolution": "Bundler",
-      "resolveJsonModule": true,
-      "isolatedModules": true,
-      "noEmit": true,
-      "noUnusedLocals": true,
-      "noUnusedParameters": true
-    },
-    "include": ["src"]
-  }
-
-========================================
-ARQUIVO: .\package.json
-========================================
-
-{
-    "name": "ryth",
-    "private": true,
-    "version": "0.1.0",
-    "type": "module",
-    "scripts": {
-        "dev": "vite",
-        "build": "tsc && vite build",
-        "preview": "vite preview",
-        "dev:all": "concurrently \"npm run dev\" \"npm --prefix ./ryth-studio run dev\""
-    },
-    "devDependencies": {
-        "@types/node": "^26.6.2",
-        "concurrently": "^10.0.6",
-        "typescript": "^5.9.2",
-        "vite": "^7.1.5"
-    },
-    "dependencies": {
-        "@sanity/client": "^8.8.0",
-        "@sanity/image-url": "^2.1.1",
-        "@supabase/supabase-js": "^2.117.2"
-    }
-}
-
-
-
-========================================
-ARQUIVO: .\pegacodigo.py
+ARQUIVO: ./pegacodigo.py
 ========================================
 
 import os
@@ -95,7 +29,69 @@ print('Concluído! Arquivo gerado: projeto_consolidado.txt')
 
 
 ========================================
-ARQUIVO: .\vite.config.ts
+ARQUIVO: ./.gitignore
+========================================
+
+node_modules/
+dist/
+.env
+.env.local
+
+
+========================================
+ARQUIVO: ./package.json
+========================================
+
+{
+    "name": "ryth",
+    "private": true,
+    "version": "0.1.0",
+    "type": "module",
+    "scripts": {
+        "dev": "vite",
+        "build": "tsc && vite build",
+        "preview": "vite preview",
+        "dev:all": "concurrently \"npm run dev\" \"npm --prefix ./ryth-studio run dev\""
+    },
+    "devDependencies": {
+        "@types/node": "^26.6.2",
+        "concurrently": "^10.0.6",
+        "typescript": "^5.9.2",
+        "vite": "^7.1.5"
+    },
+    "dependencies": {
+        "@sanity/client": "^8.8.0",
+        "@sanity/image-url": "^2.1.1",
+        "@supabase/supabase-js": "^2.117.2"
+    }
+}
+
+
+
+========================================
+ARQUIVO: ./.env
+========================================
+
+VITE_SANITY_PROJECT_ID=8q2pttmv
+VITE_SANITY_DATASET=production
+
+VITE_SUPABASE_URL=https://yzznphretqpgcsrpvwvi.supabase.co
+VITE_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inl6em5waHJldHFwZ2NzcnB2d3ZpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTA5NTY4MjMsImV4cCI6MjEwNjUzMjgyM30.hmiC7OlKVj_NpIrYhxVYVDapE_rod8CLB76wRArkrDg
+
+========================================
+ARQUIVO: ./.env.example
+========================================
+
+# Supabase (Project Settings > API no painel do Supabase)
+VITE_SUPABASE_URL=
+VITE_SUPABASE_ANON_KEY=
+
+# Sanity (o projectId e o dataset estão em ryth-studio/sanity.config.ts)
+VITE_SANITY_PROJECT_ID=
+VITE_SANITY_DATASET=production
+
+========================================
+ARQUIVO: ./vite.config.ts
 ========================================
 
 import { resolve } from 'path';
@@ -112,6 +108,7 @@ export default defineConfig({
         competicao: resolve(__dirname, "src/pages/competicoes/competicao.html"),
         inscricao: resolve(__dirname, "src/pages/competicoes/inscricao.html"),
         contratacao: resolve(__dirname, 'src/pages/contratacao/contratacao.html'),
+        musicas: resolve(__dirname, 'src/pages/contratacao/musicas.html'),
       },
     },
   },
@@ -127,7 +124,7 @@ export default defineConfig({
 });
 
 ========================================
-ARQUIVO: .\index.html
+ARQUIVO: ./index.html
 ========================================
 
 <!DOCTYPE html>
@@ -137,6 +134,13 @@ ARQUIVO: .\index.html
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>RYTH - Conectando Dança, Música e Oportunidades</title>
 
+  <!-- Oculta o HTML bruto sem criar nenhum loader visual -->
+  <style>
+    html { visibility: hidden; }
+    html.ready { visibility: visible; }
+  </style>
+  </style>
+  <link rel="stylesheet" href="/src/styles/global.css" />
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   <script type="module" src="/src/pages/home/index.ts"></script>
   <script type="module" src="/src/main.ts"></script>
@@ -286,12 +290,13 @@ ARQUIVO: .\index.html
         </div>
 
         <!-- Card 2: Músicas (Fundo Roxo) -->
+        <!-- Card 2: Músicas (Fundo Roxo) -->
         <div id="musicas" class="partnerships-music__card partnerships-music__card--purple">
           <h2 class="partnerships-music__title partnerships-music__title--green">Músicas</h2>
           <p class="partnerships-music__text partnerships-music__text--light">
             Descubra as músicas que movimentam a comunidade e inspiram novos desafios. Aqui, cada lançamento pode se transformar em criatividade, conexão e novas oportunidades para artistas e dançarinos.
           </p>
-          <button class="btn partnerships-music__cta partnerships-music__cta--green">envie sua música</button>
+          <a href="/src/pages/contratacao/musicas.html" class="btn partnerships-music__cta partnerships-music__cta--green" style="text-decoration: none;">envie sua música</a>
         </div>
       </section>
         <!-- ===================== 6. QUEM ESTÁ POR TRÁS ===================== -->
@@ -330,7 +335,7 @@ ARQUIVO: .\index.html
 </html>
 
 ========================================
-ARQUIVO: .\README.MD
+ARQUIVO: ./README.MD
 ========================================
 
 # RYTH Website
@@ -379,29 +384,97 @@ ryth_website/
 
 
 ========================================
-ARQUIVO: .\.env
+ARQUIVO: ./tsconfig.json
 ========================================
 
-VITE_SANITY_PROJECT_ID=8q2pttmv
-VITE_SANITY_DATASET=production
-
-VITE_SUPABASE_URL=https://yzznphretqpgcsrpvwvi.supabase.co
-VITE_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inl6em5waHJldHFwZ2NzcnB2d3ZpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTA5NTY4MjMsImV4cCI6MjEwNjUzMjgyM30.hmiC7OlKVj_NpIrYhxVYVDapE_rod8CLB76wRArkrDg
+{
+    "compilerOptions": {
+      "target": "ES2020",
+      "useDefineForClassFields": true,
+      "module": "ESNext",
+      "lib": ["ES2020", "DOM", "DOM.Iterable"],
+      "allowJs": false,
+      "skipLibCheck": true,
+      "esModuleInterop": true,
+      "allowSyntheticDefaultImports": true,
+      "strict": true,
+      "forceConsistentCasingInFileNames": true,
+      "moduleResolution": "Bundler",
+      "resolveJsonModule": true,
+      "isolatedModules": true,
+      "noEmit": true,
+      "noUnusedLocals": true,
+      "noUnusedParameters": true
+    },
+    "include": ["src"]
+  }
 
 ========================================
-ARQUIVO: .\.env.example
+ARQUIVO: ./src/main.ts
 ========================================
 
-# Supabase (Project Settings > API no painel do Supabase)
-VITE_SUPABASE_URL=
-VITE_SUPABASE_ANON_KEY=
+import "./styles/reset.css";
+import "./styles/global.css";
+import "./styles/variables.css";
 
-# Sanity (o projectId e o dataset estão em ryth-studio/sanity.config.ts)
-VITE_SANITY_PROJECT_ID=
-VITE_SANITY_DATASET=production
+import "./components/navbar/navbar.css";
+import "./components/footer/footer.css";
+
+import { renderNavbar } from "./components/navbar/navbar";
+import { renderFooter } from "./components/footer/footer";
+
+/**
+ * Remove o bloqueio de visibilidade assim que os componentes e estilos terminam de carregar.
+ */
+function revelarPagina(): void {
+  document.documentElement.classList.add("ready");
+}
+
+/**
+ * Normaliza os caminhos de URL para marcar o link ativo da Navbar.
+ */
+function markActiveLink(): void {
+  const normalize = (path: string): string =>
+    path.replace(/\/index\.html$/, "/").replace(/\/$/, "") || "/";
+
+  const current = normalize(location.pathname);
+
+  document
+    .querySelectorAll<HTMLAnchorElement>(".navbar__link a")
+    .forEach((link) => {
+      const href = normalize(new URL(link.href, location.origin).pathname);
+
+      if (href === current) {
+        link.setAttribute("aria-current", "page");
+      } else {
+        link.removeAttribute("aria-current");
+      }
+    });
+}
+
+/**
+ * Inicializa a Navbar, o Footer e libera a exibição limpa da página.
+ */
+async function init(): Promise<void> {
+  try {
+    renderFooter();
+    await renderNavbar(); // espera a sessão do usuário e monta a navbar
+    markActiveLink();     // marca o link ativo com a navbar pronta
+  } catch (error) {
+    console.error("Erro ao carregar os componentes globais:", error);
+  } finally {
+    revelarPagina();      // revela a página perfeitamente montada sem vazamentos de HTML
+  }
+}
+
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", init);
+} else {
+  init();
+}
 
 ========================================
-ARQUIVO: .\src\vite-env.d.ts
+ARQUIVO: ./src/vite-env.d.ts
 ========================================
 
 /// <reference types="vite/client" />
@@ -460,49 +533,324 @@ export default defineConfig({
 })
 
 ========================================
-ARQUIVO: .\src\main.ts
+ARQUIVO: ./src/components/modal/modal.css
 ========================================
 
-import "./styles/reset.css";
-import "./styles/global.css";
-import "./styles/variables.css";
+/* ==========================================================================
+   COMPONENTE MODAL / POPUP - DESIGN SYSTEM RYTH
+   ========================================================================== */
 
-import "./components/navbar/navbar.css";
-import "./components/footer/footer.css";
+.modal {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+}
 
-import { renderNavbar } from "./components/navbar/navbar";
-import { renderFooter } from "./components/footer/footer";
+.modal--open {
+  opacity: 1;
+  pointer-events: auto;
+}
 
-function markActiveLink(): void {
-  const normalize = (path: string): string =>
-    path.replace(/\/index\.html$/, '/').replace(/\/$/, '') || '/';
+/* Fundo escurecido com desfoque */
+.modal__overlay {
+  position: absolute;
+  inset: 0;
+  background-color: rgba(6, 10, 39, 0.75);
+  backdrop-filter: blur(4px);
+}
 
-  const current = normalize(location.pathname);
+/* Card central em roxo vibrante */
+.modal__card {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 440px;
+  background-color: var(--main-purple);
+  color: var(--white);
+  border-radius: 32px;
+  padding: 2.5rem 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 1.25rem;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.25);
+  transform: translateY(12px) scale(0.96);
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
 
-  document
-    .querySelectorAll<HTMLAnchorElement>('.navbar__link a')
-    .forEach((link) => {
-      const href = normalize(new URL(link.href, location.origin).pathname);
+.modal--open .modal__card {
+  transform: translateY(0) scale(1);
+}
 
-      if (href === current) {
-        link.setAttribute('aria-current', 'page');
-      } else {
-        link.removeAttribute('aria-current');
-      }
+/* Botão Fechar (X) */
+.modal__close {
+  position: absolute;
+  top: 1.25rem;
+  right: 1.5rem;
+  background: none;
+  border: none;
+  color: var(--main-green);
+  font-size: 2rem;
+  font-weight: 300;
+  line-height: 1;
+  cursor: pointer;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.modal__close:hover {
+  transform: scale(1.15);
+  opacity: 0.85;
+}
+
+/* Ícone no topo */
+.modal__icon-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  background-color: rgba(255, 255, 255, 0.12);
+  border-radius: 50%;
+}
+
+.modal__icon {
+  width: 28px;
+  height: 28px;
+  color: var(--main-green);
+}
+
+/* Título em Monument Extended */
+.modal__title {
+  font-family: var(--font-monument, sans-serif);
+  font-size: clamp(1.4rem, 3.5vw, 1.8rem);
+  font-weight: 900;
+  color: var(--main-green);
+  margin: 0;
+  line-height: 1.15;
+  text-transform: uppercase;
+}
+
+/* Texto descritivo */
+.modal__text {
+  font-family: var(--font-family);
+  font-size: 1.05rem;
+  font-weight: 500;
+  color: var(--white);
+  line-height: 1.45;
+  margin: 0;
+  max-width: 360px;
+}
+
+/* Botão em formato de Pílula */
+.modal__actions {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: 0.5rem;
+}
+
+.modal__btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-family);
+  font-size: 1.1rem;
+  font-weight: 700;
+  padding: 0.85rem 3rem;
+  border-radius: 50px;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.modal__btn--primary {
+  background-color: var(--main-green);
+  color: var(--main-black);
+}
+
+.modal__btn:hover {
+  transform: translateY(-2px);
+  opacity: 0.92;
+}
+
+/* Adaptativo para telas pequenas */
+@media (max-width: 480px) {
+  .modal__card {
+    padding: 2rem 1.5rem;
+    border-radius: 24px;
+  }
+
+  .modal__btn {
+    width: 100%;
+  }
+}
+
+========================================
+ARQUIVO: ./src/components/modal/modal.ts
+========================================
+
+import modalHtml from "./modal.html?raw";
+import "./modal.css";
+
+export interface ModalOpcoes {
+  titulo?: string;
+  mensagem: string;
+  botaoTexto?: string;
+  aoConfirmar?: () => void;
+}
+
+let modalInjetado = false;
+
+/**
+ * Injeta a estrutura HTML do modal no DOM se ainda não existir.
+ */
+function garantirModalNoDom(): void {
+  if (modalInjetado || document.getElementById("modal-container")) return;
+
+  const wrapper = document.createElement("div");
+  wrapper.innerHTML = modalHtml;
+  document.body.appendChild(wrapper.firstElementChild!);
+  modalInjetado = true;
+}
+
+/**
+ * Exibe o popup com mensagem e configurações customizadas.
+ */
+export function abrirModal(opcoes: ModalOpcoes): void {
+  garantirModalNoDom();
+
+  const modal = document.getElementById("modal-container");
+  const overlay = document.getElementById("modal-overlay");
+  const closeBtn = document.getElementById("modal-close");
+  const confirmBtn = document.getElementById("modal-confirm-btn") as HTMLButtonElement | null;
+  const titleEl = document.getElementById("modal-title");
+  const messageEl = document.getElementById("modal-message");
+
+  if (!modal || !messageEl) return;
+
+  // Atualiza textos
+  if (titleEl) titleEl.textContent = opcoes.titulo || "Aviso";
+  messageEl.textContent = opcoes.mensagem;
+  if (confirmBtn) confirmBtn.textContent = opcoes.botaoTexto || "Entendi";
+
+  const fechar = () => {
+    modal.classList.remove("modal--open");
+    modal.setAttribute("aria-hidden", "true");
+    setTimeout(() => {
+      modal.hidden = true;
+    }, 250);
+  };
+
+  // Eventos de fechar
+  overlay?.addEventListener("click", fechar, { once: true });
+  closeBtn?.addEventListener("click", fechar, { once: true });
+
+  if (confirmBtn) {
+    confirmBtn.onclick = () => {
+      fechar();
+      if (opcoes.aoConfirmar) opcoes.aoConfirmar();
+    };
+  }
+
+  // Exibe com animação
+  modal.hidden = false;
+  requestAnimationFrame(() => {
+    modal.classList.add("modal--open");
+    modal.setAttribute("aria-hidden", "false");
+    confirmBtn?.focus();
+  });
+}
+
+/**
+ * Checa os parâmetros da URL para disparar o popup automaticamente
+ * caso venha do redirecionamento de autenticação (ex: ?redirect=... ou ?aviso=login).
+ */
+export function checarAvisoLoginNaUrl(): void {
+  const params = new URLSearchParams(window.location.search);
+  
+  if (params.has("redirect") || params.get("aviso") === "login") {
+    abrirModal({
+      titulo: "Atenção",
+      mensagem: "Você precisa estar logado para realizar essa ação",
+      botaoTexto: "Fazer login",
     });
+  }
 }
-
-async function init(): Promise<void> {
-  renderFooter();
-  await renderNavbar();   // espera a sessão do usuário
-  markActiveLink();       // só depois, com os links já na tela
-}
-
-init();
-
 
 ========================================
-ARQUIVO: .\src\components\footer\footer.css
+ARQUIVO: ./src/components/modal/modal.html
+========================================
+
+<div class="modal" id="modal-container" role="dialog" aria-modal="true" aria-hidden="true" hidden>
+  <div class="modal__overlay" id="modal-overlay"></div>
+  
+  <div class="modal__card">
+    <button type="button" class="modal__close" id="modal-close" aria-label="Fechar mensagem">&times;</button>
+    
+    <div class="modal__icon-wrapper">
+      <!-- Ícone de aviso em estrela roxa/verde no estilo RYTH -->
+      <svg class="modal__icon" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z" />
+      </svg>
+    </div>
+
+    <h2 class="modal__title" id="modal-title">Aviso</h2>
+    <p class="modal__text" id="modal-message">Você precisa estar logado para realizar essa ação</p>
+
+    <div class="modal__actions">
+      <button type="button" class="modal__btn modal__btn--primary" id="modal-confirm-btn">Entendi</button>
+    </div>
+  </div>
+</div>
+
+========================================
+ARQUIVO: ./src/components/footer/footer.html
+========================================
+
+<footer class="footer">
+    <div class="footer__brand">
+      <img src="" alt="RYTH" class="footer__logo" id="footer-logo" />
+      <span class="footer__wordmark">RYTH</span>
+      
+  </div>
+  
+    <p class="footer__text">
+      A RYTH conecta dança, música e mercado para transformar talento em
+      oportunidade real. Acompanhe nossas redes sociais e faça parte de uma
+      comunidade que valoriza a criatividade, a autoria e o desenvolvimento
+      de novos talentos.
+    </p>
+  
+    <div class="footer__social">
+      <a
+      href="https://www.instagram.com/ryth.app?psln=MW43ZWxjaHJhdzI3NQ=="
+      class="footer__social-icon"
+      aria-label="Instagram"
+      target="_blank"
+      rel="noopener noreferrer">
+        <img src="/src/assets/icons/instagram-icon.svg" alt="" width="24" height="24">
+      </a>
+
+      <a href="#" class="footer__social-icon" aria-label="TikTok">
+        <img src="/src/assets/icons/tiktok-icon.svg" alt="" width="24" height="24">
+      </a>
+    </div>
+    
+      </a>
+  </div>
+  </footer>
+
+========================================
+ARQUIVO: ./src/components/footer/footer.css
 ========================================
 
 body {
@@ -644,37 +992,7 @@ main {
 
 
 ========================================
-ARQUIVO: .\src\components\footer\footer.html
-========================================
-
-<footer class="footer">
-    <div class="footer__brand">
-      <img src="" alt="RYTH" class="footer__logo" id="footer-logo" />
-      <span class="footer__wordmark">RYTH</span>
-      
-  </div>
-  
-    <p class="footer__text">
-      A RYTH conecta dança, música e mercado para transformar talento em
-      oportunidade real. Acompanhe nossas redes sociais e faça parte de uma
-      comunidade que valoriza a criatividade, a autoria e o desenvolvimento
-      de novos talentos.
-    </p>
-  
-    <div class="footer__social">
-      <a href="#" class="footer__social-icon" aria-label="Instagram">
-        <img src="/src/assets/icons/instagram-icon.svg" alt="" width="24" height="24">
-      </a>
-      <a href="#" class="footer__social-icon" aria-label="TikTok">
-        <img src="/src/assets/icons/tiktok-icon.svg" alt="" width="24" height="24">
-      </a>
-    </div>
-      </a>
-  </div>
-  </footer>
-
-========================================
-ARQUIVO: .\src\components\footer\footer.ts
+ARQUIVO: ./src/components/footer/footer.ts
 ========================================
 
 import logoUrl from "../../assets/icons/ryth-logo.svg";
@@ -695,25 +1013,93 @@ export function renderFooter(rootSelector: string = "#footer-root"): void {
 }
 
 ========================================
-ARQUIVO: .\src\components\modal\modal.css
+ARQUIVO: ./src/components/faq/faq.ts
 ========================================
 
+import { cmsFetch } from "../../services/cms";
 
+type FaqItem = { pergunta: string; resposta: string };
+
+export async function renderizarFAQ(): Promise<void> {
+  const faqContainer = document.querySelector<HTMLElement>('.faq__list');
+  if (!faqContainer) return;
+
+  // Só busca os campos necessários e define a ordem
+  const faqs = await cmsFetch<FaqItem[]>(
+    `*[_type == "faq"] | order(_createdAt asc){ pergunta, resposta }`
+  );
+
+  // Se o Sanity falhar ou vier vazio, o HTML padrão da página permanece
+  if (!faqs) return;
+
+  faqContainer.replaceChildren(
+    ...faqs.map((item) => {
+      const li = document.createElement('li');
+      li.className = 'faq__item';
+
+      const h3 = document.createElement('h3');
+      h3.className = 'faq__question';
+      h3.textContent = item.pergunta;
+
+      const p = document.createElement('p');
+      p.className = 'faq__answer';
+      p.textContent = item.resposta;
+
+      li.append(h3, p);
+      return li;
+    })
+  );
+}
 
 ========================================
-ARQUIVO: .\src\components\modal\modal.html
+ARQUIVO: ./src/components/navbar/navbar.ts
 ========================================
 
+import logoUrl from "../../assets/icons/ryth-logo.svg";
+import navbarHtml from "./navbar.html?raw";
+import { usuarioAtual } from "../../services/auth";
+import { ROTAS } from "../../config/routes";
 
+export async function renderNavbar(rootSelector: string = "#navbar-root"): Promise<void> {
+  const root = document.querySelector(rootSelector);
+  if (!root) return;
+
+  // Injeta o template HTML na página
+  root.innerHTML = navbarHtml;
+
+  // Injeta a logo
+  const logoImage = root.querySelector<HTMLImageElement>("#navbar-logo");
+  if (logoImage) {
+    logoImage.src = logoUrl;
+  }
+
+  // Vincula a marca/logo à Home
+  const brandLink = root.querySelector<HTMLAnchorElement>(".navbar__brand");
+  if (brandLink) brandLink.href = ROTAS.home;
+
+  // Vincula os links de navegação estáticos
+  const contratacaoLink = root.querySelector<HTMLAnchorElement>('a[href*="contratacao"]');
+  if (contratacaoLink) contratacaoLink.href = ROTAS.contratacao;
+
+  const competicoesLink = root.querySelector<HTMLAnchorElement>('a[href*="competicoes"]');
+  if (competicoesLink) competicoesLink.href = ROTAS.competicoes;
+
+  // Vincula o botão de conta (Login ou Perfil de acordo com a sessão)
+  const contaLink = root.querySelector<HTMLAnchorElement>("#navbar-account");
+  if (contaLink) {
+    try {
+      const usuario = await usuarioAtual();
+      contaLink.textContent = usuario ? "Perfil" : "Login";
+      contaLink.href = usuario ? ROTAS.perfil : ROTAS.login;
+    } catch {
+      contaLink.textContent = "Login";
+      contaLink.href = ROTAS.login;
+    }
+  }
+}
 
 ========================================
-ARQUIVO: .\src\components\modal\modal.ts
-========================================
-
-
-
-========================================
-ARQUIVO: .\src\components\navbar\navbar.css
+ARQUIVO: ./src/components/navbar/navbar.css
 ========================================
 
 .navbar {
@@ -824,7 +1210,7 @@ ARQUIVO: .\src\components\navbar\navbar.css
 }
 
 ========================================
-ARQUIVO: .\src\components\navbar\navbar.html
+ARQUIVO: ./src/components/navbar/navbar.html
 ========================================
 
 <nav class="navbar">
@@ -851,93 +1237,2134 @@ ARQUIVO: .\src\components\navbar\navbar.html
   </nav>
 
 ========================================
-ARQUIVO: .\src\components\navbar\navbar.ts
+ARQUIVO: ./src/services/cms.ts
 ========================================
 
-import logoUrl from "../../assets/icons/ryth-logo.svg";
-import navbarHtml from "./navbar.html?raw";
+// src/services/cms.ts
+import { sanityClient, urlFor } from './sanity'
+
+// Retorna null em qualquer falha ou resultado vazio → o HTML padrão permanece
+export async function cmsFetch<T = Record<string, any>>(
+  query: string,
+  params: Record<string, unknown> = {}
+): Promise<T | null> {
+  if (!sanityClient) return null
+  try {
+    const data = await sanityClient.fetch<T>(query, params)
+    if (data == null || (Array.isArray(data) && data.length === 0)) return null
+    return data
+  } catch (err) {
+    console.error('[CMS]', err)
+    return null
+  }
+}
+
+// Preenche o HTML com os dados:
+//   data-cms="campo"                → textContent
+//   data-cms="campo" data-cms-attr="href" → atributo
+//   data-cms-img="campo"            → <img src> a partir de uma imagem do Sanity
+//   data-cms-list="campo" + <template> → lista repetida
+export function applyCms(root: ParentNode, data: Record<string, any>): void {
+  root.querySelectorAll<HTMLElement>('[data-cms]').forEach((el) => {
+    const value = data[el.dataset.cms!]
+    if (typeof value !== 'string') return
+    const attr = el.dataset.cmsAttr
+    if (attr) el.setAttribute(attr, value)
+    else el.textContent = value // textContent evita injeção de HTML
+  })
+
+  root.querySelectorAll<HTMLImageElement>('[data-cms-img]').forEach((img) => {
+    const src = urlFor(data[img.dataset.cmsImg!])
+    if (src) img.src = src
+  })
+
+  root.querySelectorAll<HTMLElement>('[data-cms-list]').forEach((container) => {
+    const items = data[container.dataset.cmsList!]
+    const tpl = container.querySelector('template')
+    if (!Array.isArray(items) || items.length === 0 || !tpl) return
+
+    Array.from(container.children).forEach((c) => c !== tpl && c.remove())
+    items.forEach((item) => {
+      const node = tpl.content.cloneNode(true) as DocumentFragment
+      applyCms(node, item)
+      container.appendChild(node)
+    })
+  })
+}
+
+========================================
+ARQUIVO: ./src/services/erros.ts
+========================================
+
+export const SENHA_MIN = 8;
+
+// Requisitos de senha: a lista alimenta a validação E o texto de ajuda.
+// Para exigir mais (letra, número...), é só adicionar um item aqui.
+export const REQUISITOS_SENHA = [
+  { texto: `ter pelo menos ${SENHA_MIN} caracteres`, ok: (s: string) => s.length >= SENHA_MIN },
+  // { texto: "ter pelo menos um número", ok: (s: string) => /\d/.test(s) },
+  // { texto: "ter pelo menos uma letra", ok: (s: string) => /[A-Za-z]/.test(s) },
+];
+
+export function textoRequisitosSenha(): string {
+  return `A senha precisa ${REQUISITOS_SENHA.map((r) => r.texto).join(", ")}.`;
+}
+
+export function validarEmail(email: string): string | null {
+  if (!email) return "Informe seu e-mail.";
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) {
+    return "Esse e-mail não parece válido. Use o formato nome@exemplo.com.";
+  }
+  return null;
+}
+
+export function validarSenhaCadastro(senha: string): string | null {
+  if (!senha) return "Crie uma senha.";
+  const faltando = REQUISITOS_SENHA.filter((r) => !r.ok(senha)).map((r) => r.texto);
+  return faltando.length ? `A senha precisa ${faltando.join(" e ")}.` : null;
+}
+
+const MENSAGENS_POR_CODIGO: Record<string, string> = {
+  invalid_credentials: "E-mail ou senha incorretos. Confira os dados e tente de novo.",
+  email_not_confirmed: "Você ainda não confirmou seu e-mail. Procure o código na sua caixa de entrada (e no spam).",
+  user_already_exists: "Este e-mail já está cadastrado. Tente fazer login.",
+  email_exists: "Este e-mail já está cadastrado. Tente fazer login.",
+  weak_password: textoRequisitosSenha(),
+  email_address_invalid: "Esse e-mail não é aceito. Verifique se digitou corretamente.",
+  signup_disabled: "Os cadastros estão temporariamente desativados.",
+  over_request_rate_limit: "Muitas tentativas seguidas. Aguarde alguns minutos e tente de novo.",
+  over_email_send_rate_limit: "Muitos e-mails enviados. Aguarde alguns minutos antes de pedir outro código.",
+  otp_expired: "Código inválido ou expirado. Peça um novo código.",
+  user_not_found: "Não encontramos uma conta com esse e-mail.",
+  same_password: "A nova senha precisa ser diferente da atual.",
+};
+
+export function traduzirErroAuth(err: unknown): string {
+  const e = err as { code?: string; message?: string; status?: number } | null;
+
+  if (e?.code && MENSAGENS_POR_CODIGO[e.code]) return MENSAGENS_POR_CODIGO[e.code];
+
+  // Fallback por texto (versões antigas do supabase-js não enviam "code")
+  const msg = (e?.message ?? "").toLowerCase();
+  if (msg.includes("invalid login credentials")) return MENSAGENS_POR_CODIGO.invalid_credentials;
+  if (msg.includes("email not confirmed")) return MENSAGENS_POR_CODIGO.email_not_confirmed;
+  if (msg.includes("already registered")) return MENSAGENS_POR_CODIGO.user_already_exists;
+  if (msg.includes("password should be")) return textoRequisitosSenha();
+  if (msg.includes("rate limit") || e?.status === 429) return MENSAGENS_POR_CODIGO.over_request_rate_limit;
+  if (msg.includes("token has expired") || msg.includes("invalid token")) return MENSAGENS_POR_CODIGO.otp_expired;
+  if (msg.includes("failed to fetch") || msg.includes("network")) {
+    return "Não foi possível conectar. Verifique sua internet e tente novamente.";
+  }
+
+  return "Algo deu errado. Tente novamente em instantes.";
+}
+
+========================================
+ARQUIVO: ./src/services/supabase.ts
+========================================
+
+import { createClient, type SupabaseClient } from "@supabase/supabase-js";
+
+
+const url = import.meta.env.VITE_SUPABASE_URL as string | undefined;
+const key = import.meta.env.VITE_SUPABASE_ANON_KEY as string | undefined;
+
+export const supabase: SupabaseClient | null =
+  url && key ? createClient(url, key) : null;
+
+if (!supabase) {
+  console.warn("[Supabase] Variáveis de ambiente ausentes: login indisponível.");
+}
+
+========================================
+ARQUIVO: ./src/services/sanity.ts
+========================================
+
+// src/services/sanity.ts
+import { createClient } from '@sanity/client'
+import imageUrlBuilder from '@sanity/image-url'
+
+const projectId = import.meta.env.VITE_SANITY_PROJECT_ID
+const dataset = import.meta.env.VITE_SANITY_DATASET || 'production'
+
+if (!projectId) {
+  console.warn('[Sanity] VITE_SANITY_PROJECT_ID ausente: o site usará o conteúdo padrão do HTML.')
+}
+
+// null se não houver projectId, em vez de quebrar a importação
+export const sanityClient = projectId
+  ? createClient({
+      projectId,
+      dataset,
+      useCdn: true, // requisições rápidas via CDN
+      apiVersion: '2024-01-01',
+    })
+  : null
+
+const builder = sanityClient ? imageUrlBuilder(sanityClient) : null
+
+// Gera URLs das imagens cadastradas no Sanity (retorna '' se o Sanity não estiver configurado)
+export function urlFor(source: any): string {
+  return builder && source ? builder.image(source).auto('format').url() : ''
+}
+
+========================================
+ARQUIVO: ./src/services/auth.ts
+========================================
+
+import { supabase } from "./supabase";
+import { traduzirErroAuth } from "./erros";
+import { ROTAS } from "../config/routes";
+
+export interface Usuario {
+  id?: string;
+  email: string;
+}
+
+/**
+ * Retorna o usuário logado (via Supabase ou localStorage de teste)
+ */
+export async function usuarioAtual(): Promise<Usuario | null> {
+  // 1. Sessão ativa no Supabase
+  if (supabase) {
+    const { data: { session } } = await supabase.auth.getSession();
+    if (session?.user?.email) {
+      return { id: session.user.id, email: session.user.email };
+    }
+    return null;
+  }
+
+  // 2. Fallback para modo de teste local (só quando o Supabase não está configurado)
+  const usuarioTeste = localStorage.getItem("usuario-teste");
+  return usuarioTeste ? JSON.parse(usuarioTeste) : null;
+}
+
+/**
+ * Realiza o login com e-mail e senha
+ */
+export async function fazerLogin(email: string, senha: string): Promise<Usuario> {
+  if (supabase) {
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email,
+      password: senha,
+    });
+
+    if (error) {
+      throw new Error(traduzirErroAuth(error));
+    }
+
+    if (data.user?.email) {
+      return { id: data.user.id, email: data.user.email };
+    }
+
+    throw new Error("Não foi possível obter os dados do usuário.");
+  }
+
+  // Fallback de teste caso o Supabase não esteja conectado
+  if (email && senha.length >= 6) {
+    const usuarioFake: Usuario = { id: "dev-123", email };
+    localStorage.setItem("usuario-teste", JSON.stringify(usuarioFake));
+    return usuarioFake;
+  }
+
+  throw new Error("E-mail ou senha incorretos.");
+}
+
+/**
+ * Cria uma conta nova com e-mail e senha
+ */
+export async function fazerCadastro(
+  email: string,
+  senha: string
+): Promise<{ precisaConfirmar: boolean }> {
+  if (!supabase) {
+    throw new Error("Cadastro indisponível: o Supabase não está configurado.");
+  }
+
+  const { data, error } = await supabase.auth.signUp({
+    email,
+    password: senha,
+    options: { emailRedirectTo: `${window.location.origin}${ROTAS.perfil}` },
+  });
+
+  if (error) {
+    throw new Error(traduzirErroAuth(error));
+  }
+
+  // E-mail já cadastrado: o Supabase não devolve erro, mas retorna identities vazio
+  if (data.user && data.user.identities?.length === 0) {
+    throw new Error("Este e-mail já está cadastrado. Tente fazer login.");
+  }
+
+  // Sem sessão = o Supabase está exigindo confirmação por e-mail
+  return { precisaConfirmar: !data.session };
+}
+
+/**
+ * Confirma o e-mail do novo usuário com o código recebido
+ */
+export async function confirmarCodigo(email: string, codigo: string): Promise<void> {
+  if (!supabase) {
+    throw new Error("Supabase não está configurado.");
+  }
+
+  const { error } = await supabase.auth.verifyOtp({
+    email,
+    token: codigo.trim(),
+    type: "signup",
+  });
+
+  if (error) {
+    throw new Error(traduzirErroAuth(error));
+  }
+}
+
+/**
+ * Reenvia o código de confirmação para o e-mail
+ */
+export async function reenviarCodigo(email: string): Promise<void> {
+  if (!supabase) {
+    throw new Error("Supabase não está configurado.");
+  }
+
+  const { error } = await supabase.auth.resend({ type: "signup", email });
+
+  if (error) {
+    throw new Error(traduzirErroAuth(error));
+  }
+}
+
+/**
+ * Encerra a sessão do usuário
+ */
+export async function fazerLogout(): Promise<void> {
+  if (supabase) {
+    await supabase.auth.signOut();
+  }
+  localStorage.removeItem("usuario-teste");
+}
+
+========================================
+ARQUIVO: ./src/assets/fonts/monumentextended-ultrabold.otf
+========================================
+
+[Arquivo não lido ou binário]
+
+
+========================================
+ARQUIVO: ./src/assets/fonts/monumentextended-regular.otf
+========================================
+
+[Arquivo não lido ou binário]
+
+
+========================================
+ARQUIVO: ./src/styles/global.css
+========================================
+
+body {
+    font-family: var(--font-family);
+    background-color: var(--main-white);
+    color: var(--main-black);
+  }
+
+  html, body {
+  margin: 0;
+  width: 100%;
+  overflow-x: hidden;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+  
+
+========================================
+ARQUIVO: ./src/styles/variables.css
+========================================
+
+@import url('https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@300;400;500;600;700;800;900&display=swap');
+
+@font-face {
+    font-family: 'Monument Extended';
+    src: url('../assets/fonts/monumentextended-regular.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+:root {
+    --black: #000000;
+    --white: #ffffff;
+
+    --main-white: #F8F8FB;
+    --main-black: #060A27;
+    --main-purple: #7728D9;
+    --main-green: #C5F339;
+  
+    --font-family: 'Red Hat Display', sans-serif;
+    --font-monument: 'Monument Extended', sans-serif;
+  }
+  
+
+========================================
+ARQUIVO: ./src/styles/reset.css
+========================================
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+
+========================================
+ARQUIVO: ./src/config/routes.ts
+========================================
+
+export const ROTAS = {
+  home: '/index.html',
+  login: '/src/pages/login/login.html',
+  perfil: '/src/pages/perfil/perfil.html',
+  edicao: '/src/pages/perfil/edicao.html',
+  competicoes: '/src/pages/competicoes/competicoes.html',
+  competicao: '/src/pages/competicoes/competicao.html',
+  inscricao: '/src/pages/competicoes/inscricao.html',
+  contratacao: '/src/pages/contratacao/contratacao.html',
+};
+
+========================================
+ARQUIVO: ./src/pages/contratacao/contratacao.html
+========================================
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RYTH - Contratação</title>
+  
+  <!-- Oculta o HTML bruto sem criar nenhum loader visual -->
+  <style>
+    html { visibility: hidden; }
+    html.ready { visibility: visible; }
+  </style>
+  <link rel="stylesheet" href="/src/styles/global.css" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <script type="module" src="/src/pages/contratacao/contratacao.ts"></script>
+  <script type="module" src="/src/main.ts"></script>
+</head>
+<body>
+
+  <!-- ===================== NAVBAR (componente global) ===================== -->
+  <div id="navbar-root"></div>
+
+  <main class="main">
+    <section class="contratacao">
+      <header class="contratacao__header">
+        <h1 class="contratacao__title">Como funciona?</h1>
+        <p class="contratacao__intro">
+          A RYTH aproxima talentos, artistas, marcas e produtores em um ambiente
+          criado para gerar oportunidades reais. Escolha a forma de participação
+          que melhor atende ao seu objetivo e faça parte de um ecossistema que
+          conecta criatividade, visibilidade e mercado.
+        </p>
+      </header>
+
+      <div class="contratacao__cards">
+        <!-- Card Parcerias -->
+        <article class="contratacao__card contratacao__card--green">
+          <h2 class="contratacao__card-title contratacao__card-title--purple">Parcerias</h2>
+          <p class="contratacao__card-text contratacao__card-text--dark">
+            Desenvolva ações com a RYTH e conecte sua marca, projeto ou iniciativa
+            a uma comunidade que valoriza a criatividade e impulsiona novos
+            talentos. Juntos, criamos experiências que fortalecem a dança, a
+            música e todo o ecossistema criativo.
+          </p>
+          <a href="#" class="contratacao__cta contratacao__cta--purple">Quero ser parceiro</a>
+        </article>
+
+        <!-- Card Músicas -->
+        <article class="contratacao__card contratacao__card--purple">
+          <h2 class="contratacao__card-title contratacao__card-title--green">Músicas</h2>
+          <p class="contratacao__card-text contratacao__card-text--light">
+            Divulgue suas músicas por meio de desafios de dança e alcance novos
+            públicos de forma autêntica. Na RYTH, cada coreografia amplia o
+            potencial de conexão entre artistas, comunidade e mercado.
+          </p>
+          <a href="/src/pages/contratacao/musicas.html" class="contratacao__cta contratacao__cta--green">Cadastrar música</a>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <!-- ===================== FOOTER (componente global) ===================== -->
+  <div id="footer-root"></div>
+
+</body>
+</html>
+
+========================================
+ARQUIVO: ./src/pages/contratacao/musicas.css
+========================================
+
+/* ==========================================================================
+   PÁGINA MÚSICAS - DESIGN SYSTEM RYTH
+   ========================================================================== */
+
+.musicas-page {
+  background-color: var(--main-white);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.musicas {
+  flex: 1;
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 3.5rem 1.5rem 5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3.5rem;
+}
+
+/* ===================== CABEÇALHO ===================== */
+.musicas__header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 1.25rem;
+  max-width: 900px;
+}
+
+.musicas__title {
+  font-family: var(--font-monument, sans-serif);
+  font-size: clamp(2.2rem, 5vw, 3.5rem);
+  font-weight: 900;
+  color: var(--main-black);
+  line-height: 1.05;
+  margin: 0;
+  text-transform: uppercase;
+}
+
+.musicas__subtitle {
+  font-family: var(--font-family);
+  font-size: clamp(1rem, 1.8vw, 1.15rem);
+  line-height: 1.5;
+  color: var(--main-black);
+  margin: 0;
+}
+
+/* ===================== GRID DE CARDS ===================== */
+.musicas__grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem;
+  width: 100%;
+}
+
+.musicas__card {
+  background-color: var(--white);
+  border: 3px solid var(--main-green);
+  border-radius: 28px;
+  padding: 2.2rem 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  position: relative;
+  text-align: left;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+}
+
+.musicas__icon {
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  width: 24px;
+  height: 24px;
+  color: var(--main-purple);
+}
+
+.musicas__card-title {
+  font-family: var(--font-monument, sans-serif);
+  font-size: clamp(1.4rem, 2.5vw, 1.8rem);
+  font-weight: 900;
+  color: var(--main-purple);
+  margin: 0;
+}
+
+.musicas__card-text {
+  font-family: var(--font-family);
+  font-size: 1rem;
+  line-height: 1.5;
+  color: var(--main-black);
+  margin: 0;
+}
+
+/* ===================== BOTÃO AÇÃO ===================== */
+.musicas__actions {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.musicas__btn {
+  background-color: var(--main-purple);
+  color: var(--white);
+  font-family: var(--font-family);
+  font-size: 1.25rem;
+  font-weight: 700;
+  padding: 1rem 4rem;
+  border-radius: 50px;
+  border: none;
+  cursor: pointer;
+  text-transform: lowercase;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.musicas__btn:hover {
+  transform: translateY(-2px);
+  opacity: 0.92;
+}
+
+/* ===================== RESPONSIVIDADE ===================== */
+@media (max-width: 768px) {
+  .musicas {
+    padding: 2.5rem 1.25rem 3.5rem;
+    gap: 2.5rem;
+  }
+
+  .musicas__grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .musicas__card {
+    padding: 1.8rem 1.5rem;
+    border-radius: 22px;
+  }
+
+  .musicas__btn {
+    width: 100%;
+    max-width: 320px;
+  }
+}
+
+========================================
+ARQUIVO: ./src/pages/contratacao/musicas.html
+========================================
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RYTH - Músicas</title>
+
+  <!-- Prevenção limpa contra flickering no frame 0 -->
+  <style>
+    html { visibility: hidden; }
+    html.ready { visibility: visible; }
+  </style>
+
+  <link rel="stylesheet" href="/src/styles/global.css" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <script type="module" src="./musicas.ts"></script>
+  <script type="module" src="/src/main.ts"></script>
+</head>
+<body class="musicas-page">
+
+  <!-- NAVBAR GLOBAL -->
+  <header id="navbar-root"></header>
+
+  <main class="musicas">
+    <!-- CABEÇALHO -->
+    <header class="musicas__header">
+      <h1 class="musicas__title">MÚSICAS</h1>
+      <p class="musicas__subtitle">
+        Transforme sua música em um convite à criatividade. Cadastre sua faixa para os desafios da RYTH e permita que dançarinos e criadores levem seu trabalho ainda mais longe, conectando música, movimento e novas oportunidades.
+      </p>
+    </header>
+
+    <!-- GRID DOS 4 PILARES -->
+    <section class="musicas__grid" aria-label="Benefícios para artistas">
+      <!-- Card 1: Alcance -->
+      <article class="musicas__card">
+        <svg class="musicas__icon" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z" />
+        </svg>
+        <h2 class="musicas__card-title">Alcance</h2>
+        <p class="musicas__card-text">
+          Na RYTH, seu som chega em quem ama dançar de verdade. São pessoas que vão escutar, amar e promover o seu trabalho, tudo de forma orgânica.
+        </p>
+      </article>
+
+      <!-- Card 2: Cultura -->
+      <article class="musicas__card">
+        <svg class="musicas__icon" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z" />
+        </svg>
+        <h2 class="musicas__card-title">Cultura</h2>
+        <p class="musicas__card-text">
+          Faça parte da comunidade como música e aumente a presença da marca no cotidiano do público. Estar nesses pequenos espaços e momentos é o que difere músicas boas de músicas virais.
+        </p>
+      </article>
+
+      <!-- Card 3: Tendências -->
+      <article class="musicas__card">
+        <svg class="musicas__icon" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z" />
+        </svg>
+        <h2 class="musicas__card-title">Tendências</h2>
+        <p class="musicas__card-text">
+          A RYTH é a mais nova camada do mercado de músicas e hits. Para artistas, saber se comunicar com o público é essencial para entender como se inserir nas tendências e criar conexão.
+        </p>
+      </article>
+
+      <!-- Card 4: Conexão -->
+      <article class="musicas__card">
+        <svg class="musicas__icon" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z" />
+        </svg>
+        <h2 class="musicas__card-title">Conexão</h2>
+        <p class="musicas__card-text">
+          Ter sua música atrelada a uma dança faz diferentes públicos se conectarem através do movimento na RYTH, impulsionando sua visibilidade no processo.
+        </p>
+      </article>
+    </section>
+
+    <!-- BOTAO DE AÇÃO -->
+    <div class="musicas__actions">
+      <button type="button" class="musicas__btn" id="btn-cadastrar-musica">cadastrar música</button>
+    </div>
+  </main>
+
+  <!-- FOOTER GLOBAL -->
+  <footer id="footer-root"></footer>
+
+</body>
+</html>
+
+========================================
+ARQUIVO: ./src/pages/contratacao/contratacao.ts
+========================================
+
+import "./contratacao.css";
+
+========================================
+ARQUIVO: ./src/pages/contratacao/contratacao.css
+========================================
+
+.contratacao {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 4rem 2rem 5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+  background-color: var(--main-white);
+}
+
+/* Cabeçalho */
+.contratacao__header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  text-align: center;
+}
+
+.contratacao__title {
+  font-family: var(--font-monument, sans-serif);
+  font-size: clamp(2.2rem, 5vw, 3.5rem);
+  font-weight: 900;
+  color: var(--main-black);
+  line-height: 1.1;
+  margin: 0;
+}
+
+.contratacao__intro {
+  font-family: var(--font-family);
+  font-size: clamp(0.95rem, 1.6vw, 1.1rem);
+  line-height: 1.5;
+  color: var(--main-black);
+  max-width: 900px;
+  margin: 0;
+}
+
+/* Grid dos cards */
+.contratacao__cards {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem;
+  align-items: stretch;
+}
+
+.contratacao__card {
+  border-radius: 36px;
+  padding: 2.5rem 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 1.25rem;
+}
+
+.contratacao__card--green  { background-color: var(--main-green); }
+.contratacao__card--purple { background-color: var(--main-purple); }
+
+.contratacao__card-title {
+  font-family: var(--font-monument, sans-serif);
+  font-size: clamp(2rem, 3.5vw, 2.8rem);
+  font-weight: 900;
+  line-height: 1.1;
+  margin: 0;
+}
+
+.contratacao__card-title--purple { color: var(--main-purple); }
+.contratacao__card-title--green  { color: var(--main-green); }
+
+.contratacao__card-text {
+  font-family: var(--font-family);
+  font-size: clamp(0.95rem, 1.5vw, 1.05rem);
+  line-height: 1.45;
+  margin: 0;
+  flex: 1; /* empurra o botão para o fim, alinhando os dois cards */
+}
+
+.contratacao__card-text--dark  { color: var(--main-black); }
+.contratacao__card-text--light { color: var(--white); }
+
+/* Botões pílula */
+.contratacao__cta {
+  display: inline-block;
+  width: 100%;
+  box-sizing: border-box;
+  font-family: var(--font-family);
+  font-size: 1.15rem;
+  font-weight: 700;
+  padding: 0.9rem 2rem;
+  border-radius: 50px;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.contratacao__cta--purple {
+  background-color: var(--main-purple);
+  color: var(--white);
+}
+
+.contratacao__cta--green {
+  background-color: var(--main-green);
+  color: var(--main-black);
+}
+
+.contratacao__cta:hover {
+  transform: translateY(-2px);
+  opacity: 0.9;
+}
+
+/* Celular */
+@media (max-width: 768px) {
+  .contratacao {
+    padding: 2.5rem 1.25rem 3rem;
+    gap: 2rem;
+  }
+
+  .contratacao__cards {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .contratacao__card {
+    padding: 2rem 1.5rem;
+    border-radius: 24px;
+  }
+}
+
+========================================
+ARQUIVO: ./src/pages/contratacao/musicas.ts
+========================================
+
+import "./musicas.css";
+import { abrirModal } from "../../components/modal/modal";
+
+function inicializarAcaoCadastrar(): void {
+  const btn = document.getElementById("btn-cadastrar-musica");
+  if (!btn) return;
+
+  btn.addEventListener("click", () => {
+    abrirModal({
+      titulo: "Cadastro de Música",
+      mensagem: "Em breve você poderá enviar suas faixas diretamente pela plataforma! Entre em contato com a equipe RYTH para parcerias antecipadas.",
+      botaoTexto: "Entendi",
+    });
+  });
+}
+
+function init(): void {
+  inicializarAcaoCadastrar();
+}
+
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", init);
+} else {
+  init();
+}
+
+========================================
+ARQUIVO: ./src/pages/perfil/edicao.html
+========================================
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RYTH - Editar Perfil</title>
+
+  <!-- Oculta o HTML bruto sem criar nenhum loader visual -->
+  <style>
+    html { visibility: hidden; }
+    html.ready { visibility: visible; }
+  </style>
+  <link rel="stylesheet" href="/src/styles/global.css" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <script type="module" src="/src/pages/perfil/edicao.ts"></script>
+  <script type="module" src="/src/main.ts"></script>
+</head>
+<body>
+
+  <!-- ===================== NAVBAR (componente global) ===================== -->
+  <div id="navbar-root"></div>
+
+  <main class="edit-page">
+    <section class="edit">
+      <div class="edit__container">
+
+        <!-- Botão voltar -->
+        <a href="/src/pages/perfil/perfil.html" class="edit__back" id="btn-voltar">
+          <svg class="edit__back-icon" viewBox="0 0 24 24" width="20" height="20" fill="none"
+               stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
+               aria-hidden="true">
+            <polyline points="15 18 9 12 15 6"></polyline>
+          </svg>
+          voltar
+        </a>
+
+        <form class="edit__form" id="form-edicao" novalidate>
+
+          <!-- Fotos: perfil + capa -->
+          <div class="edit__media">
+            <div class="edit__media-item edit__media-item--avatar">
+              <div class="edit__avatar" id="avatar-preview">
+                <span id="avatar-placeholder">foto de perfil</span>
+              </div>
+              <label class="edit__media-label" for="input-avatar">editar foto de perfil</label>
+              <input type="file" id="input-avatar" class="edit__file" accept="image/*" />
+            </div>
+
+            <div class="edit__media-item edit__media-item--cover">
+              <div class="edit__cover" id="cover-preview"></div>
+              <label class="edit__media-label" for="input-cover">editar foto</label>
+              <input type="file" id="input-cover" class="edit__file" accept="image/*" />
+            </div>
+          </div>
+
+          <!-- Campos -->
+          <div class="edit__fields">
+
+            <div class="edit__field">
+              <label class="edit__field-label" for="campo-nome">nome de usuário:</label>
+              <input type="text" id="campo-nome" class="edit__input" maxlength="40" autocomplete="nickname" />
+            </div>
+
+            <div class="edit__field edit__field--multiline">
+              <label class="edit__field-label" for="campo-bio">bio:</label>
+              <textarea id="campo-bio" class="edit__input edit__input--textarea" rows="2" maxlength="300"></textarea>
+            </div>
+
+            <div class="edit__field edit__field--multiline">
+              <label class="edit__field-label" for="campo-estilos">estilos de dança:</label>
+              <textarea id="campo-estilos" class="edit__input edit__input--textarea" rows="2"
+                        placeholder="separe por vírgula. Ex.: Hip Hop, House, Waacking"></textarea>
+            </div>
+
+            <div class="edit__field edit__field--icon">
+              <img src="/src/assets/icons/white-instagram.svg" alt="Instagram" class="edit__field-icon" />
+              <label class="edit__field-label" for="campo-instagram">link:</label>
+              <input type="url" id="campo-instagram" class="edit__input"
+                     placeholder="https://www.instagram.com/seu.perfil" inputmode="url" />
+            </div>
+
+            <div class="edit__field edit__field--icon">
+              <img src="/src/assets/icons/white-tiktok.svg" alt="TikTok" class="edit__field-icon" />
+              <label class="edit__field-label" for="campo-tiktok">link:</label>
+              <input type="url" id="campo-tiktok" class="edit__input"
+                     placeholder="https://www.tiktok.com/@seu.perfil" inputmode="url" />
+            </div>
+
+          </div>
+
+          <p class="edit__erro" id="edit-erro" role="alert" hidden></p>
+
+          <button type="submit" class="edit__btn-salvar" id="btn-salvar">salvar</button>
+        </form>
+
+      </div>
+    </section>
+  </main>
+
+  <!-- ===================== FOOTER (componente global) ===================== -->
+  <div id="footer-root"></div>
+
+</body>
+</html>
+
+========================================
+ARQUIVO: ./src/pages/perfil/perfil.css
+========================================
+
+.profile-page {
+  background-color: var(--main-white);
+  min-height: calc(100vh - 160px);
+  padding: 3rem 1.5rem 5rem 1.5rem;
+}
+
+.profile {
+  width: 100%;
+  max-width: 820px;
+  margin: 0 auto;
+}
+
+.profile__container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2.5rem;
+  width: 100%;
+}
+
+/* --------------------------------------------------------------------------
+   1. HEADER: FOTO DE PERFIL + CAPA + REDES SOCIAIS
+   -------------------------------------------------------------------------- */
+.profile__header {
+  display: grid;
+  grid-template-columns: 140px 1fr;
+  gap: 2rem;
+  width: 100%;
+  align-items: start;
+}
+
+.profile__user {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.profile__avatar {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background-color: #828288;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 0.5rem;
+}
+
+.profile__avatar span {
+  font-family: var(--font-family);
+  font-size: 0.85rem;
+  color: var(--main-black);
+  font-weight: 500;
+}
+
+.profile__name {
+  font-family: var(--font-family);
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: var(--main-black);
+  margin: 0;
+  text-align: center;
+}
+
+.profile__cover-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.8rem;
+  width: 100%;
+}
+
+.profile__cover {
+  width: 100%;
+  height: 160px;
+  background-color: #828288;
+  border-radius: 28px;
+}
+
+.profile__socials {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.profile__social-link {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background-color: var(--main-purple);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.profile__social-link:hover {
+  transform: scale(1.1);
+  opacity: 0.9;
+}
+
+.profile__social-icon {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+}
+
+/* --------------------------------------------------------------------------
+   2. ESTATÍSTICAS E BIO (CARD VERDE + TEXTO)
+   -------------------------------------------------------------------------- */
+.profile__stats-section {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  gap: 2rem;
+  align-items: center;
+  width: 100%;
+}
+
+.profile__badge {
+  background-color: var(--main-green);
+  border-radius: 28px;
+  padding: 1.5rem 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.profile__badge-sub {
+  font-family: var(--font-family);
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--main-purple);
+}
+
+.profile__badge-count {
+  font-family: var(--font-monument, sans-serif);
+  font-size: 3rem;
+  font-weight: 900;
+  color: var(--main-purple);
+  line-height: 1;
+  margin: 0.2rem 0;
+}
+
+.profile__badge-title {
+  font-family: var(--font-family);
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: var(--main-purple);
+}
+
+.profile__description {
+  font-family: var(--font-family);
+  font-size: 1.05rem;
+  font-weight: 500;
+  color: var(--main-black);
+  line-height: 1.45;
+  margin: 0;
+}
+
+/* --------------------------------------------------------------------------
+   3. BARRA DE ABAS (PÍLULA ROXA)
+   -------------------------------------------------------------------------- */
+.profile__tabs {
+  width: 100%;
+  background-color: var(--main-purple);
+  border-radius: 50px;
+  padding: 0.6rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  gap: 0.5rem;
+}
+
+.profile__tab {
+  background: transparent;
+  border: none;
+  color: var(--main-green);
+  font-family: var(--font-family);
+  font-size: 1.05rem;
+  font-weight: 700;
+  padding: 0.6rem 1.2rem;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: background-color 0.2s ease, opacity 0.2s ease;
+}
+
+.profile__tab:hover,
+.profile__tab--active {
+  background-color: rgba(255, 255, 255, 0.15);
+}
+
+/* --------------------------------------------------------------------------
+   4. BOTÃO EDITAR
+   -------------------------------------------------------------------------- */
+.profile__btn-edit {
+  background-color: var(--main-black);
+  color: var(--main-green);
+  font-family: var(--font-family);
+  font-size: 1.25rem;
+  font-weight: 800;
+  padding: 0.8rem 4rem;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  text-transform: lowercase;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+  margin-top: 1rem;
+}
+
+.profile__btn-edit:hover {
+  transform: translateY(-2px);
+  opacity: 0.9;
+}
+
+/* --------------------------------------------------------------------------
+   5. RESPONSIVIDADE
+   -------------------------------------------------------------------------- */
+@media (max-width: 768px) {
+  .profile__header {
+    grid-template-columns: 1fr;
+    justify-items: center;
+  }
+
+  .profile__cover-container {
+    align-items: center;
+  }
+
+  .profile__cover {
+    height: 120px;
+  }
+
+  .profile__stats-section {
+    grid-template-columns: 1fr;
+    justify-items: center;
+    text-align: center;
+  }
+
+  .profile__badge {
+    width: 100%;
+    max-width: 260px;
+  }
+
+  .profile__tabs {
+    flex-wrap: wrap;
+    border-radius: 24px;
+  }
+
+  .profile__tab {
+    font-size: 0.9rem;
+    padding: 0.5rem 0.8rem;
+  }
+}
+
+========================================
+ARQUIVO: ./src/pages/perfil/edicao.css
+========================================
+
+.edit-page {
+  background-color: var(--main-white);
+  min-height: calc(100vh - 160px);
+  padding: 2rem 1.5rem 5rem 1.5rem;
+}
+
+.edit {
+  width: 100%;
+  max-width: 820px;
+  margin: 0 auto;
+}
+
+.edit__container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2rem;
+  width: 100%;
+}
+
+/* --------------------------------------------------------------------------
+   1. BOTÃO VOLTAR
+   -------------------------------------------------------------------------- */
+.edit__back {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: var(--main-black);
+  color: var(--main-purple);
+  font-family: var(--font-family);
+  font-size: 1.1rem;
+  font-weight: 500;
+  text-decoration: none;
+  padding: 0.7rem 1.6rem 0.7rem 1.2rem;
+  border-radius: 50px;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.edit__back:hover {
+  transform: translateX(-2px);
+  opacity: 0.9;
+}
+
+.edit__back-icon {
+  flex-shrink: 0;
+}
+
+/* --------------------------------------------------------------------------
+   2. FORMULÁRIO
+   -------------------------------------------------------------------------- */
+.edit__form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+  width: 100%;
+}
+
+/* --------------------------------------------------------------------------
+   3. FOTOS: PERFIL + CAPA
+   -------------------------------------------------------------------------- */
+.edit__media {
+  display: grid;
+  grid-template-columns: 140px 1fr;
+  gap: 1.5rem;
+  width: 100%;
+  align-items: start;
+}
+
+.edit__media-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.6rem;
+  min-width: 0;
+}
+
+.edit__avatar,
+.edit__cover {
+  background-color: #828288;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.edit__avatar {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 0.5rem;
+}
+
+.edit__avatar span {
+  font-family: var(--font-family);
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--main-black);
+}
+
+.edit__cover {
+  width: 100%;
+  height: 160px;
+  border-radius: 28px;
+}
+
+.edit__media-label {
+  font-family: var(--font-family);
+  font-size: 1.05rem;
+  font-weight: 500;
+  color: var(--main-black);
+  text-align: center;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+
+.edit__media-label:hover {
+  opacity: 0.7;
+}
+
+/* input de arquivo escondido (acionado pelo label) */
+.edit__file {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.edit__file:focus-visible + .edit__media-label,
+.edit__media-item:focus-within .edit__media-label {
+  text-decoration: underline;
+}
+
+/* --------------------------------------------------------------------------
+   4. CAMPOS (PÍLULAS ESCURAS)
+   -------------------------------------------------------------------------- */
+.edit__fields {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  width: 100%;
+}
+
+.edit__field {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  background-color: var(--main-black);
+  border-radius: 50px;
+  padding: 0.8rem 1.6rem;
+  width: 100%;
+  cursor: text;
+}
+
+.edit__field:focus-within {
+  outline: 2px solid var(--main-purple);
+  outline-offset: 2px;
+}
+
+.edit__field--multiline {
+  align-items: flex-start;
+  border-radius: 28px;
+}
+
+.edit__field-label {
+  flex-shrink: 0;
+  font-family: var(--font-family);
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--main-purple);
+  white-space: nowrap;
+}
+
+.edit__field--multiline .edit__field-label {
+  padding-top: 0.1rem;
+}
+
+.edit__field-icon {
+  width: 22px;
+  height: 22px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+.edit__input {
+  flex: 1;
+  min-width: 0;
+  background: transparent;
+  border: none;
+  outline: none;
+  font-family: var(--font-family);
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--main-green);
+  padding: 0;
+}
+
+.edit__input::placeholder {
+  color: var(--main-green);
+  opacity: 0.45;
+}
+
+.edit__input--textarea {
+  resize: none;
+  line-height: 1.4;
+  overflow: hidden;
+}
+
+/* --------------------------------------------------------------------------
+   5. ERRO + BOTÃO SALVAR
+   -------------------------------------------------------------------------- */
+.edit__erro {
+  font-family: var(--font-family);
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #c0392b;
+  margin: 0;
+  text-align: center;
+}
+
+.edit__btn-salvar {
+  background-color: var(--main-black);
+  color: var(--main-green);
+  font-family: var(--font-family);
+  font-size: 1.25rem;
+  font-weight: 800;
+  padding: 0.8rem 4rem;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  text-transform: lowercase;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.edit__btn-salvar:hover:not(:disabled) {
+  transform: translateY(-2px);
+  opacity: 0.9;
+}
+
+.edit__btn-salvar:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* --------------------------------------------------------------------------
+   6. RESPONSIVIDADE
+   -------------------------------------------------------------------------- */
+@media (max-width: 768px) {
+  .edit__media {
+    grid-template-columns: 1fr;
+    justify-items: center;
+  }
+
+  .edit__cover {
+    height: 120px;
+  }
+
+  .edit__field {
+    padding: 0.8rem 1.2rem;
+    border-radius: 28px;
+  }
+}
+
+========================================
+ARQUIVO: ./src/pages/perfil/perfil.html
+========================================
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RYTH - Perfil</title>
+
+  <!-- Oculta o HTML bruto sem criar nenhum loader visual -->
+  <style>
+    html { visibility: hidden; }
+    html.ready { visibility: visible; }
+  </style>
+  <link rel="stylesheet" href="/src/styles/global.css" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <script type="module" src="/src/pages/perfil/perfil.ts"></script>
+  <script type="module" src="/src/main.ts"></script>
+</head>
+<body>
+
+  <!-- ===================== NAVBAR (componente global) ===================== -->
+  <div id="navbar-root"></div>
+
+  <main class="profile-page">
+    <section class="profile">
+      <div class="profile__container">
+
+        <!-- Header: Foto de Perfil + Capa + Redes Sociais -->
+        <div class="profile__header">
+          <div class="profile__user">
+            <div class="profile__avatar">
+              <span>foto de perfil</span>
+            </div>
+            <h1 class="profile__name" id="user-name">Lorem ipsum</h1>
+          </div>
+
+          <div class="profile__cover-container">
+            <div class="profile__cover"></div>
+            <div class="profile__socials">
+              <a href="#" class="profile__social-link" aria-label="Instagram">
+                <img src="/src/assets/icons/white-instagram.svg" alt="Instagram" class="profile__social-icon" />
+              </a>
+              <a href="#" class="profile__social-link" aria-label="TikTok">
+                <img src="/src/assets/icons/white-tiktok.svg" alt="TikTok" class="profile__social-icon" />
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Estatística de Competições + Descrição -->
+        <div class="profile__stats-section">
+          <div class="profile__badge">
+            <span class="profile__badge-sub">participou de</span>
+            <strong class="profile__badge-count" id="competitions-count">X</strong>
+            <span class="profile__badge-title">competições</span>
+          </div>
+
+          <p class="profile__description">
+            Seu perfil, sua identidade. Destaque seu talento, compartilhe sua trajetória e conecte-se a novas oportunidades.
+          </p>
+        </div>
+
+        <!-- Barra de Abas (Navegação em Pílula Roxa) -->
+        <nav class="profile__tabs">
+          <button class="profile__tab profile__tab--active">Lorem ipsum</button>
+          <button class="profile__tab">Lorem ipsum</button>
+          <button class="profile__tab">Lorem ipsum</button>
+          <button class="profile__tab">Lorem ipsum</button>
+        </nav>
+
+        <!-- Botão Editar -->
+        <button href= "src/pages/perfil/edicao.html" class="profile__btn-edit" id="btn-editar">editar</button>
+
+      </div>
+    </section>
+  </main>
+
+  <!-- ===================== FOOTER (componente global) ===================== -->
+  <div id="footer-root"></div>
+
+</body>
+</html>
+
+========================================
+ARQUIVO: ./src/pages/perfil/perfil.ts
+========================================
+
+import "./perfil.css";
 import { usuarioAtual } from "../../services/auth";
 import { ROTAS } from "../../config/routes";
 
-export async function renderNavbar(rootSelector: string = "#navbar-root"): Promise<void> {
-  const root = document.querySelector(rootSelector);
-  if (!root) return;
+export async function carregarPerfil(): Promise<void> {
+  // 1. Verifica se o usuário está logado
+  const usuario = await usuarioAtual();
 
-  // Injeta o template HTML na página
-  root.innerHTML = navbarHtml;
-
-  // Injeta a logo
-  const logoImage = root.querySelector<HTMLImageElement>("#navbar-logo");
-  if (logoImage) {
-    logoImage.src = logoUrl;
+  if (!usuario) {
+    window.location.href = ROTAS.login;
+    return;
   }
 
-  // Vincula a marca/logo à Home
-  const brandLink = root.querySelector<HTMLAnchorElement>(".navbar__brand");
-  if (brandLink) brandLink.href = ROTAS.home;
+  // 2. Atualiza o nome/e-mail no perfil
+  const nameEl = document.querySelector<HTMLElement>("#user-name");
+  if (nameEl && usuario.email) {
+    nameEl.textContent = usuario.email.split("@")[0];
+  }
 
-  // Vincula os links de navegação estáticos
-  const contratacaoLink = root.querySelector<HTMLAnchorElement>('a[href*="contratacao"]');
-  if (contratacaoLink) contratacaoLink.href = ROTAS.contratacao;
+  // 3. Interatividade das abas
+  const tabs = document.querySelectorAll<HTMLButtonElement>(".profile__tab");
+  tabs.forEach((tab) => {
+    tab.addEventListener("click", () => {
+      tabs.forEach((t) => t.classList.remove("profile__tab--active"));
+      tab.classList.add("profile__tab--active");
+    });
+  });
 
-  const competicoesLink = root.querySelector<HTMLAnchorElement>('a[href*="competicoes"]');
-  if (competicoesLink) competicoesLink.href = ROTAS.competicoes;
+  // 4. Ação do botão "editar"
+  const btnEditar = document.querySelector<HTMLButtonElement>("#btn-editar");
+  if (btnEditar) {
+    btnEditar.addEventListener("click", () => {
+    window.location.href = ROTAS.edicao;
+    });
+  }
+}
 
-  // Vincula o botão de conta (Login ou Perfil de acordo com a sessão)
-  const contaLink = root.querySelector<HTMLAnchorElement>("#navbar-account");
-  if (contaLink) {
-    try {
-      const usuario = await usuarioAtual();
-      contaLink.textContent = usuario ? "Perfil" : "Login";
-      contaLink.href = usuario ? ROTAS.perfil : ROTAS.login;
-    } catch {
-      contaLink.textContent = "Login";
-      contaLink.href = ROTAS.login;
+// Executa a função na inicialização do módulo
+carregarPerfil();
+
+========================================
+ARQUIVO: ./src/pages/perfil/edicao.ts
+========================================
+
+import "./edicao.css";
+import { usuarioAtual } from "../../services/auth";
+import { ROTAS } from "../../config/routes";
+
+interface DadosPerfil {
+  nome: string;
+  bio: string;
+  estilos: string[];
+  instagram: string;
+  tiktok: string;
+}
+
+const TAMANHO_MAX_IMAGEM = 5 * 1024 * 1024; // 5 MB
+
+/* --------------------------------------------------------------------------
+   Persistência
+   Por enquanto salva no localStorage (por usuário). Quando o backend
+   estiver pronto, troque APENAS as funções lerPerfil e salvarPerfil.
+   -------------------------------------------------------------------------- */
+function chaveStorage(email: string): string {
+  return `ryth:perfil:${email}`;
+}
+
+function lerPerfil(email: string): Partial<DadosPerfil> {
+  try {
+    const bruto = localStorage.getItem(chaveStorage(email));
+    return bruto ? (JSON.parse(bruto) as Partial<DadosPerfil>) : {};
+  } catch {
+    return {};
+  }
+}
+
+async function salvarPerfil(email: string, dados: DadosPerfil): Promise<void> {
+  localStorage.setItem(chaveStorage(email), JSON.stringify(dados));
+}
+
+/* --------------------------------------------------------------------------
+   Utilitários
+   -------------------------------------------------------------------------- */
+function el<T extends HTMLElement>(id: string): T | null {
+  return document.getElementById(id) as T | null;
+}
+
+function autoAjustarAltura(textarea: HTMLTextAreaElement): void {
+  textarea.style.height = "auto";
+  textarea.style.height = `${textarea.scrollHeight}px`;
+}
+
+function linkValido(valor: string): boolean {
+  if (!valor) return true; // campo opcional
+  try {
+    const url = new URL(valor);
+    return url.protocol === "https:" || url.protocol === "http:";
+  } catch {
+    return false;
+  }
+}
+
+function mostrarErro(mensagem: string): void {
+  const erroEl = el<HTMLParagraphElement>("edit-erro");
+  if (!erroEl) return;
+  erroEl.textContent = mensagem;
+  erroEl.hidden = !mensagem;
+}
+
+/* --------------------------------------------------------------------------
+   Pré-visualização das fotos
+   (apenas visual por enquanto; o upload real depende de um storage)
+   -------------------------------------------------------------------------- */
+function inicializarPreviewFoto(inputId: string, previewId: string, placeholderId?: string): void {
+  const input = el<HTMLInputElement>(inputId);
+  const preview = el<HTMLElement>(previewId);
+  const placeholder = placeholderId ? el<HTMLElement>(placeholderId) : null;
+  if (!input || !preview) return;
+
+  let urlAnterior: string | null = null;
+
+  input.addEventListener("change", () => {
+    const arquivo = input.files?.[0];
+    if (!arquivo) return;
+
+    if (!arquivo.type.startsWith("image/")) {
+      mostrarErro("Selecione um arquivo de imagem.");
+      input.value = "";
+      return;
     }
+    if (arquivo.size > TAMANHO_MAX_IMAGEM) {
+      mostrarErro("A imagem deve ter no máximo 5 MB.");
+      input.value = "";
+      return;
+    }
+
+    mostrarErro("");
+    if (urlAnterior) URL.revokeObjectURL(urlAnterior);
+    urlAnterior = URL.createObjectURL(arquivo);
+
+    preview.style.backgroundImage = `url("${urlAnterior}")`;
+    if (placeholder) placeholder.hidden = true;
+  });
+}
+
+/* --------------------------------------------------------------------------
+   Inicialização
+   -------------------------------------------------------------------------- */
+export async function carregarEdicao(): Promise<void> {
+  // 1. Só usuário logado pode editar
+  const usuario = await usuarioAtual();
+  if (!usuario || !usuario.email) {
+    window.location.href = ROTAS.login;
+    return;
   }
+  const email = usuario.email;
+
+  // 2. Botão voltar
+  const btnVoltar = el<HTMLAnchorElement>("btn-voltar");
+  if (btnVoltar) btnVoltar.href = ROTAS.perfil;
+
+  // 3. Preenche os campos com os dados salvos (ou valores padrão)
+  const salvo = lerPerfil(email);
+
+  const campoNome = el<HTMLInputElement>("campo-nome");
+  const campoBio = el<HTMLTextAreaElement>("campo-bio");
+  const campoEstilos = el<HTMLTextAreaElement>("campo-estilos");
+  const campoInstagram = el<HTMLInputElement>("campo-instagram");
+  const campoTiktok = el<HTMLInputElement>("campo-tiktok");
+
+  if (campoNome) campoNome.value = salvo.nome ?? email.split("@")[0];
+  if (campoBio) campoBio.value = salvo.bio ?? "";
+  if (campoEstilos) campoEstilos.value = (salvo.estilos ?? []).join(", ");
+  if (campoInstagram) campoInstagram.value = salvo.instagram ?? "";
+  if (campoTiktok) campoTiktok.value = salvo.tiktok ?? "";
+
+  // 4. Textareas crescem conforme o texto
+  [campoBio, campoEstilos].forEach((textarea) => {
+    if (!textarea) return;
+    autoAjustarAltura(textarea);
+    textarea.addEventListener("input", () => autoAjustarAltura(textarea));
+  });
+
+  // 5. Clicar em qualquer ponto da pílula foca o campo
+  document.querySelectorAll<HTMLElement>(".edit__field").forEach((campo) => {
+    campo.addEventListener("click", (e) => {
+      if (e.target === campo) {
+        campo.querySelector<HTMLInputElement | HTMLTextAreaElement>(".edit__input")?.focus();
+      }
+    });
+  });
+
+  // 6. Pré-visualização das fotos
+  inicializarPreviewFoto("input-avatar", "avatar-preview", "avatar-placeholder");
+  inicializarPreviewFoto("input-cover", "cover-preview");
+
+  // 7. Salvar
+  const form = el<HTMLFormElement>("form-edicao");
+  const btnSalvar = el<HTMLButtonElement>("btn-salvar");
+
+  form?.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    mostrarErro("");
+
+    const nome = campoNome?.value.trim() ?? "";
+    const bio = campoBio?.value.trim() ?? "";
+    const estilos = (campoEstilos?.value ?? "")
+      .split(",")
+      .map((s) => s.trim())
+      .filter(Boolean);
+    const instagram = campoInstagram?.value.trim() ?? "";
+    const tiktok = campoTiktok?.value.trim() ?? "";
+
+    if (!nome) {
+      mostrarErro("Informe um nome de usuário.");
+      campoNome?.focus();
+      return;
+    }
+    if (!linkValido(instagram)) {
+      mostrarErro("O link do Instagram é inválido. Use o endereço completo, começando com https://");
+      campoInstagram?.focus();
+      return;
+    }
+    if (!linkValido(tiktok)) {
+      mostrarErro("O link do TikTok é inválido. Use o endereço completo, começando com https://");
+      campoTiktok?.focus();
+      return;
+    }
+
+    if (btnSalvar) btnSalvar.disabled = true;
+
+    try {
+      await salvarPerfil(email, { nome, bio, estilos, instagram, tiktok });
+      window.location.href = ROTAS.perfil;
+    } catch (error) {
+      const mensagem =
+        error instanceof Error ? error.message : "Não foi possível salvar o perfil. Tente novamente.";
+      mostrarErro(mensagem);
+      if (btnSalvar) btnSalvar.disabled = false;
+    }
+  });
+}
+
+// Executa a função na inicialização do módulo
+carregarEdicao();
+
+========================================
+ARQUIVO: ./src/pages/competicoes/inscricao.css
+========================================
+
+.pagina-inscricao {
+  --insc-azul: var(--main-black);
+  --insc-roxo: var(--main-purple);
+  --insc-roxo-texto: #a64df0; /* roxo mais claro para texto sobre fundo escuro */
+  --insc-lima: var(--main-green);
+  --insc-branco: var(--main-white);
+  background: var(--insc-branco);
+  font-family: var(--font-family);
+}
+
+.inscricao {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 1.5rem 1.25rem 3rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+/* Botão voltar */
+.inscricao__voltar {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 1.4rem;
+  border-radius: 999px;
+  background: var(--insc-azul);
+  color: var(--insc-roxo-texto);
+  text-decoration: none;
+  font-size: 1rem;
+}
+
+/* Título */
+.inscricao__cabecalho {
+  text-align: center;
+}
+.inscricao__titulo {
+  margin: 0;
+  font-family: var(--font-monument);
+  font-size: clamp(1.8rem, 7vw, 3rem);
+  font-weight: normal;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+  color: var(--insc-azul);
+}
+.inscricao__subtitulo {
+  margin: 0.25rem 0 0;
+  font-family: var(--font-monument);
+  font-size: clamp(1.2rem, 4.5vw, 1.8rem);
+  font-weight: normal;
+  color: var(--insc-lima);
+}
+
+/* Formulário */
+.inscricao__form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.campo-video {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1.1rem 1.5rem;
+  border-radius: 999px;
+  background: var(--insc-azul);
+  cursor: text;
+}
+.campo-video__rotulo {
+  color: var(--insc-roxo-texto);
+  white-space: nowrap;
+}
+.campo-video__input {
+  flex: 1;
+  min-width: 0;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: var(--insc-lima);
+  font: inherit;
+}
+.campo-video__input::placeholder {
+  color: var(--insc-lima);
+  opacity: 0.6;
+}
+.campo-video:focus-within {
+  outline: 3px solid var(--insc-lima);
+  outline-offset: 3px;
+}
+
+/* Card "É você mesmo?" */
+.confirma {
+  width: min(100%, 22rem);
+  padding: 1.25rem 1rem 1.5rem;
+  border-radius: 1.5rem;
+  background: var(--insc-roxo);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+.confirma__titulo {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: var(--insc-lima);
+}
+.confirma__foto {
+  width: 5.5rem;
+  height: 5.5rem;
+  border-radius: 50%;
+  border: 4px solid var(--insc-lima);
+  background: var(--insc-branco);
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  font-size: 0.6rem;
+  text-align: center;
+  color: var(--insc-azul);
+}
+.confirma__foto img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.confirma__nome {
+  margin: 0;
+  color: var(--insc-branco);
+  font-size: 1rem;
+}
+
+/* Texto "refaça seu login" */
+.inscricao__relogin {
+  margin: -0.75rem 0 0;
+  font-size: 0.85rem;
+  color: var(--insc-azul);
+  text-align: center;
+}
+.link-botao {
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  color: var(--insc-roxo);
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+/* Mensagens */
+.inscricao__msg {
+  margin: 0;
+  max-width: 24rem;
+  padding: 0.75rem 1rem;
+  border-radius: 0.75rem;
+  text-align: center;
+  font-size: 0.9rem;
+  background: #fde8e8;
+  color: #8a1c1c;
+}
+.inscricao__msg--ok {
+  background: #e9f8c9;
+  color: #2f4a00;
+}
+
+/* Botão inscreva-se */
+.btn-inscrever {
+  padding: 0.9rem 3rem;
+  border: 0;
+  border-radius: 999px;
+  background: var(--insc-azul);
+  color: var(--insc-lima);
+  font: inherit;
+  font-size: 1.15rem;
+  cursor: pointer;
+}
+.btn-inscrever:hover:not(:disabled) {
+  filter: brightness(1.25);
+}
+.btn-inscrever:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+.btn-inscrever:focus-visible,
+.inscricao__voltar:focus-visible,
+.link-botao:focus-visible {
+  outline: 3px solid var(--insc-lima);
+  outline-offset: 3px;
 }
 
 ========================================
-ARQUIVO: .\src\components\faq\faq.ts
+ARQUIVO: ./src/pages/competicoes/competicoes.html
 ========================================
 
-import { cmsFetch } from "../../services/cms";
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RYTH - Competições</title>
 
-type FaqItem = { pergunta: string; resposta: string };
+  <!-- Oculta o HTML bruto sem criar nenhum loader visual -->
+  <style>
+    html { visibility: hidden; }
+    html.ready { visibility: visible; }
+  </style>
+  <link rel="stylesheet" href="/src/styles/global.css" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <script type="module" src="/src/pages/competicoes/competicoes.ts"></script>
+  <script type="module" src="/src/main.ts"></script>
+</head>
+<body>
 
-export async function renderizarFAQ(): Promise<void> {
-  const faqContainer = document.querySelector<HTMLElement>('.faq__list');
-  if (!faqContainer) return;
+  <!-- ===================== NAVBAR (componente global) ===================== -->
+  <div id="navbar-root"></div>
 
-  // Só busca os campos necessários e define a ordem
-  const faqs = await cmsFetch<FaqItem[]>(
-    `*[_type == "faq"] | order(_createdAt asc){ pergunta, resposta }`
-  );
+ <main class="main">
+  <section class="competicoes">
+    <h1 class="competicoes__title">Competições</h1>
 
-  // Se o Sanity falhar ou vier vazio, o HTML padrão da página permanece
-  if (!faqs) return;
+    <!-- ATIVAS -->
+    <div class="competicoes__group">
+      <h2 class="competicoes__subtitle competicoes__subtitle--active">Ativas</h2>
+      <div class="competicoes__grid" id="grid-ativas">
+        <!-- Card de exemplo: o competicoes.ts substitui isto quando o Sanity responde -->
+        <a class="competicoes__card competicoes__card--active"
+           href="/src/pages/competicoes/competicao.html?slug=teste">
+          <span class="competicoes__media">
+            <span class="competicoes__cta">Inscreva-se</span>
+          </span>
+          <span class="competicoes__name">Lorem ipsum</span>
+        </a>
+      </div>
+    </div>
 
-  faqContainer.replaceChildren(
-    ...faqs.map((item) => {
-      const li = document.createElement('li');
-      li.className = 'faq__item';
+    <!-- FINALIZADAS -->
+    <div class="competicoes__group">
+      <h2 class="competicoes__subtitle competicoes__subtitle--finished">Finalizadas</h2>
+      <div class="competicoes__grid" id="grid-finalizadas">
+        <!-- Card de exemplo: o competicoes.ts substitui isto quando o Sanity responde -->
+        <a class="competicoes__card competicoes__card--finished"
+           href="/src/pages/competicoes/competicao.html?slug=teste">
+          <span class="competicoes__media"></span>
+          <span class="competicoes__name">Lorem ipsum</span>
+        </a>
+      </div>
+    </div>
+  </section>
+</main>
 
-      const h3 = document.createElement('h3');
-      h3.className = 'faq__question';
-      h3.textContent = item.pergunta;
+  <!-- ===================== FOOTER (componente global) ===================== -->
+  <div id="footer-root"></div>
 
-      const p = document.createElement('p');
-      p.className = 'faq__answer';
-      p.textContent = item.resposta;
-
-      li.append(h3, p);
-      return li;
-    })
-  );
-}
+</body>
+</html>
 
 ========================================
-ARQUIVO: .\src\pages\competicoes\competicoes.css
+ARQUIVO: ./src/pages/competicoes/competicoes.css
 ========================================
 
 .competicoes {
@@ -1099,131 +3526,80 @@ ARQUIVO: .\src\pages\competicoes\competicoes.css
 }
 
 ========================================
-ARQUIVO: .\src\pages\competicoes\competicoes.html
+ARQUIVO: ./src/pages/competicoes/inscricao.html
 ========================================
 
 <!DOCTYPE html>
 <html lang="pt-BR">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>RYTH - Competições</title>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>RYTH - Inscrição na competição</title>
+    
+   <!-- Oculta o HTML bruto sem criar nenhum loader visual -->
+  <style>
+    html { visibility: hidden; }
+    html.ready { visibility: visible; }
+  </style>
+    <link rel="stylesheet" href="/src/styles/global.css" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <script type="module" src="./inscricao.ts"></script>
+    <script type="module" src="/src/main.ts"></script>
+  </head>
+  <body class="pagina-inscricao">
+    
+    <!-- ===================== NAVBAR (componente global) ===================== -->
+    <div id="navbar-root"></div>
 
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-  <script type="module" src="/src/pages/competicoes/competicoes.ts"></script>
-  <script type="module" src="/src/main.ts"></script>
-</head>
-<body>
+    <main class="inscricao">
+      <a id="btn-voltar" class="inscricao__voltar" href="/src/pages/competicoes/competicoes.html">
+        <span aria-hidden="true">&lsaquo;</span> voltar
+      </a>
 
-  <!-- ===================== NAVBAR (componente global) ===================== -->
-  <div id="navbar-root"></div>
+      <header class="inscricao__cabecalho">
+        <h1 class="inscricao__titulo">Competição</h1>
+        <p id="competicao-nome" class="inscricao__subtitulo">&nbsp;</p>
+      </header>
 
- <main class="main">
-  <section class="competicoes">
-    <h1 class="competicoes__title">Competições</h1>
+      <form id="form-inscricao" class="inscricao__form" novalidate>
+        <label class="campo-video">
+          <span class="campo-video__rotulo">Link do vídeo:</span>
+          <input
+            id="video-url"
+            class="campo-video__input"
+            type="url"
+            inputmode="url"
+            placeholder="link"
+            autocomplete="off"
+            required
+          />
+        </label>
 
-    <!-- ATIVAS -->
-    <div class="competicoes__group">
-      <h2 class="competicoes__subtitle competicoes__subtitle--active">Ativas</h2>
-      <div class="competicoes__grid" id="grid-ativas">
-        <!-- Card de exemplo: o competicoes.ts substitui isto quando o Sanity responde -->
-        <a class="competicoes__card competicoes__card--active"
-           href="/src/pages/competicoes/competicao.html?slug=teste">
-          <span class="competicoes__media">
-            <span class="competicoes__cta">Inscreva-se</span>
-          </span>
-          <span class="competicoes__name">Lorem ipsum</span>
-        </a>
-      </div>
-    </div>
+        <section class="confirma" aria-labelledby="confirma-titulo">
+          <h2 id="confirma-titulo" class="confirma__titulo">É você mesmo?</h2>
+          <div class="confirma__foto">
+            <img id="perfil-foto" alt="" hidden />
+            <span id="perfil-foto-vazia">foto de perfil</span>
+          </div>
+          <p id="perfil-nome" class="confirma__nome">Nome</p>
+        </section>
 
-    <!-- FINALIZADAS -->
-    <div class="competicoes__group">
-      <h2 class="competicoes__subtitle competicoes__subtitle--finished">Finalizadas</h2>
-      <div class="competicoes__grid" id="grid-finalizadas">
-        <!-- Card de exemplo: o competicoes.ts substitui isto quando o Sanity responde -->
-        <a class="competicoes__card competicoes__card--finished"
-           href="/src/pages/competicoes/competicao.html?slug=teste">
-          <span class="competicoes__media"></span>
-          <span class="competicoes__name">Lorem ipsum</span>
-        </a>
-      </div>
-    </div>
-  </section>
-</main>
+        <p class="inscricao__relogin">
+          Caso não seja você <button type="button" id="btn-relogin" class="link-botao">refaça seu login</button>
+        </p>
 
-  <!-- ===================== FOOTER (componente global) ===================== -->
-  <div id="footer-root"></div>
+        <p id="inscricao-msg" class="inscricao__msg" role="alert" hidden></p>
 
-</body>
+        <button id="btn-inscrever" class="btn-inscrever" type="submit">inscreva-se</button>
+      </form>
+    </main>
+
+    <footer id="footer-root"></footer>
+  </body>
 </html>
 
 ========================================
-ARQUIVO: .\src\pages\competicoes\competicoes.ts
-========================================
-
-import "./competicoes.css";
-import { cmsFetch } from "../../services/cms";
-
-type Competicao = {
-  titulo: string;
-  slug: string;
-  ativa?: boolean;
-  imagem?: string;
-};
-
-const BASE_DETALHE = "/src/pages/competicoes/competicao.html";
-
-function cardHTML(c: Competicao, estado: "active" | "finished") {
-  const href = `${BASE_DETALHE}?slug=${encodeURIComponent(c.slug)}`;
-  const cta =
-    estado === "active" ? `<span class="competicoes__cta">Inscreva-se</span>` : "";
-  const img = c.imagem
-    ? `<img src="${c.imagem}?w=800&auto=format" alt="${c.titulo}" loading="lazy" />`
-    : "";
-
-  return `
-    <a class="competicoes__card competicoes__card--${estado}" href="${href}">
-      <span class="competicoes__media">${img}${cta}</span>
-      <span class="competicoes__name">${c.titulo}</span>
-    </a>`;
-}
-
-async function renderLista() {
-  const gridAtivas = document.querySelector<HTMLElement>("#grid-ativas");
-  const gridFinalizadas = document.querySelector<HTMLElement>("#grid-finalizadas");
-  if (!gridAtivas || !gridFinalizadas) return;
-
-  const competicoes = await cmsFetch<Competicao[]>(
-    `*[_type == "competicao"] | order(ordem asc, _createdAt desc) {
-      titulo,
-      "slug": slug.current,
-      ativa,
-      "imagem": imagemCard.asset->url
-    }`
-  );
-
-  if (!competicoes) {
-    console.warn("Competições não carregadas: confira o .env do Sanity.");
-    return;
-  }
-
-  const ativas = competicoes.filter((c) => c.ativa);
-  const finalizadas = competicoes.filter((c) => !c.ativa);
-
-  gridAtivas.innerHTML =
-    ativas.map((c) => cardHTML(c, "active")).join("") ||
-    "<p>Nenhuma competição ativa no momento.</p>";
-
-  gridFinalizadas.innerHTML =
-    finalizadas.map((c) => cardHTML(c, "finished")).join("") ||
-    "<p>Nenhuma competição finalizada.</p>";
-}
-
-renderLista();
-
-========================================
-ARQUIVO: .\src\pages\competicoes\competicao.css
+ARQUIVO: ./src/pages/competicoes/competicao.css
 ========================================
 
 /* ==========================================================================
@@ -1703,7 +4079,71 @@ ARQUIVO: .\src\pages\competicoes\competicao.css
 }
 
 ========================================
-ARQUIVO: .\src\pages\competicoes\competicao.html
+ARQUIVO: ./src/pages/competicoes/competicoes.ts
+========================================
+
+import "./competicoes.css";
+import { cmsFetch } from "../../services/cms";
+
+type Competicao = {
+  titulo: string;
+  slug: string;
+  ativa?: boolean;
+  imagem?: string;
+};
+
+const BASE_DETALHE = "/src/pages/competicoes/competicao.html";
+
+function cardHTML(c: Competicao, estado: "active" | "finished") {
+  const href = `${BASE_DETALHE}?slug=${encodeURIComponent(c.slug)}`;
+  const cta =
+    estado === "active" ? `<span class="competicoes__cta">Inscreva-se</span>` : "";
+  const img = c.imagem
+    ? `<img src="${c.imagem}?w=800&auto=format" alt="${c.titulo}" loading="lazy" />`
+    : "";
+
+  return `
+    <a class="competicoes__card competicoes__card--${estado}" href="${href}">
+      <span class="competicoes__media">${img}${cta}</span>
+      <span class="competicoes__name">${c.titulo}</span>
+    </a>`;
+}
+
+async function renderLista() {
+  const gridAtivas = document.querySelector<HTMLElement>("#grid-ativas");
+  const gridFinalizadas = document.querySelector<HTMLElement>("#grid-finalizadas");
+  if (!gridAtivas || !gridFinalizadas) return;
+
+  const competicoes = await cmsFetch<Competicao[]>(
+    `*[_type == "competicao"] | order(ordem asc, _createdAt desc) {
+      titulo,
+      "slug": slug.current,
+      ativa,
+      "imagem": imagemCard.asset->url
+    }`
+  );
+
+  if (!competicoes) {
+    console.warn("Competições não carregadas: confira o .env do Sanity.");
+    return;
+  }
+
+  const ativas = competicoes.filter((c) => c.ativa);
+  const finalizadas = competicoes.filter((c) => !c.ativa);
+
+  gridAtivas.innerHTML =
+    ativas.map((c) => cardHTML(c, "active")).join("") ||
+    "<p>Nenhuma competição ativa no momento.</p>";
+
+  gridFinalizadas.innerHTML =
+    finalizadas.map((c) => cardHTML(c, "finished")).join("") ||
+    "<p>Nenhuma competição finalizada.</p>";
+}
+
+renderLista();
+
+========================================
+ARQUIVO: ./src/pages/competicoes/competicao.html
 ========================================
 
 <!DOCTYPE html>
@@ -1713,6 +4153,12 @@ ARQUIVO: .\src\pages\competicoes\competicao.html
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>RYTH - Detalhes da Competição</title>
 
+  <!-- Oculta o HTML bruto sem criar nenhum loader visual -->
+  <style>
+    html { visibility: hidden; }
+    html.ready { visibility: visible; }
+  </style>
+  <link rel="stylesheet" href="/src/styles/global.css" />
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   <script type="module" src="./competicao.ts"></script>
   <script type="module" src="/src/main.ts"></script>
@@ -1742,13 +4188,13 @@ ARQUIVO: .\src\pages\competicoes\competicao.html
     <!-- PÓDIO E PRÊMIOS -->
     <section class="competicao__premios">
       <div class="competicao__podio">
-        <img class="competicao__deco competicao__deco--left" src="/src/assets/Ativo 16 2.png" alt="" aria-hidden="true" />
+        <img class="competicao__deco competicao__deco--left" src="/src/assets/images/Ativo 16 2.png" alt="" aria-hidden="true" />
         <div class="competicao__podio-blocos">
           <span class="competicao__podio-bloco competicao__podio-bloco--2">2º</span>
           <span class="competicao__podio-bloco competicao__podio-bloco--1">1º</span>
           <span class="competicao__podio-bloco competicao__podio-bloco--3">3º</span>
         </div>
-        <img class="competicao__deco competicao__deco--right" src="/src/assets/Ativo 17 2.png" alt="" aria-hidden="true" />
+        <img class="competicao__deco competicao__deco--right" src="/src/assets/images/Ativo 17 2.png" alt="" aria-hidden="true" />
       </div>
 
       <div class="competicao__premios-box">
@@ -1841,21 +4287,10 @@ ARQUIVO: .\src\pages\competicoes\competicao.html
 </html>
 
 ========================================
-ARQUIVO: .\src\pages\competicoes\competicao.ts
+ARQUIVO: ./src/pages/competicoes/competicao.ts
 ========================================
 
-// 1. Estilos Globais e Componentes
-import "../../styles/reset.css";
-import "../../styles/global.css";
-import "../../styles/variables.css";
-
-import "../../components/navbar/navbar.css";
-import "../../components/footer/footer.css";
 import "./competicao.css";
-
-// 2. Componentes e Serviços
-import { renderNavbar } from "../../components/navbar/navbar";
-import { renderFooter } from "../../components/footer/footer";
 import { cmsFetch } from "../../services/cms";
 import { ROTAS } from "../../config/routes";
 
@@ -1880,11 +4315,10 @@ function slugAtual(): string | null {
 
 async function carregarDadosSanity(): Promise<void> {
   const slug = slugAtual();
-  if (!slug) return; // Mantém a imagem padrão e textos do HTML se não houver parâmetro ?slug=
+  if (!slug) return;
 
-  // [0] devolve um único documento (sem ele, o Sanity retorna um array)
   const comp = await cmsFetch<Competicao>(
-    `*[_type == "competicao" && slug.current == $slug][0]{
+    `*[_type == "competicao" && slug.current == $slug]{
       titulo,
       musicaTitulo,
       musicaDescricao,
@@ -1918,9 +4352,7 @@ function inicializarBotaoInscricao(): void {
 
   btnInscrever.addEventListener("click", () => {
     const slug = slugAtual();
-    window.location.href = slug
-      ? `${ROTAS.inscricao}?slug=${encodeURIComponent(slug)}`
-      : ROTAS.competicoes;
+    window.location.href = slug ? `${ROTAS.inscricao}?slug=${encodeURIComponent(slug)}` : ROTAS.competicoes;
   });
 }
 
@@ -1932,13 +4364,12 @@ function inicializarInteratividadeVotacao(): void {
 
   let participanteSelecionado: string | null = null;
 
-  // Seleção dinâmica dos participantes
   participantes.forEach((p) => {
     p.addEventListener("click", () => {
       participantes.forEach((el) => el.classList.remove("competicao__participante--selecionado"));
       p.classList.add("competicao__participante--selecionado");
 
-      const nome = p.getAttribute("data-nome") ||
+      const nome = p.getAttribute("data-nome") || 
                    p.querySelector(".competicao__participante-nome")?.textContent;
       if (nome) {
         participanteSelecionado = nome;
@@ -1949,7 +4380,6 @@ function inicializarInteratividadeVotacao(): void {
     });
   });
 
-  // Botão "votar" da seção de ações faz rolagem suave até a caixa de confirmação
   if (btnVotarMain) {
     btnVotarMain.addEventListener("click", () => {
       if (!participanteSelecionado) {
@@ -1961,7 +4391,6 @@ function inicializarInteratividadeVotacao(): void {
     });
   }
 
-  // Ação de registrar voto no botão dentro da caixa
   if (btnConfirmarVoto) {
     btnConfirmarVoto.addEventListener("click", () => {
       if (!participanteSelecionado) {
@@ -1973,10 +4402,7 @@ function inicializarInteratividadeVotacao(): void {
   }
 }
 
-// Inicialização da página
 async function init(): Promise<void> {
-  renderFooter();
-  await renderNavbar();
   await carregarDadosSanity();
   inicializarBotaoInscricao();
   inicializarInteratividadeVotacao();
@@ -1989,302 +4415,29 @@ if (document.readyState === "loading") {
 }
 
 ========================================
-ARQUIVO: .\src\pages\competicoes\inscricao.html
+ARQUIVO: ./src/pages/competicoes/inscricao.ts
 ========================================
 
-<!DOCTYPE html>
-<html lang="pt-BR">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>RYTH - Inscrição na competição</title>
-    
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <script type="module" src="./inscricao.ts"></script>
-    <script type="module" src="/src/main.ts"></script>
-  </head>
-  <body class="pagina-inscricao">
-    
-    <!-- ===================== NAVBAR (componente global) ===================== -->
-    <div id="navbar-root"></div>
-
-    <main class="inscricao">
-      <a id="btn-voltar" class="inscricao__voltar" href="/src/pages/competicoes/competicoes.html">
-        <span aria-hidden="true">&lsaquo;</span> voltar
-      </a>
-
-      <header class="inscricao__cabecalho">
-        <h1 class="inscricao__titulo">Competição</h1>
-        <p id="competicao-nome" class="inscricao__subtitulo">&nbsp;</p>
-      </header>
-
-      <form id="form-inscricao" class="inscricao__form" novalidate>
-        <label class="campo-video">
-          <span class="campo-video__rotulo">Link do vídeo:</span>
-          <input
-            id="video-url"
-            class="campo-video__input"
-            type="url"
-            inputmode="url"
-            placeholder="link"
-            autocomplete="off"
-            required
-          />
-        </label>
-
-        <section class="confirma" aria-labelledby="confirma-titulo">
-          <h2 id="confirma-titulo" class="confirma__titulo">É você mesmo?</h2>
-          <div class="confirma__foto">
-            <img id="perfil-foto" alt="" hidden />
-            <span id="perfil-foto-vazia">foto de perfil</span>
-          </div>
-          <p id="perfil-nome" class="confirma__nome">Nome</p>
-        </section>
-
-        <p class="inscricao__relogin">
-          Caso não seja você <button type="button" id="btn-relogin" class="link-botao">refaça seu login</button>
-        </p>
-
-        <p id="inscricao-msg" class="inscricao__msg" role="alert" hidden></p>
-
-        <button id="btn-inscrever" class="btn-inscrever" type="submit">inscreva-se</button>
-      </form>
-    </main>
-
-    <footer id="footer-root"></footer>
-  </body>
-</html>
-
-========================================
-ARQUIVO: .\src\pages\competicoes\inscricao.css
-========================================
-
-.pagina-inscricao {
-  --insc-azul: var(--main-black);
-  --insc-roxo: var(--main-purple);
-  --insc-roxo-texto: #a64df0; /* roxo mais claro para texto sobre fundo escuro */
-  --insc-lima: var(--main-green);
-  --insc-branco: var(--main-white);
-  background: var(--insc-branco);
-  font-family: var(--font-family);
-}
-
-.inscricao {
-  max-width: 640px;
-  margin: 0 auto;
-  padding: 1.5rem 1.25rem 3rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1.5rem;
-}
-
-/* Botão voltar */
-.inscricao__voltar {
-  align-self: flex-start;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.6rem 1.4rem;
-  border-radius: 999px;
-  background: var(--insc-azul);
-  color: var(--insc-roxo-texto);
-  text-decoration: none;
-  font-size: 1rem;
-}
-
-/* Título */
-.inscricao__cabecalho {
-  text-align: center;
-}
-.inscricao__titulo {
-  margin: 0;
-  font-family: var(--font-monument);
-  font-size: clamp(1.8rem, 7vw, 3rem);
-  font-weight: normal;
-  letter-spacing: 0.01em;
-  text-transform: uppercase;
-  color: var(--insc-azul);
-}
-.inscricao__subtitulo {
-  margin: 0.25rem 0 0;
-  font-family: var(--font-monument);
-  font-size: clamp(1.2rem, 4.5vw, 1.8rem);
-  font-weight: normal;
-  color: var(--insc-lima);
-}
-
-/* Formulário */
-.inscricao__form {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1.5rem;
-}
-
-.campo-video {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 1.1rem 1.5rem;
-  border-radius: 999px;
-  background: var(--insc-azul);
-  cursor: text;
-}
-.campo-video__rotulo {
-  color: var(--insc-roxo-texto);
-  white-space: nowrap;
-}
-.campo-video__input {
-  flex: 1;
-  min-width: 0;
-  border: 0;
-  outline: 0;
-  background: transparent;
-  color: var(--insc-lima);
-  font: inherit;
-}
-.campo-video__input::placeholder {
-  color: var(--insc-lima);
-  opacity: 0.6;
-}
-.campo-video:focus-within {
-  outline: 3px solid var(--insc-lima);
-  outline-offset: 3px;
-}
-
-/* Card "É você mesmo?" */
-.confirma {
-  width: min(100%, 22rem);
-  padding: 1.25rem 1rem 1.5rem;
-  border-radius: 1.5rem;
-  background: var(--insc-roxo);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.75rem;
-  margin-top: 1rem;
-}
-.confirma__titulo {
-  margin: 0;
-  font-size: 1.25rem;
-  font-weight: 800;
-  text-transform: uppercase;
-  color: var(--insc-lima);
-}
-.confirma__foto {
-  width: 5.5rem;
-  height: 5.5rem;
-  border-radius: 50%;
-  border: 4px solid var(--insc-lima);
-  background: var(--insc-branco);
-  display: grid;
-  place-items: center;
-  overflow: hidden;
-  font-size: 0.6rem;
-  text-align: center;
-  color: var(--insc-azul);
-}
-.confirma__foto img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-.confirma__nome {
-  margin: 0;
-  color: var(--insc-branco);
-  font-size: 1rem;
-}
-
-/* Texto "refaça seu login" */
-.inscricao__relogin {
-  margin: -0.75rem 0 0;
-  font-size: 0.85rem;
-  color: var(--insc-azul);
-  text-align: center;
-}
-.link-botao {
-  padding: 0;
-  border: 0;
-  background: none;
-  font: inherit;
-  color: var(--insc-roxo);
-  text-decoration: underline;
-  cursor: pointer;
-}
-
-/* Mensagens */
-.inscricao__msg {
-  margin: 0;
-  max-width: 24rem;
-  padding: 0.75rem 1rem;
-  border-radius: 0.75rem;
-  text-align: center;
-  font-size: 0.9rem;
-  background: #fde8e8;
-  color: #8a1c1c;
-}
-.inscricao__msg--ok {
-  background: #e9f8c9;
-  color: #2f4a00;
-}
-
-/* Botão inscreva-se */
-.btn-inscrever {
-  padding: 0.9rem 3rem;
-  border: 0;
-  border-radius: 999px;
-  background: var(--insc-azul);
-  color: var(--insc-lima);
-  font: inherit;
-  font-size: 1.15rem;
-  cursor: pointer;
-}
-.btn-inscrever:hover:not(:disabled) {
-  filter: brightness(1.25);
-}
-.btn-inscrever:disabled {
-  opacity: 0.6;
-  cursor: wait;
-}
-.btn-inscrever:focus-visible,
-.inscricao__voltar:focus-visible,
-.link-botao:focus-visible {
-  outline: 3px solid var(--insc-lima);
-  outline-offset: 3px;
-}
-
-========================================
-ARQUIVO: .\src\pages\competicoes\inscricao.ts
-========================================
-
-// 1. Estilos Globais e Componentes
-import "../../styles/reset.css";
-import "../../styles/global.css";
-import "../../styles/variables.css";
-
-import "../../components/navbar/navbar.css";
-import "../../components/footer/footer.css";
 import "./inscricao.css";
-
-// 2. Componentes e Serviços
-import { renderNavbar } from "../../components/navbar/navbar";
-import { renderFooter } from "../../components/footer/footer";
 import { cmsFetch } from "../../services/cms";
 import { usuarioAtual, fazerLogout } from "../../services/auth";
 import { supabase } from "../../services/supabase";
 import { ROTAS } from "../../config/routes";
 
-const $ = <T extends HTMLElement>(id: string) => document.getElementById(id) as T;
+const $ = <T extends HTMLElement>(id: string): T => {
+  const el = document.getElementById(id);
+  if (!el) {
+    throw new Error(`Elemento #${id} não encontrado.`);
+  }
+  return el as T;
+};
 
 const slug = new URLSearchParams(window.location.search).get("slug");
 
-const form = $<HTMLFormElement>("form-inscricao");
-const inputVideo = $<HTMLInputElement>("video-url");
-const btnInscrever = $<HTMLButtonElement>("btn-inscrever");
-const msg = $<HTMLParagraphElement>("inscricao-msg");
+const form = $("form-inscricao") as HTMLFormElement;
+const inputVideo = $("video-url") as HTMLInputElement;
+const btnInscrever = $("btn-inscrever") as HTMLButtonElement;
+const msg = $("inscricao-msg") as HTMLParagraphElement;
 
 function mostrarMsg(texto: string, ok = false): void {
   msg.textContent = texto;
@@ -2294,7 +4447,7 @@ function mostrarMsg(texto: string, ok = false): void {
 
 function irParaLogin(): void {
   const volta = encodeURIComponent(location.pathname + location.search);
-  location.href = `${ROTAS.login}?redirect=${volta}`;
+  location.href = `${ROTAS.login}?aviso=login&redirect=${volta}`;
 }
 
 function linkValido(valor: string): boolean {
@@ -2308,10 +4461,13 @@ function linkValido(valor: string): boolean {
 
 async function carregarCompeticao(): Promise<void> {
   const comp = await cmsFetch<{ titulo?: string }>(
-    `*[_type == "competicao" && slug.current == $slug][0]{ titulo }`,
+    `*[_type == "competicao" && slug.current == $slug]{ titulo }`,
     { slug }
   );
-  if (comp?.titulo) $("competicao-nome").textContent = comp.titulo;
+
+  if (comp?.titulo) {
+    $("competicao-nome").textContent = comp.titulo;
+  }
 }
 
 async function carregarUsuario(): Promise<boolean> {
@@ -2320,7 +4476,7 @@ async function carregarUsuario(): Promise<boolean> {
     irParaLogin();
     return false;
   }
-  // usuarioAtual() só devolve id e e-mail; troque pelo nome/foto do perfil quando tiver
+
   $("perfil-nome").textContent = usuario.email;
   return true;
 }
@@ -2334,6 +4490,7 @@ async function enviar(e: Event): Promise<void> {
     mostrarMsg("Cole o link do seu vídeo para se inscrever.");
     return;
   }
+
   if (!linkValido(video)) {
     mostrarMsg("O link do vídeo precisa começar com http:// ou https://.");
     return;
@@ -2345,7 +4502,6 @@ async function enviar(e: Event): Promise<void> {
     return;
   }
 
-  // supabase.ts exporta null quando o .env não está configurado
   if (!supabase) {
     mostrarMsg("Não foi possível conectar ao servidor. Tente novamente mais tarde.");
     return;
@@ -2370,21 +4526,20 @@ async function enviar(e: Event): Promise<void> {
 
   mostrarMsg("Inscrição enviada! Redirecionando…", true);
   setTimeout(() => {
-    location.href = `${ROTAS.competicao}?slug=${encodeURIComponent(slug!)}`;
+    location.href = `${ROTAS.competicao}?slug=${encodeURIComponent(slug ?? "")}`;
   }, 1500);
 }
 
 async function init(): Promise<void> {
-  renderFooter();
-  await renderNavbar();
-
-  // Sem ?slug= na URL não há competição para inscrever
   if (!slug) {
     location.href = ROTAS.competicoes;
     return;
   }
 
-  $<HTMLAnchorElement>("btn-voltar").href = `${ROTAS.competicao}?slug=${encodeURIComponent(slug)}`;
+  $("btn-voltar").setAttribute(
+    "href",
+    `${ROTAS.competicao}?slug=${encodeURIComponent(slug)}`
+  );
 
   if (!(await carregarUsuario())) return;
   await carregarCompeticao();
@@ -2393,454 +4548,20 @@ async function init(): Promise<void> {
     await fazerLogout();
     irParaLogin();
   });
+
   form.addEventListener("submit", enviar);
 }
 
 if (document.readyState === "loading") {
-  document.addEventListener("DOMContentLoaded", init);
-} else {
-  init();
-}
-
-========================================
-ARQUIVO: .\src\pages\contratacao\contratacao.css
-========================================
-
-.contratacao {
-  max-width: 1000px;
-  margin: 0 auto;
-  padding: 4rem 2rem 5rem;
-  display: flex;
-  flex-direction: column;
-  gap: 3rem;
-  background-color: var(--main-white);
-}
-
-/* Cabeçalho */
-.contratacao__header {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1.5rem;
-  text-align: center;
-}
-
-.contratacao__title {
-  font-family: var(--font-monument, sans-serif);
-  font-size: clamp(2.2rem, 5vw, 3.5rem);
-  font-weight: 900;
-  color: var(--main-black);
-  line-height: 1.1;
-  margin: 0;
-}
-
-.contratacao__intro {
-  font-family: var(--font-family);
-  font-size: clamp(0.95rem, 1.6vw, 1.1rem);
-  line-height: 1.5;
-  color: var(--main-black);
-  max-width: 900px;
-  margin: 0;
-}
-
-/* Grid dos cards */
-.contratacao__cards {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 2rem;
-  align-items: stretch;
-}
-
-.contratacao__card {
-  border-radius: 36px;
-  padding: 2.5rem 2rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  gap: 1.25rem;
-}
-
-.contratacao__card--green  { background-color: var(--main-green); }
-.contratacao__card--purple { background-color: var(--main-purple); }
-
-.contratacao__card-title {
-  font-family: var(--font-monument, sans-serif);
-  font-size: clamp(2rem, 3.5vw, 2.8rem);
-  font-weight: 900;
-  line-height: 1.1;
-  margin: 0;
-}
-
-.contratacao__card-title--purple { color: var(--main-purple); }
-.contratacao__card-title--green  { color: var(--main-green); }
-
-.contratacao__card-text {
-  font-family: var(--font-family);
-  font-size: clamp(0.95rem, 1.5vw, 1.05rem);
-  line-height: 1.45;
-  margin: 0;
-  flex: 1; /* empurra o botão para o fim, alinhando os dois cards */
-}
-
-.contratacao__card-text--dark  { color: var(--main-black); }
-.contratacao__card-text--light { color: var(--white); }
-
-/* Botões pílula */
-.contratacao__cta {
-  display: inline-block;
-  width: 100%;
-  box-sizing: border-box;
-  font-family: var(--font-family);
-  font-size: 1.15rem;
-  font-weight: 700;
-  padding: 0.9rem 2rem;
-  border-radius: 50px;
-  text-align: center;
-  text-decoration: none;
-  cursor: pointer;
-  transition: transform 0.2s ease, opacity 0.2s ease;
-}
-
-.contratacao__cta--purple {
-  background-color: var(--main-purple);
-  color: var(--white);
-}
-
-.contratacao__cta--green {
-  background-color: var(--main-green);
-  color: var(--main-black);
-}
-
-.contratacao__cta:hover {
-  transform: translateY(-2px);
-  opacity: 0.9;
-}
-
-/* Celular */
-@media (max-width: 768px) {
-  .contratacao {
-    padding: 2.5rem 1.25rem 3rem;
-    gap: 2rem;
-  }
-
-  .contratacao__cards {
-    grid-template-columns: 1fr;
-    gap: 1.5rem;
-  }
-
-  .contratacao__card {
-    padding: 2rem 1.5rem;
-    border-radius: 24px;
-  }
-}
-
-========================================
-ARQUIVO: .\src\pages\contratacao\contratacao.html
-========================================
-
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>RYTH - Contratação</title>
-  
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-  <script type="module" src="/src/pages/contratacao/contratacao.ts"></script>
-  <script type="module" src="/src/main.ts"></script>
-</head>
-<body>
-
-  <!-- ===================== NAVBAR (componente global) ===================== -->
-  <div id="navbar-root"></div>
-
-  <main class="main">
-    <section class="contratacao">
-      <header class="contratacao__header">
-        <h1 class="contratacao__title">Como funciona?</h1>
-        <p class="contratacao__intro">
-          A RYTH aproxima talentos, artistas, marcas e produtores em um ambiente
-          criado para gerar oportunidades reais. Escolha a forma de participação
-          que melhor atende ao seu objetivo e faça parte de um ecossistema que
-          conecta criatividade, visibilidade e mercado.
-        </p>
-      </header>
-
-      <div class="contratacao__cards">
-        <!-- Card Parcerias -->
-        <article class="contratacao__card contratacao__card--green">
-          <h2 class="contratacao__card-title contratacao__card-title--purple">Parcerias</h2>
-          <p class="contratacao__card-text contratacao__card-text--dark">
-            Desenvolva ações com a RYTH e conecte sua marca, projeto ou iniciativa
-            a uma comunidade que valoriza a criatividade e impulsiona novos
-            talentos. Juntos, criamos experiências que fortalecem a dança, a
-            música e todo o ecossistema criativo.
-          </p>
-          <a href="#" class="contratacao__cta contratacao__cta--purple">Quero ser parceiro</a>
-        </article>
-
-        <!-- Card Músicas -->
-        <article class="contratacao__card contratacao__card--purple">
-          <h2 class="contratacao__card-title contratacao__card-title--green">Músicas</h2>
-          <p class="contratacao__card-text contratacao__card-text--light">
-            Divulgue suas músicas por meio de desafios de dança e alcance novos
-            públicos de forma autêntica. Na RYTH, cada coreografia amplia o
-            potencial de conexão entre artistas, comunidade e mercado.
-          </p>
-          <a href="#" class="contratacao__cta contratacao__cta--green">Cadastrar música</a>
-        </article>
-      </div>
-    </section>
-  </main>
-
-  <!-- ===================== FOOTER (componente global) ===================== -->
-  <div id="footer-root"></div>
-
-</body>
-</html>
-
-========================================
-ARQUIVO: .\src\pages\contratacao\contratacao.ts
-========================================
-
-import "./contratacao.css";
-
-========================================
-ARQUIVO: .\src\pages\login\login.ts
-========================================
-
-import "./login.css";
-import { validarEmail, validarSenhaCadastro, textoRequisitosSenha } from "../../services/erros";
-import { fazerLogin, fazerCadastro, confirmarCodigo, reenviarCodigo } from "../../services/auth";
-import { ROTAS } from "../../config/routes";
-
-type Modo = "login" | "cadastro";
-
-const CONFIG = {
-  login: {
-    titulo: "RYTH - Login",
-    botao: "entrar",
-    botaoCarregando: "entrando...",
-    autocomplete: "current-password",
-    cardTitulo: "Não tem uma conta?",
-    cardTexto:
-      "Crie sua conta gratuitamente e comece a construir sua trajetória em um ecossistema que conecta dança, música e oportunidades.",
-    cardLink: "Criar minha conta",
-    cardHref: `${ROTAS.login}?modo=cadastro`,
-  },
-  cadastro: {
-    titulo: "RYTH - Cadastro",
-    botao: "cadastrar-se",
-    botaoCarregando: "cadastrando...",
-    autocomplete: "new-password",
-    cardTitulo: "Já tem uma conta?",
-    cardTexto: "Entre para acompanhar suas competições e continuar sua trajetória na RYTH.",
-    cardLink: "Fazer login",
-    cardHref: ROTAS.login,
-  },
-} as const;
-
-function criarFeedback(form: HTMLFormElement): HTMLParagraphElement {
-  const el = document.createElement("p");
-  el.className = "login__feedback";
-  el.setAttribute("role", "alert");
-  el.style.fontSize = "0.9rem";
-  el.style.marginTop = "0.5rem";
-  el.style.textAlign = "center";
-  form.appendChild(el);
-  return el;
-}
-
-function mensagemDeErro(err: unknown): string {
-  return err instanceof Error ? err.message : "Algo deu errado. Tente novamente.";
-}
-
-function inicializarLogin(): void {
-  const form = document.querySelector<HTMLFormElement>(".login__form");
-  const emailInput = document.querySelector<HTMLInputElement>("#email");
-  const senhaInput = document.querySelector<HTMLInputElement>("#senha");
-  const submitBtn = document.querySelector<HTMLButtonElement>(".login__btn--submit");
-  const cardTitulo = document.querySelector<HTMLElement>("#login-card-titulo");
-  const cardTexto = document.querySelector<HTMLElement>("#login-card-texto");
-  const cardLink = document.querySelector<HTMLAnchorElement>("#login-card-link");
-
-  if (!form || !emailInput || !senhaInput || !submitBtn || !cardTitulo || !cardTexto || !cardLink) return;
-
-  // Define o modo pela URL: login.html (login) ou login.html?modo=cadastro
-  const modo: Modo =
-    new URLSearchParams(location.search).get("modo") === "cadastro" ? "cadastro" : "login";
-  const cfg = CONFIG[modo];
-
-  // Aplica o modo na página
-  document.title = cfg.titulo;
-  document.querySelector(".login-page")?.classList.toggle("login-page--cadastro", modo === "cadastro");
-  submitBtn.textContent = cfg.botao;
-  senhaInput.autocomplete = cfg.autocomplete;
-  cardTitulo.textContent = cfg.cardTitulo;
-  cardTexto.textContent = cfg.cardTexto;
-  cardLink.textContent = cfg.cardLink;
-  cardLink.href = cfg.cardHref;
-
-  // No cadastro, mostra os requisitos da senha logo abaixo do campo
-  let dicaSenha: HTMLParagraphElement | null = null;
-  if (modo === "cadastro") {
-    dicaSenha = document.createElement("p");
-    dicaSenha.className = "login__hint";
-    dicaSenha.textContent = textoRequisitosSenha();
-    senhaInput.insertAdjacentElement("afterend", dicaSenha);
-  }
-
-  // Elemento para exibir mensagens dinâmicas
-  const feedbackEl =
-    form.querySelector<HTMLParagraphElement>(".login__feedback") ?? criarFeedback(form);
-
-  const mostrarFeedback = (texto: string, erro = true): void => {
-    feedbackEl.style.color = erro ? "#FF4D4D" : "#2ECC71";
-    feedbackEl.textContent = texto;
-  };
-
-  // Quando definido, o formulário está no passo "digitar código de confirmação"
-  let acaoCodigo: (() => Promise<void>) | null = null;
-
-  // Troca o formulário de cadastro pelo passo de confirmação do e-mail
-  const mostrarPassoCodigo = (email: string): void => {
-    emailInput.disabled = true;
-    senhaInput.style.display = "none";
-    if (dicaSenha) dicaSenha.style.display = "none";
-    const labelSenha = form.querySelector<HTMLElement>('label[for="senha"]');
-    if (labelSenha) labelSenha.style.display = "none";
-    submitBtn.style.display = "none";
-
-    const codigoInput = document.createElement("input");
-    codigoInput.type = "text";
-    codigoInput.inputMode = "numeric";
-    codigoInput.autocomplete = "one-time-code";
-    codigoInput.placeholder = "código recebido por e-mail";
-    codigoInput.className = senhaInput.className;
-
-    const confirmarBtn = document.createElement("button");
-    confirmarBtn.type = "button";
-    confirmarBtn.className = submitBtn.className;
-    confirmarBtn.textContent = "confirmar";
-
-    const reenviarBtn = document.createElement("button");
-    reenviarBtn.type = "button";
-    reenviarBtn.textContent = "reenviar código";
-
-    const confirmar = async (): Promise<void> => {
-      const codigo = codigoInput.value.trim();
-      if (!codigo) {
-        mostrarFeedback("Digite o código que enviamos para o seu e-mail.");
-        codigoInput.focus();
-        return;
-      }
-
-      try {
-        confirmarBtn.disabled = true;
-        await confirmarCodigo(email, codigo);
-        window.location.href = ROTAS.perfil;
-      } catch (err: unknown) {
-        mostrarFeedback(mensagemDeErro(err));
-        confirmarBtn.disabled = false;
-      }
-    };
-
-    // Enter dentro do campo de código também confirma (em vez de refazer o cadastro)
-    acaoCodigo = confirmar;
-    confirmarBtn.addEventListener("click", confirmar);
-
-    reenviarBtn.addEventListener("click", async () => {
-      try {
-        reenviarBtn.disabled = true;
-        await reenviarCodigo(email);
-        mostrarFeedback("Novo código enviado. Confira sua caixa de entrada e o spam.", false);
-      } catch (err: unknown) {
-        mostrarFeedback(mensagemDeErro(err));
-      } finally {
-        // Bloqueia o botão por 120s para evitar spam de e-mails
-        let restante = 120;
-        reenviarBtn.disabled = true;
-        const timer = setInterval(() => {
-          restante--;
-          reenviarBtn.textContent = restante > 0 ? `reenviar em ${restante}s` : "reenviar código";
-          if (restante <= 0) {
-            clearInterval(timer);
-            reenviarBtn.disabled = false;
-          }
-        }, 1000);
-      }
-    });
-
-    feedbackEl.before(codigoInput, confirmarBtn, reenviarBtn);
-    codigoInput.focus();
-  };
-
-  form.addEventListener("submit", async (event) => {
-    event.preventDefault();
-    feedbackEl.textContent = "";
-
-    // Já está no passo do código: Enter confirma o código
-    if (acaoCodigo) {
-      await acaoCodigo();
-      return;
-    }
-
-    const email = emailInput.value.trim();
-    const senha = senhaInput.value; // senha não deve ser alterada com trim()
-
-    const erroEmail = validarEmail(email);
-    if (erroEmail) {
-      mostrarFeedback(erroEmail);
-      emailInput.focus();
-      return;
-    }
-
-    if (modo === "login" && !senha) {
-      mostrarFeedback("Informe sua senha.");
-      senhaInput.focus();
-      return;
-    }
-
-    if (modo === "cadastro") {
-      const erroSenha = validarSenhaCadastro(senha);
-      if (erroSenha) {
-        mostrarFeedback(erroSenha);
-        senhaInput.focus();
-        return;
-      }
-    }
-
-    try {
-      submitBtn.disabled = true;
-      submitBtn.textContent = cfg.botaoCarregando;
-
-      if (modo === "login") {
-        await fazerLogin(email, senha);
-        window.location.href = ROTAS.perfil;
-      } else {
-        const { precisaConfirmar } = await fazerCadastro(email, senha);
-        if (precisaConfirmar) {
-          mostrarFeedback("Enviamos um código para o seu e-mail. Digite-o abaixo.", false);
-          mostrarPassoCodigo(email);
-        } else {
-          window.location.href = ROTAS.perfil;
-        }
-      }
-    } catch (err: unknown) {
-      mostrarFeedback(mensagemDeErro(err));
-    } finally {
-      submitBtn.disabled = false;
-      submitBtn.textContent = cfg.botao;
-    }
+  document.addEventListener("DOMContentLoaded", () => {
+    void init();
   });
+} else {
+  void init();
 }
 
-// Scripts type="module" já executam depois do HTML carregado
-inicializarLogin();
-
 ========================================
-ARQUIVO: .\src\pages\login\login.css
+ARQUIVO: ./src/pages/login/login.css
 ========================================
 
 /* ================================================
@@ -3079,7 +4800,130 @@ ARQUIVO: .\src\pages\login\login.css
 }
 
 ========================================
-ARQUIVO: .\src\pages\login\login.html
+ARQUIVO: ./src/pages/login/login.ts
+========================================
+
+import "./login.css";
+import { checarAvisoLoginNaUrl } from "../../components/modal/modal";
+import { fazerLogin, fazerCadastro } from "../../services/auth";
+import { ROTAS } from "../../config/routes";
+
+function modoCadastro(): boolean {
+  return new URLSearchParams(window.location.search).get("modo") === "cadastro";
+}
+
+/**
+ * Retorna o destino após o login.
+ * Aceita apenas caminhos internos (começam com "/" e não com "//"),
+ * evitando open redirect. Se não houver ?redirect= válido, vai para o perfil.
+ */
+function obterDestino(): string {
+  const redirect = new URLSearchParams(window.location.search).get("redirect");
+
+  if (redirect && redirect.startsWith("/") && !redirect.startsWith("//")) {
+    return redirect;
+  }
+  return ROTAS.perfil;
+}
+
+function alternarInterfaceModo(): void {
+  const eCadastro = modoCadastro();
+  const tituloCard = document.getElementById("login-card-titulo");
+  const textoCard = document.getElementById("login-card-texto");
+  const linkCard = document.getElementById("login-card-link") as HTMLAnchorElement | null;
+  const btnSubmit = document.querySelector<HTMLButtonElement>(".login__btn--submit");
+
+  if (eCadastro) {
+    document.title = "RYTH - Criar Conta";
+    if (document.body) document.body.classList.add("login-page--cadastro");
+
+    if (tituloCard) tituloCard.textContent = "Já tem uma conta?";
+    if (textoCard) {
+      textoCard.textContent =
+        "Acesse sua conta para continuar acompanhando competições e interagindo com o ecossistema RYTH.";
+    }
+    if (linkCard) {
+      linkCard.textContent = "Entrar na minha conta";
+      linkCard.href = `${ROTAS.login}?modo=login`;
+    }
+    if (btnSubmit) btnSubmit.textContent = "cadastrar";
+  } else {
+    document.title = "RYTH - Login";
+    if (document.body) document.body.classList.remove("login-page--cadastro");
+
+    if (tituloCard) tituloCard.textContent = "Não tem uma conta?";
+    if (textoCard) {
+      textoCard.textContent =
+        "Crie sua conta gratuitamente e comece a construir sua trajetória em um ecossistema que conecta dança, música e oportunidades.";
+    }
+    if (linkCard) {
+      linkCard.textContent = "Criar minha conta";
+      linkCard.href = `${ROTAS.login}?modo=cadastro`;
+    }
+    if (btnSubmit) btnSubmit.textContent = "entrar";
+  }
+}
+
+function inicializarFormulario(): void {
+  const form = document.querySelector<HTMLFormElement>(".login__form");
+  if (!form) return;
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const emailEl = document.getElementById("email") as HTMLInputElement | null;
+    const senhaEl = document.getElementById("senha") as HTMLInputElement | null;
+
+    const email = emailEl?.value.trim();
+    const senha = senhaEl?.value.trim();
+
+    if (!email || !senha) {
+      alert("Por favor, preencha o e-mail e a senha.");
+      return;
+    }
+
+    try {
+      if (modoCadastro()) {
+        const resultado = await fazerCadastro(email, senha);
+        if (resultado.precisaConfirmar) {
+          alert("Conta criada com sucesso! Verifique seu e-mail para confirmar a conta.");
+          // Ainda não está logado: volta para o login em vez de ir ao perfil
+          window.location.href = `${ROTAS.login}?modo=login`;
+          return;
+        }
+        alert("Conta criada com sucesso!");
+      } else {
+        await fazerLogin(email, senha);
+      }
+
+      window.location.href = obterDestino();
+    } catch (error) {
+      const mensagem =
+        error instanceof Error
+          ? error.message
+          : "Ocorreu um erro ao processar a solicitação. Tente novamente.";
+      alert(mensagem);
+    }
+  });
+}
+
+async function init(): Promise<void> {
+  alternarInterfaceModo();
+  inicializarFormulario();
+
+  checarAvisoLoginNaUrl();
+}
+
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", () => {
+    void init();
+  });
+} else {
+  void init();
+}
+
+========================================
+ARQUIVO: ./src/pages/login/login.html
 ========================================
 
 <!DOCTYPE html>
@@ -3089,6 +4933,12 @@ ARQUIVO: .\src\pages\login\login.html
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>RYTH - Login</title>
 
+  <!-- Oculta o HTML bruto sem criar nenhum loader visual -->
+  <style>
+    html { visibility: hidden; }
+    html.ready { visibility: visible; }
+  </style>
+  <link rel="stylesheet" href="/src/styles/global.css" />
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   <script type="module" src="./login.ts"></script>
   <script type="module" src="/src/main.ts"></script>
@@ -3106,12 +4956,12 @@ ARQUIVO: .\src\pages\login\login.html
         
         <!-- Decorações - Lado Esquerdo -->
         <div class="login__decor login__decor--left" aria-hidden="true">
-          <img src="/src/assets/Ativo 8 3.png" alt="" class="decor-img decor-star-purple-bg" />
-          <img src="/src/assets/Ativo 7 3.png" alt="" class="decor-img decor-spiral-green" />
-          <img src="/src/assets/Ativo 6 2.png" alt="" class="decor-img decor-spiral-purple-sm" />
-          <img src="/src/assets/Estrela-verde 2.png" alt="" class="decor-img decor-star-green-sm" />
-          <img src="/src/assets/Esfera-verde 2.png" alt="" class="decor-img decor-sphere-green" />
-          <img src="/src/assets/Ativo 3 2.png" alt="" class="decor-img decor-sphere-purple" />
+          <img src="/src/assets/images/Ativo 8 3.png" alt="" class="decor-img decor-star-purple-bg" />
+          <img src="/src/assets/images/Ativo 7 3.png" alt="" class="decor-img decor-spiral-green" />
+          <img src="/src/assets/images/Ativo 6 2.png" alt="" class="decor-img decor-spiral-purple-sm" />
+          <img src="/src/assets/images/Estrela-verde 2.png" alt="" class="decor-img decor-star-green-sm" />
+          <img src="/src/assets/images/Esfera-verde 2.png" alt="" class="decor-img decor-sphere-green" />
+          <img src="/src/assets/images/Ativo 3 2.png" alt="" class="decor-img decor-sphere-purple" />
         </div>
 
         <!-- Formulário -->
@@ -3146,11 +4996,11 @@ ARQUIVO: .\src\pages\login\login.html
 
         <!-- Decorações - Lado Direito -->
         <div class="login__decor login__decor--right" aria-hidden="true">
-          <img src="/src/assets/Estrela-verde 2.png" alt="" class="decor-img decor-star-green-top" />
-          <img src="/src/assets/Ativo 9 3.png" alt="" class="decor-img decor-star-purple-sm" />
-          <img src="/src/assets/Ativo 8 3.png" alt="" class="decor-img decor-star-purple-lg" />
-          <img src="/src/assets/Ativo 6 3.png" alt="" class="decor-img decor-spiral-purple-lg" />
-          <img src="/src/assets/Ativo 3 3.png" alt="" class="decor-img decor-sphere-purple-right" />
+          <img src="/src/assets/images/Estrela-verde 2.png" alt="" class="decor-img decor-star-green-top" />
+          <img src="/src/assets/images/Ativo 9 3.png" alt="" class="decor-img decor-star-purple-sm" />
+          <img src="/src/assets/images/Ativo 8 3.png" alt="" class="decor-img decor-star-purple-lg" />
+          <img src="/src/assets/images/Ativo 6 3.png" alt="" class="decor-img decor-spiral-purple-lg" />
+          <img src="/src/assets/images/Ativo 3 3.png" alt="" class="decor-img decor-sphere-purple-right" />
         </div>
 
       </div>
@@ -3179,393 +5029,7 @@ ARQUIVO: .\src\pages\login\login.html
 
 
 ========================================
-ARQUIVO: .\src\pages\perfil\perfil.css
-========================================
-
-.profile-page {
-  background-color: var(--main-white);
-  min-height: calc(100vh - 160px);
-  padding: 3rem 1.5rem 5rem 1.5rem;
-}
-
-.profile {
-  width: 100%;
-  max-width: 820px;
-  margin: 0 auto;
-}
-
-.profile__container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 2.5rem;
-  width: 100%;
-}
-
-/* --------------------------------------------------------------------------
-   1. HEADER: FOTO DE PERFIL + CAPA + REDES SOCIAIS
-   -------------------------------------------------------------------------- */
-.profile__header {
-  display: grid;
-  grid-template-columns: 140px 1fr;
-  gap: 2rem;
-  width: 100%;
-  align-items: start;
-}
-
-.profile__user {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.8rem;
-}
-
-.profile__avatar {
-  width: 120px;
-  height: 120px;
-  border-radius: 50%;
-  background-color: #828288;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  padding: 0.5rem;
-}
-
-.profile__avatar span {
-  font-family: var(--font-family);
-  font-size: 0.85rem;
-  color: var(--main-black);
-  font-weight: 500;
-}
-
-.profile__name {
-  font-family: var(--font-family);
-  font-size: 1.15rem;
-  font-weight: 600;
-  color: var(--main-black);
-  margin: 0;
-  text-align: center;
-}
-
-.profile__cover-container {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 0.8rem;
-  width: 100%;
-}
-
-.profile__cover {
-  width: 100%;
-  height: 160px;
-  background-color: #828288;
-  border-radius: 28px;
-}
-
-.profile__socials {
-  display: flex;
-  align-items: center;
-  gap: 0.6rem;
-}
-
-.profile__social-link {
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  background-color: var(--main-purple);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-decoration: none;
-  transition: transform 0.2s ease, opacity 0.2s ease;
-}
-
-.profile__social-link:hover {
-  transform: scale(1.1);
-  opacity: 0.9;
-}
-
-.profile__social-icon {
-  width: 20px;
-  height: 20px;
-  object-fit: contain;
-}
-
-/* --------------------------------------------------------------------------
-   2. ESTATÍSTICAS E BIO (CARD VERDE + TEXTO)
-   -------------------------------------------------------------------------- */
-.profile__stats-section {
-  display: grid;
-  grid-template-columns: 200px 1fr;
-  gap: 2rem;
-  align-items: center;
-  width: 100%;
-}
-
-.profile__badge {
-  background-color: var(--main-green);
-  border-radius: 28px;
-  padding: 1.5rem 1rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-}
-
-.profile__badge-sub {
-  font-family: var(--font-family);
-  font-size: 0.9rem;
-  font-weight: 700;
-  color: var(--main-purple);
-}
-
-.profile__badge-count {
-  font-family: var(--font-monument, sans-serif);
-  font-size: 3rem;
-  font-weight: 900;
-  color: var(--main-purple);
-  line-height: 1;
-  margin: 0.2rem 0;
-}
-
-.profile__badge-title {
-  font-family: var(--font-family);
-  font-size: 1.15rem;
-  font-weight: 800;
-  color: var(--main-purple);
-}
-
-.profile__description {
-  font-family: var(--font-family);
-  font-size: 1.05rem;
-  font-weight: 500;
-  color: var(--main-black);
-  line-height: 1.45;
-  margin: 0;
-}
-
-/* --------------------------------------------------------------------------
-   3. BARRA DE ABAS (PÍLULA ROXA)
-   -------------------------------------------------------------------------- */
-.profile__tabs {
-  width: 100%;
-  background-color: var(--main-purple);
-  border-radius: 50px;
-  padding: 0.6rem;
-  display: flex;
-  align-items: center;
-  justify-content: space-around;
-  gap: 0.5rem;
-}
-
-.profile__tab {
-  background: transparent;
-  border: none;
-  color: var(--main-green);
-  font-family: var(--font-family);
-  font-size: 1.05rem;
-  font-weight: 700;
-  padding: 0.6rem 1.2rem;
-  border-radius: 50px;
-  cursor: pointer;
-  transition: background-color 0.2s ease, opacity 0.2s ease;
-}
-
-.profile__tab:hover,
-.profile__tab--active {
-  background-color: rgba(255, 255, 255, 0.15);
-}
-
-/* --------------------------------------------------------------------------
-   4. BOTÃO EDITAR
-   -------------------------------------------------------------------------- */
-.profile__btn-edit {
-  background-color: var(--main-black);
-  color: var(--main-green);
-  font-family: var(--font-family);
-  font-size: 1.25rem;
-  font-weight: 800;
-  padding: 0.8rem 4rem;
-  border: none;
-  border-radius: 50px;
-  cursor: pointer;
-  text-transform: lowercase;
-  transition: transform 0.2s ease, opacity 0.2s ease;
-  margin-top: 1rem;
-}
-
-.profile__btn-edit:hover {
-  transform: translateY(-2px);
-  opacity: 0.9;
-}
-
-/* --------------------------------------------------------------------------
-   5. RESPONSIVIDADE
-   -------------------------------------------------------------------------- */
-@media (max-width: 768px) {
-  .profile__header {
-    grid-template-columns: 1fr;
-    justify-items: center;
-  }
-
-  .profile__cover-container {
-    align-items: center;
-  }
-
-  .profile__cover {
-    height: 120px;
-  }
-
-  .profile__stats-section {
-    grid-template-columns: 1fr;
-    justify-items: center;
-    text-align: center;
-  }
-
-  .profile__badge {
-    width: 100%;
-    max-width: 260px;
-  }
-
-  .profile__tabs {
-    flex-wrap: wrap;
-    border-radius: 24px;
-  }
-
-  .profile__tab {
-    font-size: 0.9rem;
-    padding: 0.5rem 0.8rem;
-  }
-}
-
-========================================
-ARQUIVO: .\src\pages\perfil\perfil.html
-========================================
-
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>RYTH - Perfil</title>
-
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-  <script type="module" src="/src/pages/perfil/perfil.ts"></script>
-  <script type="module" src="/src/main.ts"></script>
-</head>
-<body>
-
-  <!-- ===================== NAVBAR (componente global) ===================== -->
-  <div id="navbar-root"></div>
-
-  <main class="profile-page">
-    <section class="profile">
-      <div class="profile__container">
-
-        <!-- Header: Foto de Perfil + Capa + Redes Sociais -->
-        <div class="profile__header">
-          <div class="profile__user">
-            <div class="profile__avatar">
-              <span>foto de perfil</span>
-            </div>
-            <h1 class="profile__name" id="user-name">Lorem ipsum</h1>
-          </div>
-
-          <div class="profile__cover-container">
-            <div class="profile__cover"></div>
-            <div class="profile__socials">
-              <a href="#" class="profile__social-link" aria-label="Instagram">
-                <img src="/src/assets/icons/white-instagram.svg" alt="Instagram" class="profile__social-icon" />
-              </a>
-              <a href="#" class="profile__social-link" aria-label="TikTok">
-                <img src="/src/assets/icons/white-tiktok.svg" alt="TikTok" class="profile__social-icon" />
-              </a>
-            </div>
-          </div>
-        </div>
-
-        <!-- Estatística de Competições + Descrição -->
-        <div class="profile__stats-section">
-          <div class="profile__badge">
-            <span class="profile__badge-sub">participou de</span>
-            <strong class="profile__badge-count" id="competitions-count">X</strong>
-            <span class="profile__badge-title">competições</span>
-          </div>
-
-          <p class="profile__description">
-            Seu perfil, sua identidade. Destaque seu talento, compartilhe sua trajetória e conecte-se a novas oportunidades.
-          </p>
-        </div>
-
-        <!-- Barra de Abas (Navegação em Pílula Roxa) -->
-        <nav class="profile__tabs">
-          <button class="profile__tab profile__tab--active">Lorem ipsum</button>
-          <button class="profile__tab">Lorem ipsum</button>
-          <button class="profile__tab">Lorem ipsum</button>
-          <button class="profile__tab">Lorem ipsum</button>
-        </nav>
-
-        <!-- Botão Editar -->
-        <button class="profile__btn-edit" id="btn-editar">editar</button>
-
-      </div>
-    </section>
-  </main>
-
-  <!-- ===================== FOOTER (componente global) ===================== -->
-  <div id="footer-root"></div>
-
-</body>
-</html>
-
-========================================
-ARQUIVO: .\src\pages\perfil\perfil.ts
-========================================
-
-import "./perfil.css";
-import { usuarioAtual } from "../../services/auth";
-import { ROTAS } from "../../config/routes";
-
-export async function carregarPerfil(): Promise<void> {
-  // 1. Verifica se o usuário está logado
-  const usuario = await usuarioAtual();
-
-  if (!usuario) {
-    window.location.href = ROTAS.login;
-    return;
-  }
-
-  // 2. Atualiza o nome/e-mail no perfil
-  const nameEl = document.querySelector<HTMLElement>("#user-name");
-  if (nameEl && usuario.email) {
-    nameEl.textContent = usuario.email.split("@")[0];
-  }
-
-  // 3. Interatividade das abas
-  const tabs = document.querySelectorAll<HTMLButtonElement>(".profile__tab");
-  tabs.forEach((tab) => {
-    tab.addEventListener("click", () => {
-      tabs.forEach((t) => t.classList.remove("profile__tab--active"));
-      tab.classList.add("profile__tab--active");
-    });
-  });
-
-  // 4. Ação do botão "editar"
-  const btnEditar = document.querySelector<HTMLButtonElement>("#btn-editar");
-  if (btnEditar) {
-    btnEditar.addEventListener("click", () => {
-      alert("Modo de edição de perfil em desenvolvimento!");
-    });
-  }
-}
-
-// Executa a função na inicialização do módulo
-carregarPerfil();
-
-========================================
-ARQUIVO: .\src\pages\home\index.css
+ARQUIVO: ./src/pages/home/index.css
 ========================================
 
 /* ==========================================================================
@@ -4439,7 +5903,7 @@ ARQUIVO: .\src\pages\home\index.css
 }
 
 ========================================
-ARQUIVO: .\src\pages\home\index.ts
+ARQUIVO: ./src/pages/home/index.ts
 ========================================
 
 import "./index.css";
@@ -4448,403 +5912,7 @@ import { renderizarFAQ } from "../../components/faq/faq";
 renderizarFAQ();
 
 ========================================
-ARQUIVO: .\src\styles\global.css
-========================================
-
-body {
-    font-family: var(--font-family);
-    background-color: var(--main-white);
-    color: var(--main-black);
-  }
-
-  html, body {
-  margin: 0;
-  width: 100%;
-  overflow-x: hidden;
-}
-
-*, *::before, *::after {
-  box-sizing: border-box;
-}
-  
-
-========================================
-ARQUIVO: .\src\styles\reset.css
-========================================
-
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
-  
-
-========================================
-ARQUIVO: .\src\styles\variables.css
-========================================
-
-@import url('https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@300;400;500;600;700;800;900&display=swap');
-
-@font-face {
-    font-family: 'Monument Extended';
-    src: url('../assets/fonts/monumentextended-regular.otf') format('opentype');
-    font-weight: normal;
-    font-style: normal;
-    font-display: swap;
-}
-
-:root {
-    --black: #000000;
-    --white: #ffffff;
-
-    --main-white: #F8F8FB;
-    --main-black: #060A27;
-    --main-purple: #7728D9;
-    --main-green: #C5F339;
-  
-    --font-family: 'Red Hat Display', sans-serif;
-    --font-monument: 'Monument Extended', sans-serif;
-  }
-  
-
-========================================
-ARQUIVO: .\src\assets\fonts\monumentextended-regular.otf
-========================================
-
-[Arquivo não lido ou binário]
-
-
-========================================
-ARQUIVO: .\src\assets\fonts\monumentextended-ultrabold.otf
-========================================
-
-[Arquivo não lido ou binário]
-
-
-========================================
-ARQUIVO: .\src\services\sanity.ts
-========================================
-
-// src/services/sanity.ts
-import { createClient } from '@sanity/client'
-import imageUrlBuilder from '@sanity/image-url'
-
-const projectId = import.meta.env.VITE_SANITY_PROJECT_ID
-const dataset = import.meta.env.VITE_SANITY_DATASET || 'production'
-
-if (!projectId) {
-  console.warn('[Sanity] VITE_SANITY_PROJECT_ID ausente: o site usará o conteúdo padrão do HTML.')
-}
-
-// null se não houver projectId, em vez de quebrar a importação
-export const sanityClient = projectId
-  ? createClient({
-      projectId,
-      dataset,
-      useCdn: true, // requisições rápidas via CDN
-      apiVersion: '2024-01-01',
-    })
-  : null
-
-const builder = sanityClient ? imageUrlBuilder(sanityClient) : null
-
-// Gera URLs das imagens cadastradas no Sanity (retorna '' se o Sanity não estiver configurado)
-export function urlFor(source: any): string {
-  return builder && source ? builder.image(source).auto('format').url() : ''
-}
-
-========================================
-ARQUIVO: .\src\services\cms.ts
-========================================
-
-// src/services/cms.ts
-import { sanityClient, urlFor } from './sanity'
-
-// Retorna null em qualquer falha ou resultado vazio → o HTML padrão permanece
-export async function cmsFetch<T = Record<string, any>>(
-  query: string,
-  params: Record<string, unknown> = {}
-): Promise<T | null> {
-  if (!sanityClient) return null
-  try {
-    const data = await sanityClient.fetch<T>(query, params)
-    if (data == null || (Array.isArray(data) && data.length === 0)) return null
-    return data
-  } catch (err) {
-    console.error('[CMS]', err)
-    return null
-  }
-}
-
-// Preenche o HTML com os dados:
-//   data-cms="campo"                → textContent
-//   data-cms="campo" data-cms-attr="href" → atributo
-//   data-cms-img="campo"            → <img src> a partir de uma imagem do Sanity
-//   data-cms-list="campo" + <template> → lista repetida
-export function applyCms(root: ParentNode, data: Record<string, any>): void {
-  root.querySelectorAll<HTMLElement>('[data-cms]').forEach((el) => {
-    const value = data[el.dataset.cms!]
-    if (typeof value !== 'string') return
-    const attr = el.dataset.cmsAttr
-    if (attr) el.setAttribute(attr, value)
-    else el.textContent = value // textContent evita injeção de HTML
-  })
-
-  root.querySelectorAll<HTMLImageElement>('[data-cms-img]').forEach((img) => {
-    const src = urlFor(data[img.dataset.cmsImg!])
-    if (src) img.src = src
-  })
-
-  root.querySelectorAll<HTMLElement>('[data-cms-list]').forEach((container) => {
-    const items = data[container.dataset.cmsList!]
-    const tpl = container.querySelector('template')
-    if (!Array.isArray(items) || items.length === 0 || !tpl) return
-
-    Array.from(container.children).forEach((c) => c !== tpl && c.remove())
-    items.forEach((item) => {
-      const node = tpl.content.cloneNode(true) as DocumentFragment
-      applyCms(node, item)
-      container.appendChild(node)
-    })
-  })
-}
-
-========================================
-ARQUIVO: .\src\services\supabase.ts
-========================================
-
-import { createClient, type SupabaseClient } from "@supabase/supabase-js";
-
-
-const url = import.meta.env.VITE_SUPABASE_URL as string | undefined;
-const key = import.meta.env.VITE_SUPABASE_ANON_KEY as string | undefined;
-
-export const supabase: SupabaseClient | null =
-  url && key ? createClient(url, key) : null;
-
-if (!supabase) {
-  console.warn("[Supabase] Variáveis de ambiente ausentes: login indisponível.");
-}
-
-========================================
-ARQUIVO: .\src\services\auth.ts
-========================================
-
-import { supabase } from "./supabase";
-import { traduzirErroAuth } from "./erros";
-import { ROTAS } from "../config/routes";
-
-export interface Usuario {
-  id?: string;
-  email: string;
-}
-
-/**
- * Retorna o usuário logado (via Supabase ou localStorage de teste)
- */
-export async function usuarioAtual(): Promise<Usuario | null> {
-  // 1. Sessão ativa no Supabase
-  if (supabase) {
-    const { data: { session } } = await supabase.auth.getSession();
-    if (session?.user?.email) {
-      return { id: session.user.id, email: session.user.email };
-    }
-    return null;
-  }
-
-  // 2. Fallback para modo de teste local (só quando o Supabase não está configurado)
-  const usuarioTeste = localStorage.getItem("usuario-teste");
-  return usuarioTeste ? JSON.parse(usuarioTeste) : null;
-}
-
-/**
- * Realiza o login com e-mail e senha
- */
-export async function fazerLogin(email: string, senha: string): Promise<Usuario> {
-  if (supabase) {
-    const { data, error } = await supabase.auth.signInWithPassword({
-      email,
-      password: senha,
-    });
-
-    if (error) {
-      throw new Error(traduzirErroAuth(error));
-    }
-
-    if (data.user?.email) {
-      return { id: data.user.id, email: data.user.email };
-    }
-
-    throw new Error("Não foi possível obter os dados do usuário.");
-  }
-
-  // Fallback de teste caso o Supabase não esteja conectado
-  if (email && senha.length >= 6) {
-    const usuarioFake: Usuario = { id: "dev-123", email };
-    localStorage.setItem("usuario-teste", JSON.stringify(usuarioFake));
-    return usuarioFake;
-  }
-
-  throw new Error("E-mail ou senha incorretos.");
-}
-
-/**
- * Cria uma conta nova com e-mail e senha
- */
-export async function fazerCadastro(
-  email: string,
-  senha: string
-): Promise<{ precisaConfirmar: boolean }> {
-  if (!supabase) {
-    throw new Error("Cadastro indisponível: o Supabase não está configurado.");
-  }
-
-  const { data, error } = await supabase.auth.signUp({
-    email,
-    password: senha,
-    options: { emailRedirectTo: `${window.location.origin}${ROTAS.perfil}` },
-  });
-
-  if (error) {
-    throw new Error(traduzirErroAuth(error));
-  }
-
-  // E-mail já cadastrado: o Supabase não devolve erro, mas retorna identities vazio
-  if (data.user && data.user.identities?.length === 0) {
-    throw new Error("Este e-mail já está cadastrado. Tente fazer login.");
-  }
-
-  // Sem sessão = o Supabase está exigindo confirmação por e-mail
-  return { precisaConfirmar: !data.session };
-}
-
-/**
- * Confirma o e-mail do novo usuário com o código recebido
- */
-export async function confirmarCodigo(email: string, codigo: string): Promise<void> {
-  if (!supabase) {
-    throw new Error("Supabase não está configurado.");
-  }
-
-  const { error } = await supabase.auth.verifyOtp({
-    email,
-    token: codigo.trim(),
-    type: "signup",
-  });
-
-  if (error) {
-    throw new Error(traduzirErroAuth(error));
-  }
-}
-
-/**
- * Reenvia o código de confirmação para o e-mail
- */
-export async function reenviarCodigo(email: string): Promise<void> {
-  if (!supabase) {
-    throw new Error("Supabase não está configurado.");
-  }
-
-  const { error } = await supabase.auth.resend({ type: "signup", email });
-
-  if (error) {
-    throw new Error(traduzirErroAuth(error));
-  }
-}
-
-/**
- * Encerra a sessão do usuário
- */
-export async function fazerLogout(): Promise<void> {
-  if (supabase) {
-    await supabase.auth.signOut();
-  }
-  localStorage.removeItem("usuario-teste");
-}
-
-========================================
-ARQUIVO: .\src\services\erros.ts
-========================================
-
-export const SENHA_MIN = 8;
-
-// Requisitos de senha: a lista alimenta a validação E o texto de ajuda.
-// Para exigir mais (letra, número...), é só adicionar um item aqui.
-export const REQUISITOS_SENHA = [
-  { texto: `ter pelo menos ${SENHA_MIN} caracteres`, ok: (s: string) => s.length >= SENHA_MIN },
-  // { texto: "ter pelo menos um número", ok: (s: string) => /\d/.test(s) },
-  // { texto: "ter pelo menos uma letra", ok: (s: string) => /[A-Za-z]/.test(s) },
-];
-
-export function textoRequisitosSenha(): string {
-  return `A senha precisa ${REQUISITOS_SENHA.map((r) => r.texto).join(", ")}.`;
-}
-
-export function validarEmail(email: string): string | null {
-  if (!email) return "Informe seu e-mail.";
-  if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) {
-    return "Esse e-mail não parece válido. Use o formato nome@exemplo.com.";
-  }
-  return null;
-}
-
-export function validarSenhaCadastro(senha: string): string | null {
-  if (!senha) return "Crie uma senha.";
-  const faltando = REQUISITOS_SENHA.filter((r) => !r.ok(senha)).map((r) => r.texto);
-  return faltando.length ? `A senha precisa ${faltando.join(" e ")}.` : null;
-}
-
-const MENSAGENS_POR_CODIGO: Record<string, string> = {
-  invalid_credentials: "E-mail ou senha incorretos. Confira os dados e tente de novo.",
-  email_not_confirmed: "Você ainda não confirmou seu e-mail. Procure o código na sua caixa de entrada (e no spam).",
-  user_already_exists: "Este e-mail já está cadastrado. Tente fazer login.",
-  email_exists: "Este e-mail já está cadastrado. Tente fazer login.",
-  weak_password: textoRequisitosSenha(),
-  email_address_invalid: "Esse e-mail não é aceito. Verifique se digitou corretamente.",
-  signup_disabled: "Os cadastros estão temporariamente desativados.",
-  over_request_rate_limit: "Muitas tentativas seguidas. Aguarde alguns minutos e tente de novo.",
-  over_email_send_rate_limit: "Muitos e-mails enviados. Aguarde alguns minutos antes de pedir outro código.",
-  otp_expired: "Código inválido ou expirado. Peça um novo código.",
-  user_not_found: "Não encontramos uma conta com esse e-mail.",
-  same_password: "A nova senha precisa ser diferente da atual.",
-};
-
-export function traduzirErroAuth(err: unknown): string {
-  const e = err as { code?: string; message?: string; status?: number } | null;
-
-  if (e?.code && MENSAGENS_POR_CODIGO[e.code]) return MENSAGENS_POR_CODIGO[e.code];
-
-  // Fallback por texto (versões antigas do supabase-js não enviam "code")
-  const msg = (e?.message ?? "").toLowerCase();
-  if (msg.includes("invalid login credentials")) return MENSAGENS_POR_CODIGO.invalid_credentials;
-  if (msg.includes("email not confirmed")) return MENSAGENS_POR_CODIGO.email_not_confirmed;
-  if (msg.includes("already registered")) return MENSAGENS_POR_CODIGO.user_already_exists;
-  if (msg.includes("password should be")) return textoRequisitosSenha();
-  if (msg.includes("rate limit") || e?.status === 429) return MENSAGENS_POR_CODIGO.over_request_rate_limit;
-  if (msg.includes("token has expired") || msg.includes("invalid token")) return MENSAGENS_POR_CODIGO.otp_expired;
-  if (msg.includes("failed to fetch") || msg.includes("network")) {
-    return "Não foi possível conectar. Verifique sua internet e tente novamente.";
-  }
-
-  return "Algo deu errado. Tente novamente em instantes.";
-}
-
-========================================
-ARQUIVO: .\src\config\routes.ts
-========================================
-
-export const ROTAS = {
-  home: '/index.html',
-  login: '/src/pages/login/login.html',
-  perfil: '/src/pages/perfil/perfil.html',
-  competicoes: '/src/pages/competicoes/competicoes.html',
-  competicao: '/src/pages/competicoes/competicao.html',
-  inscricao: '/src/pages/competicoes/inscricao.html',
-  contratacao: '/src/pages/contratacao/contratacao.html',
-};
-
-========================================
-ARQUIVO: .\ryth-studio\.gitignore
+ARQUIVO: ./ryth-studio/.gitignore
 ========================================
 
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
@@ -4879,28 +5947,7 @@ ARQUIVO: .\ryth-studio\.gitignore
 
 
 ========================================
-ARQUIVO: .\ryth-studio\README.md
-========================================
-
-# Ryth Studio
-
-Painel de edição de conteúdo (Sanity Studio) do site Ryth.
-
-- Rodar localmente: `npm run dev`
-- Publicar: `npm run deploy`
-- Schemas em `schemaTypes/`: `competicao`, `faq`
-
-========================================
-ARQUIVO: .\ryth-studio\eslint.config.mjs
-========================================
-
-import studio from '@sanity/eslint-config-studio'
-
-export default [...studio]
-
-
-========================================
-ARQUIVO: .\ryth-studio\package.json
+ARQUIVO: ./ryth-studio/package.json
 ========================================
 
 {
@@ -4943,7 +5990,7 @@ ARQUIVO: .\ryth-studio\package.json
 
 
 ========================================
-ARQUIVO: .\ryth-studio\sanity.cli.ts
+ARQUIVO: ./ryth-studio/sanity.cli.ts
 ========================================
 
 import {defineCliConfig} from 'sanity/cli'
@@ -4964,7 +6011,7 @@ export default defineCliConfig({
 
 
 ========================================
-ARQUIVO: .\ryth-studio\sanity.config.ts
+ARQUIVO: ./ryth-studio/sanity.config.ts
 ========================================
 
 import {defineConfig} from 'sanity'
@@ -4990,7 +6037,28 @@ export default defineConfig({
 
 
 ========================================
-ARQUIVO: .\ryth-studio\tsconfig.json
+ARQUIVO: ./ryth-studio/README.md
+========================================
+
+# Ryth Studio
+
+Painel de edição de conteúdo (Sanity Studio) do site Ryth.
+
+- Rodar localmente: `npm run dev`
+- Publicar: `npm run deploy`
+- Schemas em `schemaTypes/`: `competicao`, `faq`
+
+========================================
+ARQUIVO: ./ryth-studio/eslint.config.mjs
+========================================
+
+import studio from '@sanity/eslint-config-studio'
+
+export default [...studio]
+
+
+========================================
+ARQUIVO: ./ryth-studio/tsconfig.json
 ========================================
 
 {
@@ -5013,7 +6081,43 @@ ARQUIVO: .\ryth-studio\tsconfig.json
 
 
 ========================================
-ARQUIVO: .\ryth-studio\schemaTypes\competicao.ts
+ARQUIVO: ./ryth-studio/schemaTypes/index.ts
+========================================
+
+import { faqType } from './faq'
+import { competicaoType } from './competicao'
+
+export const schemaTypes = [
+  faqType,
+  competicaoType, // Registra o novo schema aqui
+]
+
+========================================
+ARQUIVO: ./ryth-studio/schemaTypes/faq.ts
+========================================
+
+import { defineType, defineField } from 'sanity'
+
+export const faqType = defineType({
+  name: 'faq',
+  title: 'Perguntas Frequentes (FAQ)',
+  type: 'document',
+  fields: [
+    defineField({
+      name: 'pergunta',
+      title: 'Pergunta',
+      type: 'string',
+    }),
+    defineField({
+      name: 'resposta',
+      title: 'Resposta',
+      type: 'text',
+    }),
+  ],
+})
+
+========================================
+ARQUIVO: ./ryth-studio/schemaTypes/competicao.ts
 ========================================
 
 import { defineField, defineType } from "sanity";
@@ -5079,50 +6183,24 @@ export const competicaoType = defineType({
 });
 
 ========================================
-ARQUIVO: .\ryth-studio\schemaTypes\faq.ts
+ARQUIVO: ./ryth-studio/.sanity/runtime/app.js
 ========================================
 
-import { defineType, defineField } from 'sanity'
 
-export const faqType = defineType({
-  name: 'faq',
-  title: 'Perguntas Frequentes (FAQ)',
-  type: 'document',
-  fields: [
-    defineField({
-      name: 'pergunta',
-      title: 'Pergunta',
-      type: 'string',
-    }),
-    defineField({
-      name: 'resposta',
-      title: 'Resposta',
-      type: 'text',
-    }),
-  ],
-})
+// This file is auto-generated on 'sanity dev'
+// Modifications to this file is automatically discarded
+import {renderStudio} from "sanity"
+import studioConfig from "../../sanity.config.ts"
 
-========================================
-ARQUIVO: .\ryth-studio\schemaTypes\index.ts
-========================================
-
-import { faqType } from './faq'
-import { competicaoType } from './competicao'
-
-export const schemaTypes = [
-  faqType,
-  competicaoType, // Registra o novo schema aqui
-]
-
-========================================
-ARQUIVO: .\ryth-studio\static\.gitkeep
-========================================
-
-Files placed here will be served by the Sanity server under the `/static`-prefix
+renderStudio(
+  document.getElementById("sanity"),
+  studioConfig,
+  {reactStrictMode: undefined, basePath: "/"}
+)
 
 
 ========================================
-ARQUIVO: .\ryth-studio\.sanity\runtime\index.html
+ARQUIVO: ./ryth-studio/.sanity/runtime/index.html
 ========================================
 
 <!DOCTYPE html><html lang="en">
@@ -5174,9 +6252,7 @@ Modifications to this file are automatically discarded.
       // - If there are no subscribers, then we log the error to the console and render the error overlay.
       if (errorChannel.subscribers.length) {
         errorChannel.publish({error, params})
-      } else if (error) {
-        // Browsers fire some error events without an error object (a ResizeObserver loop,
-        // a cross-origin "Script error."), and there is nothing useful to show for them.
+      } else {
         console.error(error)
 
         _renderErrorOverlay(error, params)
@@ -5423,19 +6499,9 @@ Modifications to this file are automatically discarded.
 </style><h1>JavaScript disabled</h1><p>Please <a href="https://www.enable-javascript.com/">enable JavaScript</a> in your browser and reload the page to proceed.</p></div></div></noscript></body></html>
 
 ========================================
-ARQUIVO: .\ryth-studio\.sanity\runtime\app.js
+ARQUIVO: ./ryth-studio/static/.gitkeep
 ========================================
 
-
-// This file is auto-generated on 'sanity dev'
-// Modifications to this file is automatically discarded
-import studioConfig from "../../sanity.config.ts"
-import {renderStudio} from "sanity"
-
-renderStudio(
-  document.getElementById("sanity"),
-  studioConfig,
-  {reactStrictMode: undefined, basePath: "/"}
-)
+Files placed here will be served by the Sanity server under the `/static`-prefix
 
 

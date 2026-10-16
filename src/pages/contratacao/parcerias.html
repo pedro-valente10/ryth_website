@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RYTH - Parcerias</title>
+
+  <!-- Prevenção contra flickering no frame 0 -->
+  <style>
+    html { visibility: hidden; }
+    html.ready { visibility: visible; }
+  </style>
+
+  <link rel="stylesheet" href="/src/styles/global.css" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <script type="module" src="./parcerias.ts"></script>
+  <script type="module" src="/src/main.ts"></script>
+</head>
+<body class="parcerias-page">
+
+  <!-- NAVBAR GLOBAL -->
+  <header id="navbar-root"></header>
+
+  <main class="parcerias">
+    <!-- CABEÇALHO -->
+    <header class="parcerias__header">
+      <h1 class="parcerias__title">PARCERIAS</h1>
+      <p class="parcerias__subtitle">
+        Grandes oportunidades são construídas em conjunto. A RYTH conecta marcas, artistas e iniciativas que acreditam no poder da dança e da música para fortalecer talentos e criar novas oportunidades. Faça parte desse movimento.
+      </p>
+    </header>
+
+    <!-- GRID DOS 4 PILARES DE PARCERIAS -->
+    <section class="parcerias__grid" aria-label="Benefícios para parceiros e marcas">
+      <!-- Card 1: Alcance -->
+      <article class="parcerias__card">
+        <svg class="parcerias__icon" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z" />
+        </svg>
+        <h2 class="parcerias__card-title">Alcance</h2>
+        <p class="parcerias__card-text">
+          A RYTH é um ecossistema de criação que transforma a dança e o movimento em ferramentas para conectar pessoas, artistas e marcas.
+        </p>
+      </article>
+
+      <!-- Card 2: Cultura -->
+      <article class="parcerias__card">
+        <svg class="parcerias__icon" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z" />
+        </svg>
+        <h2 class="parcerias__card-title">Cultura</h2>
+        <p class="parcerias__card-text">
+          Apoie os artistas e usuários em vigor por meio de patrocínios e outros benefícios da plataforma, promovendo a identidade da sua marca na cultura popular moderna.
+        </p>
+      </article>
+
+      <!-- Card 3: Tendências -->
+      <article class="parcerias__card">
+        <svg class="parcerias__icon" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z" />
+        </svg>
+        <h2 class="parcerias__card-title">Tendências</h2>
+        <p class="parcerias__card-text">
+          A RYTH é a mais nova camada no mercado de músicas e hits. Para as marcas, acompanhar tendências é entender também os movimentos culturais e transformá-los em oportunidades de conexão com o público.
+        </p>
+      </article>
+
+      <!-- Card 4: Conexão -->
+      <article class="parcerias__card">
+        <svg class="parcerias__icon" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z" />
+        </svg>
+        <h2 class="parcerias__card-title">Conexão</h2>
+        <p class="parcerias__card-text">
+          Ter sua marca como parte dessa conexão entre diferentes públicos através do movimento humaniza a empresa, fortalece sua presença e aproxima a marca dos consumidores.
+        </p>
+      </article>
+    </section>
+
+    <!-- BOTÃO DE AÇÃO -->
+    <div class="parcerias__actions">
+      <button type="button" class="parcerias__btn" id="btn-ser-parceiro">quero ser parceiro</button>
+    </div>
+  </main>
+
+  <!-- FOOTER GLOBAL -->
+  <footer id="footer-root"></footer>
+
+</body>
+</html> 

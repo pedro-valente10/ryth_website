@@ -4,20 +4,13 @@ import { usuarioAtual, fazerLogout } from "../../services/auth";
 import { supabase } from "../../services/supabase";
 import { ROTAS } from "../../config/routes";
 
-const $ = <T extends HTMLElement>(id: string): T => {
-  const el = document.getElementById(id);
-  if (!el) {
-    throw new Error(`Elemento #${id} não encontrado.`);
-  }
-  return el as T;
-};
-
+const $ = <T extends HTMLElement>(id: string) => document.getElementById(id) as T;
 const slug = new URLSearchParams(window.location.search).get("slug");
 
-const form = $("form-inscricao") as HTMLFormElement;
-const inputVideo = $("video-url") as HTMLInputElement;
-const btnInscrever = $("btn-inscrever") as HTMLButtonElement;
-const msg = $("inscricao-msg") as HTMLParagraphElement;
+const form = $<HTMLFormElement>("form-inscricao");
+const inputVideo = $<HTMLInputElement>("video-url");
+const btnInscrever = $<HTMLButtonElement>("btn-inscrever");
+const msg = $<HTMLParagraphElement>("inscricao-msg");
 
 function mostrarMsg(texto: string, ok = false): void {
   msg.textContent = texto;
@@ -25,9 +18,10 @@ function mostrarMsg(texto: string, ok = false): void {
   msg.hidden = false;
 }
 
-function irParaLogin(): void {
+// Redireciona para o login SEM a flag aviso=login
+function irParaLoginSemAviso(): void {
   const volta = encodeURIComponent(location.pathname + location.search);
-  location.href = `${ROTAS.login}?aviso=login&redirect=${volta}`;
+  location.href = `${ROTAS.login}?redirect=${volta}`;
 }
 
 function linkValido(valor: string): boolean {
@@ -44,19 +38,15 @@ async function carregarCompeticao(): Promise<void> {
     `*[_type == "competicao" && slug.current == $slug]{ titulo }`,
     { slug }
   );
-
-  if (comp?.titulo) {
-    $("competicao-nome").textContent = comp.titulo;
-  }
+  if (comp?.titulo) $("competicao-nome").textContent = comp.titulo;
 }
 
 async function carregarUsuario(): Promise<boolean> {
   const usuario = await usuarioAtual();
   if (!usuario) {
-    irParaLogin();
+    irParaLoginSemAviso();
     return false;
   }
-
   $("perfil-nome").textContent = usuario.email;
   return true;
 }
@@ -70,7 +60,6 @@ async function enviar(e: Event): Promise<void> {
     mostrarMsg("Cole o link do seu vídeo para se inscrever.");
     return;
   }
-
   if (!linkValido(video)) {
     mostrarMsg("O link do vídeo precisa começar com http:// ou https://.");
     return;
@@ -78,7 +67,7 @@ async function enviar(e: Event): Promise<void> {
 
   const usuario = await usuarioAtual();
   if (!usuario?.id) {
-    irParaLogin();
+    irParaLoginSemAviso();
     return;
   }
 
@@ -106,7 +95,7 @@ async function enviar(e: Event): Promise<void> {
 
   mostrarMsg("Inscrição enviada! Redirecionando…", true);
   setTimeout(() => {
-    location.href = `${ROTAS.competicao}?slug=${encodeURIComponent(slug ?? "")}`;
+    location.href = `${ROTAS.competicao}?slug=${encodeURIComponent(slug!)}`;
   }, 1500);
 }
 
@@ -116,26 +105,22 @@ async function init(): Promise<void> {
     return;
   }
 
-  $("btn-voltar").setAttribute(
-    "href",
-    `${ROTAS.competicao}?slug=${encodeURIComponent(slug)}`
-  );
+  $<HTMLAnchorElement>("btn-voltar").href = `${ROTAS.competicao}?slug=${encodeURIComponent(slug)}`;
 
   if (!(await carregarUsuario())) return;
   await carregarCompeticao();
 
+  // "refaça seu login" desloga e vai para a tela de login sem exibir o popup
   $("btn-relogin").addEventListener("click", async () => {
     await fazerLogout();
-    irParaLogin();
+    irParaLoginSemAviso();
   });
 
   form.addEventListener("submit", enviar);
 }
 
 if (document.readyState === "loading") {
-  document.addEventListener("DOMContentLoaded", () => {
-    void init();
-  });
+  document.addEventListener("DOMContentLoaded", init);
 } else {
-  void init();
+  init();
 }

@@ -359,20 +359,42 @@
   color: var(--main-purple);
 }
 
-/* ===================== CAIXA CONFIRMAR VOTO (caixaconfirmavoto.png) ===================== */
+/* ===================== CAIXA CONFIRMAR VOTO (ANIMAÇÃO DE CIMA PARA BAIXO) ===================== */
 .competicao__confirmar {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 1.25rem;
-  padding: 2.2rem 2rem;
+  padding: 0 2rem;
   border-radius: 32px;
   background-color: var(--main-purple);
   width: 100%;
   max-width: 480px;
-  margin: 1.5rem auto 0;
+  margin: 0 auto;
   text-align: center;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+
+  /* Estado Inicial: Oculto e colapsado */
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transform: translateY(-20px);
+  pointer-events: none;
+  transition: max-height 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+              opacity 0.35s ease,
+              transform 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+              padding 0.4s ease,
+              margin 0.4s ease;
+}
+
+/* Estado Ativo: Desliza de cima para baixo ocupando espaço na seção */
+.competicao__confirmar--active {
+  max-height: 400px;
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+  padding: 2.2rem 2rem;
+  margin-top: 1.5rem;
 }
 
 .competicao__confirmar-title {
@@ -468,7 +490,7 @@
     max-width: 280px;
   }
 
-  .competicao__confirmar {
+  .competicao__confirmar--active {
     padding: 1.8rem 1.25rem;
     border-radius: 24px;
   }

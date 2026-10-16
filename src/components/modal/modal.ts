@@ -77,7 +77,8 @@ export function abrirModal(opcoes: ModalOpcoes): void {
 export function checarAvisoLoginNaUrl(): void {
   const params = new URLSearchParams(window.location.search);
   
-  if (params.has("redirect") || params.get("aviso") === "login") {
+  // Abre o modal APENAS se a URL contiver aviso=login
+  if (params.get("aviso") === "login") {
     abrirModal({
       titulo: "Atenção",
       mensagem: "Você precisa estar logado para realizar essa ação",

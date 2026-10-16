@@ -1,6 +1,8 @@
 import "./competicao.css";
 import { cmsFetch } from "../../services/cms";
+import { usuarioAtual } from "../../services/auth";
 import { ROTAS } from "../../config/routes";
+import { abrirModal } from "../../components/modal/modal";
 
 type Competicao = {
   titulo: string;
@@ -19,6 +21,15 @@ function setText(id: string, valor?: string): void {
 
 function slugAtual(): string | null {
   return new URLSearchParams(window.location.search).get("slug");
+}
+
+// Helpers do LocalStorage para gerenciar o estado de voto
+function jaVotouNestaCompeticao(slug: string): boolean {
+  return !!localStorage.getItem(`voto_competicao_${slug}`);
+}
+
+function registrarVotoLocal(slug: string, participante: string): void {
+  localStorage.setItem(`voto_competicao_${slug}`, participante);
 }
 
 async function carregarDadosSanity(): Promise<void> {
@@ -58,22 +69,59 @@ function inicializarBotaoInscricao(): void {
   const btnInscrever = document.querySelector<HTMLButtonElement>("#btn-inscrever");
   if (!btnInscrever) return;
 
-  btnInscrever.addEventListener("click", () => {
+  btnInscrever.addEventListener("click", async () => {
     const slug = slugAtual();
-    window.location.href = slug ? `${ROTAS.inscricao}?slug=${encodeURIComponent(slug)}` : ROTAS.competicoes;
+    const usuario = await usuarioAtual();
+
+    if (!usuario) {
+      const destinoInscricao = slug 
+        ? `${ROTAS.inscricao}?slug=${encodeURIComponent(slug)}` 
+        : ROTAS.competicoes;
+      const redirectParam = encodeURIComponent(destinoInscricao);
+      
+      window.location.href = `${ROTAS.login}?aviso=login&redirect=${redirectParam}`;
+      return;
+    }
+
+    window.location.href = slug 
+      ? `${ROTAS.inscricao}?slug=${encodeURIComponent(slug)}` 
+      : ROTAS.competicoes;
   });
 }
 
 function inicializarInteratividadeVotacao(): void {
+  const slug = slugAtual();
   const participantes = document.querySelectorAll<HTMLButtonElement>(".competicao__participante");
   const confirmarNome = document.querySelector<HTMLElement>("#confirmar-nome");
   const btnVotarMain = document.querySelector<HTMLButtonElement>("#btn-votar");
   const btnConfirmarVoto = document.querySelector<HTMLButtonElement>("#btn-confirmar");
+  const cardConfirmar = document.querySelector<HTMLElement>("#confirmar-voto");
 
   let participanteSelecionado: string | null = null;
 
+  // Função para aplicar estado de voto já registrado na interface
+  const aplicarEstadoJaVotou = () => {
+    if (btnVotarMain) {
+      btnVotarMain.textContent = "voto registrado";
+      btnVotarMain.disabled = true;
+      btnVotarMain.style.opacity = "0.6";
+      btnVotarMain.style.cursor = "not-allowed";
+    }
+    if (cardConfirmar) {
+      cardConfirmar.classList.remove("competicao__confirmar--active");
+    }
+  };
+
+  // Se o usuário já votou anteriormente nesta competição, desabilita a ação
+  if (slug && jaVotouNestaCompeticao(slug)) {
+    aplicarEstadoJaVotou();
+  }
+
+  // Seleção de participante no grid
   participantes.forEach((p) => {
     p.addEventListener("click", () => {
+      if (slug && jaVotouNestaCompeticao(slug)) return;
+
       participantes.forEach((el) => el.classList.remove("competicao__participante--selecionado"));
       p.classList.add("competicao__participante--selecionado");
 
@@ -88,24 +136,70 @@ function inicializarInteratividadeVotacao(): void {
     });
   });
 
+  // Clique no botão 'votar' principal
   if (btnVotarMain) {
     btnVotarMain.addEventListener("click", () => {
-      if (!participanteSelecionado) {
-        alert("Selecione um participante no grid antes de votar!");
+      if (slug && jaVotouNestaCompeticao(slug)) {
+        abrirModal({
+          titulo: "Votação",
+          mensagem: "Você já computou seu voto nesta competição.",
+          botaoTexto: "Entendi",
+        });
         return;
       }
-      const cardConfirmar = document.querySelector<HTMLElement>("#confirmar-voto");
-      cardConfirmar?.scrollIntoView({ behavior: "smooth" });
+
+      if (!participanteSelecionado) {
+        abrirModal({
+          titulo: "Atenção",
+          mensagem: "Selecione um participante no grid antes de votar.",
+          botaoTexto: "Entendi",
+        });
+        return;
+      }
+
+      cardConfirmar?.classList.add("competicao__confirmar--active");
+
+      setTimeout(() => {
+        cardConfirmar?.scrollIntoView({ behavior: "smooth", block: "nearest" });
+      }, 150);
     });
   }
 
+  // Clique no botão final de confirmação dentro do card roxo
   if (btnConfirmarVoto) {
     btnConfirmarVoto.addEventListener("click", () => {
-      if (!participanteSelecionado) {
-        alert("Selecione um participante no grid acima.");
+      if (slug && jaVotouNestaCompeticao(slug)) {
+        abrirModal({
+          titulo: "Votação",
+          mensagem: "Você já computou seu voto nesta competição.",
+          botaoTexto: "Entendi",
+        });
         return;
       }
-      alert(`Voto registrado com sucesso em "${participanteSelecionado}"!`);
+
+      if (!participanteSelecionado) {
+        abrirModal({
+          titulo: "Atenção",
+          mensagem: "Selecione um participante no grid acima.",
+          botaoTexto: "Entendi",
+        });
+        return;
+      }
+
+      // Registra o voto localmente
+      if (slug) {
+        registrarVotoLocal(slug, participanteSelecionado);
+      }
+
+      // Aplica o bloqueio visual
+      aplicarEstadoJaVotou();
+
+      // Dispara o popup de sucesso
+      abrirModal({
+        titulo: "Sucesso!",
+        mensagem: "Voto confirmado",
+        botaoTexto: "OK",
+      });
     });
   }
 }
